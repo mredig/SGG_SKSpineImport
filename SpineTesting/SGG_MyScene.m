@@ -7,11 +7,10 @@
 //
 
 #import "SGG_MyScene.h"
-#import "SGG_SpineJSONTools.h"
+#import "Spine.h"
 
 @interface SGG_MyScene () {
-	SGG_SpineJSONTools* reader;
-
+	SGG_Spine* spineTest;
 }
 
 @end
@@ -23,9 +22,11 @@
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-		reader = [[SGG_SpineJSONTools alloc] init];
-		NSDictionary* dict = [reader readJSONFileNamed:@"skeleton"];
-		NSLog(@"dict: %@", dict);
+		
+		spineTest = [SGG_Spine node];
+		[spineTest skeletonFromFileNamed:@"skelly"];
+		spineTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+		[self addChild:spineTest];
     }
     return self;
 }

@@ -1,0 +1,45 @@
+Version 1.2
+	Features
+	- the previous version optimized the distance calculation, but no note was made in the previous notes
+	- changed _previousFrameDuration to be named _deltaFrameTime
+	- created an error log if calling a point step function without any delta time input
+	- added value ramping
+
+	Bug Fixes
+	-
+	
+	Known Issues
+	- parsing durations from seconds doesn't work yet
+
+
+Version 1.1
+
+	Features
+	- added "-(NSDictionary*)calculateDurationsFromSeconds:(CFTimeInterval)seconds"
+	- added ability to globally track time intervals to avoid the need to always pass time intervals into update functions 
+		-@property (nonatomic, readonly) CFTimeInterval currentTime;
+		-@property (nonatomic, readonly) CFTimeInterval previousFrameDuration;
+	- added vector utilities
+		- normalization
+		- adding
+		- subtracting
+		- vector between origin and destination
+		- convert from point
+	- added point utilities
+		- add points together
+		- convert from vector
+		- step movement functions
+			- towards point
+			- using vector
+
+
+
+	Bug Fixes
+	-
+	
+	Known Issues
+	- parsing durations from seconds doesn't work yet
+
+Version 1.0
+
+	- Initial Release
