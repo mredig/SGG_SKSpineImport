@@ -28,6 +28,13 @@
     return self;
 }
 
+#if TARGET_OS_IPHONE
+
+
+
+
+#else
+
 -(void)mouseDown:(NSEvent *)theEvent {
      /* Called when a mouse click occurs */
     
@@ -45,6 +52,7 @@
     [self addChild:sprite];
 }
 
+#endif
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }
