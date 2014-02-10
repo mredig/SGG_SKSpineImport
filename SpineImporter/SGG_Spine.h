@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL debugMode;
 
 @property (nonatomic, strong) NSArray* bones;
+@property (nonatomic, strong) NSDictionary* skins;
 
 
 

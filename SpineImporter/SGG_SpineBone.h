@@ -11,9 +11,17 @@
 @interface SGG_SpineBone : SKNode
 
 @property (nonatomic, assign) CGFloat length;
+@property (nonatomic, assign) CGPoint defaultPosition;
+@property (nonatomic, assign) CGFloat defaultScaleX;
+@property (nonatomic, assign) CGFloat defaultScaleY;
+@property (nonatomic, assign) CGFloat defaultRotation;
+
 
 
 
 -(void)debugWithLength;
+
+-(void)setDefaults;
+
 
 @end
