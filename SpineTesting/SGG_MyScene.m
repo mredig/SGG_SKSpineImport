@@ -7,23 +7,41 @@
 //
 
 #import "SGG_MyScene.h"
+#import "DZSpineScene.h"
+#import "DZSpineSceneBuilder.h"
 
-@implementation SGG_MyScene
+@interface SGG_MyScene () {
+}
+
+@end
+
+@implementation SGG_MyScene {
+	SpineSkeleton* _skeleton;
+	DZSpineSceneBuilder* _builder;
+	SKNode* _elf;
+	SKNode* _spineNode;
+}
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-        
-        self.backgroundColor = [SKColor colorWithRed:0.15 green:0.15 blue:0.3 alpha:1.0];
-        
-        SKLabelNode *myLabel = [SKLabelNode labelNodeWithFontNamed:@"Chalkduster"];
-        
-        myLabel.text = @"Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPointMake(CGRectGetMidX(self.frame),
-                                       CGRectGetMidY(self.frame));
-        
-        [self addChild:myLabel];
+		_skeleton = [DZSpineSceneBuilder loadSkeletonName:@"skeleton" scale:0.5];
+		
+		_builder = [DZSpineSceneBuilder builder];
+		
+		_elf = [SKNode node];
+		_elf.position = CGPointMake(self.size.width/2, 0);
+		[self addChild:_elf];
+		
+//		_spineNode = [_builder nodeWithSkeleton:_skeleton animationName:@"trip" loop:YES];
+		SpineAnimation* animation1 = [_skeleton animationWithName:@"trip"];
+		SpineAnimation* animation2 = [_skeleton animationWithName:@"standing"];
+
+//		_spineNode = [_builder nodeWithSkeleton:_skeleton animationNames:@[@"trip", @"standing"] loop:YES];
+		_spineNode = [_builder nodeWithSkeleton:_skeleton animations:@[animation1, animation2] loop:YES];
+		[_elf addChild:_spineNode];
+		
+		
     }
     return self;
 }
