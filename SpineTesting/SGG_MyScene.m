@@ -7,48 +7,39 @@
 //
 
 #import "SGG_MyScene.h"
-#import "DZSpineScene.h"
-#import "DZSpineSceneBuilder.h"
+#import "SGG_SpineJSONTools.h"
 
 @interface SGG_MyScene () {
+	SGG_SpineJSONTools* reader;
+
 }
 
 @end
 
 @implementation SGG_MyScene {
-	SpineSkeleton* _skeleton;
-	DZSpineSceneBuilder* _builder;
-	SKNode* _elf;
-	SKNode* _spineNode;
+
 }
 
 -(id)initWithSize:(CGSize)size {    
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
-		_skeleton = [DZSpineSceneBuilder loadSkeletonName:@"skeleton" scale:0.5];
-		
-		_builder = [DZSpineSceneBuilder builder];
-		
-		_elf = [SKNode node];
-		_elf.position = CGPointMake(self.size.width/2, 0);
-		[self addChild:_elf];
-		
-//		_spineNode = [_builder nodeWithSkeleton:_skeleton animationName:@"trip" loop:YES];
-		SpineAnimation* animation1 = [_skeleton animationWithName:@"trip"];
-		SpineAnimation* animation2 = [_skeleton animationWithName:@"standing"];
-
-//		_spineNode = [_builder nodeWithSkeleton:_skeleton animationNames:@[@"trip", @"standing"] loop:YES];
-		_spineNode = [_builder nodeWithSkeleton:_skeleton animations:@[animation1, animation2] loop:YES];
-		[_elf addChild:_spineNode];
-		
-		
+		reader = [[SGG_SpineJSONTools alloc] init];
+		NSDictionary* dict = [reader readJSONFileNamed:@"skeleton"];
+		NSLog(@"dict: %@", dict);
     }
     return self;
 }
 
 #if TARGET_OS_IPHONE
 
-
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+		NSLog(@"%@", node);
+	}];
+	
+	
+	
+}
 
 
 #else
