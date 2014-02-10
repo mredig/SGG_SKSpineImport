@@ -7,9 +7,11 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
-#import "Spine.h"
+#import "SpineImport.h"
 
 @interface SGG_Spine : SKNode
+
+@property (nonatomic, assign) BOOL debugMode;
 
 @property (nonatomic, strong) NSArray* bones;
 

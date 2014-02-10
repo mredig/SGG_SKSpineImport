@@ -61,6 +61,8 @@
 		3300518D18A94599003F3D0C /* SGG_SKUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518818A94599003F3D0C /* SGG_SKUtilities.m */; };
 		3300519018A949AD003F3D0C /* skelly.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* skelly.json */; };
 		3300519118A949AD003F3D0C /* skelly.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* skelly.json */; };
+		3300519318A95030003F3D0C /* elf.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300519218A95030003F3D0C /* elf.atlas */; };
+		3300519418A95030003F3D0C /* elf.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300519218A95030003F3D0C /* elf.atlas */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,8 +138,9 @@
 		3300518718A94599003F3D0C /* SGG_SKUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGG_SKUtilities.h; sourceTree = "<group>"; };
 		3300518818A94599003F3D0C /* SGG_SKUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGG_SKUtilities.m; sourceTree = "<group>"; };
 		3300518918A94599003F3D0C /* SKUtilityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUtilityConstants.h; sourceTree = "<group>"; };
-		3300518E18A945D9003F3D0C /* Spine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Spine.h; path = SpineImporter/Spine.h; sourceTree = SOURCE_ROOT; };
+		3300518E18A945D9003F3D0C /* SpineImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpineImport.h; path = SpineImporter/SpineImport.h; sourceTree = SOURCE_ROOT; };
 		3300518F18A949AD003F3D0C /* skelly.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skelly.json; sourceTree = "<group>"; };
+		3300519218A95030003F3D0C /* elf.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = elf.atlas; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -335,6 +338,7 @@
 				3300518F18A949AD003F3D0C /* skelly.json */,
 				3300502918A90C09003F3D0C /* skeleton.png */,
 				33004CB418A8D33D003F3D0C /* Spaceship.png */,
+				3300519218A95030003F3D0C /* elf.atlas */,
 				33004CB618A8D33D003F3D0C /* Images.xcassets */,
 				3300518518A94599003F3D0C /* Utilities */,
 				3300517118A93508003F3D0C /* SpineImporter */,
@@ -352,7 +356,7 @@
 				3300517B18A9420E003F3D0C /* SGG_Spine.m */,
 				3300518118A944EE003F3D0C /* SGG_SpineBone.h */,
 				3300518218A944EE003F3D0C /* SGG_SpineBone.m */,
-				3300518E18A945D9003F3D0C /* Spine.h */,
+				3300518E18A945D9003F3D0C /* SpineImport.h */,
 			);
 			name = SpineImporter;
 			sourceTree = "<group>";
@@ -493,6 +497,7 @@
 				3300503218A90C09003F3D0C /* skeleton.png in Resources */,
 				33004CAB18A8D33D003F3D0C /* Credits.rtf in Resources */,
 				3300518A18A94599003F3D0C /* changelog.txt in Resources */,
+				3300519318A95030003F3D0C /* elf.atlas in Resources */,
 				3300502A18A90C09003F3D0C /* skeleton.atlas in Resources */,
 				33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */,
 			);
@@ -518,6 +523,7 @@
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
 				3300518B18A94599003F3D0C /* changelog.txt in Resources */,
 				3300502C18A90C09003F3D0C /* skeleton.atlas in Resources */,
+				3300519418A95030003F3D0C /* elf.atlas in Resources */,
 				3300503418A90C09003F3D0C /* skeleton.png in Resources */,
 				33004CE318A8D365003F3D0C /* InfoPlist.strings in Resources */,
 				3300519118A949AD003F3D0C /* skelly.json in Resources */,

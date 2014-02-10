@@ -7,7 +7,7 @@
 //
 
 #import "SGG_MyScene.h"
-#import "Spine.h"
+#import "SpineImport.h"
 
 @interface SGG_MyScene () {
 	SGG_Spine* spineTest;
@@ -24,8 +24,9 @@
         /* Setup your scene here */
 		
 		spineTest = [SGG_Spine node];
+		spineTest.debugMode = YES;
 		[spineTest skeletonFromFileNamed:@"skelly"];
-		spineTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
 		[self addChild:spineTest];
     }
     return self;

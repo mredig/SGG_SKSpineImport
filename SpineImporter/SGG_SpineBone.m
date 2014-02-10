@@ -13,14 +13,22 @@
 -(id)init {
 	if (self = [super init]) {
 		
-		SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(10, 10)];
-		[self addChild:sprite];
+
 		
 		
 	}
 	return self;
 }
 
+-(void)debugWithLength{
+
+	SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithColor:[SKColor redColor] size:CGSizeMake(5, _length)];
+	sprite.anchorPoint = CGPointMake(0.5, 0);
+	sprite.zRotation = -M_PI_2;
+	[self addChild:sprite];
+
+	
+}
 
 
 

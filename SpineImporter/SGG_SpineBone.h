@@ -13,4 +13,7 @@
 @property (nonatomic, assign) CGFloat length;
 
 
+
+-(void)debugWithLength;
+
 @end

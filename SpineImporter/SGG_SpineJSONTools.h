@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Spine.h"
+#import "SpineImport.h"
 
 @interface SGG_SpineJSONTools : NSObject
 

@@ -32,12 +32,17 @@
 	NSDictionary* spineDict = [tools readJSONFileNamed:name];
 	
 	NSArray* boneArray = [NSArray arrayWithArray:[spineDict objectForKey:@"bones"]];
-	[self createSkeletonFromDict:boneArray];
+	[self createBonesFromArray:boneArray];
+	
+	NSDictionary* skinsDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"skins"]];
+	[self attachSkinsToBonesFromDict:skinsDict];
+	
+
 	
 }
 
 
--(void)createSkeletonFromDict:(NSArray*)boneArray{
+-(void)createBonesFromArray:(NSArray*)boneArray{
 	
 	NSMutableArray* mutableBones = [[NSMutableArray alloc] init];
 	for (int i = 0; i < boneArray.count; i++) {
@@ -46,18 +51,44 @@
 		
 		bone.position = CGPointMake([[boneDict objectForKey:@"x"] doubleValue], [[boneDict objectForKey:@"y"] doubleValue]);
 		bone.length = [[boneDict objectForKey:@"length"] doubleValue];
-		bone.xScale = [[boneDict objectForKey:@"scaleX"] doubleValue];
-		bone.yScale = [[boneDict objectForKey:@"scaleY"] doubleValue];
+		if ([boneDict objectForKey:@"scaleX"]) {
+			bone.xScale = [[boneDict objectForKey:@"scaleX"] doubleValue];
+		}
+		
+		if ([boneDict objectForKey:@"scaleY"]) {
+			bone.yScale = [[boneDict objectForKey:@"scaleY"] doubleValue];
+
+		}
 		bone.zRotation = [[boneDict objectForKey:@"rotation"] doubleValue] * sharedUtilities.degreesToRadiansConversionFactor;
 		bone.name = [boneDict objectForKey:@"name"];
-		[self addChild:bone];
+		NSString* parent = [boneDict objectForKey:@"parent"];
+		if (parent) {
+			for (int h = 0; h < mutableBones.count; h++) {
+				SGG_SpineBone* parentBone = (SGG_SpineBone*)[mutableBones objectAtIndex:h];
+				if ([parentBone.name isEqualToString:parent]) {
+					[parentBone addChild:bone];
+				}
+			}
+		} else {
+			[self addChild:bone];
+		}
+		if (_debugMode) {
+			[bone debugWithLength];
+		}
+		
 		[mutableBones addObject:bone];
-		NSLog(@"added bone named %@: %@", bone.name, bone);
+//		NSLog(@"added bone: %@", bone);
 	}
 	
 	_bones = [NSArray arrayWithArray:mutableBones];
 	
 	
+}
+
+-(void)attachSkinsToBonesFromDict:(NSDictionary*)skinsDict {
+
+
+
 	
 }
 
