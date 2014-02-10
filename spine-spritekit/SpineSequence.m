@@ -135,8 +135,8 @@ NSString *kSpineSequenceTypeSDummy = @"dummywait";
     NSString *description = [super description];
     
     return [description stringByAppendingFormat:@"{translate:%@ scale:%@ angle:%2.2f}",
-            [self getStringFromPoint:(self.translate)],
-            [self getStringFromPoint:(self.scale)],
+            [self getStringFromPoint:(self.translate)],//MAC INSERT
+            [self getStringFromPoint:(self.scale)],//MAC INSERT
             self.angle
             ];
 }
@@ -222,7 +222,7 @@ NSString *kSpineSequenceTypeSDummy = @"dummywait";
             sequence.attachment = nil;
         }
     } else if( [type isEqualToString:kSpineSequenceTypeSlotsColor] ) {
-        sequence.color = [SKColor redColor];
+        sequence.color = [SKColor redColor]; //MAC INSERT
         NSLog(@"Warning: Color decoding not implemented: %@[%d]", @(__FILE__), __LINE__);
     }
      

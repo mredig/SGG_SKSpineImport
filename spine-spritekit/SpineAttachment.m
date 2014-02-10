@@ -29,10 +29,19 @@
 
 - (NSString *) description
 {
+
+#if TARGET_OS_IPHONE //MAC INSERT
     return [NSString stringWithFormat:@"%@ {name:%@ %@ size:%@}",
             NSStringFromClass([self class]), self.name,
             NSStringFromSpineGeometry(self.geometry),
             NSStringFromCGSize(self.size)];
+#else
+    return [NSString stringWithFormat:@"%@ {name:%@ %@ size:%@}",
+            NSStringFromClass([self class]), self.name,
+            NSStringFromSpineGeometry(self.geometry),
+			NSStringFromSize(NSSizeFromCGSize(self.size))];
+#endif
+
 }
 
 @end

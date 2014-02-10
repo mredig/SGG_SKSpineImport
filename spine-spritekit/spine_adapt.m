@@ -221,8 +221,8 @@ void spine_logUVS( float *uvs, int atlas_width, int atlas_height)
     rect.size.width *= atlas_width;
     rect.size.height *= atlas_height;
     
-	NSString* rectString;
-#if TARGET_OS_IPHONE //MAC INSERT
+	NSString* rectString;//MAC INSERT
+#if TARGET_OS_IPHONE
 	rectString = NSStringFromCGRect(rect);
 #else
 	rectString = NSStringFromRect(NSRectFromCGRect(rect));

@@ -139,7 +139,7 @@
         
         if ( trackRaw[@"position"]) {
 //            track.position = CGPointFromString(trackRaw[@"position"]);
-            track.position = [self getCGPointFromString:(trackRaw[@"position"])];
+            track.position = [self getCGPointFromString:(trackRaw[@"position"])];  //MAC INSERT
         }
         NSArray *animationDescs = trackRaw[@"animations"];
 

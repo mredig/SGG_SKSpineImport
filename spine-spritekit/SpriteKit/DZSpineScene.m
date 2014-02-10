@@ -104,7 +104,7 @@
     helloNode.text = @"Spine-SpriteKit Demo";
     helloNode.fontSize = 26;
     helloNode.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame)/2);
-    helloNode.fontColor = [UIColor darkGrayColor];
+    helloNode.fontColor = [SKColor darkGrayColor]; //MAC INSERT
     
     helloNode.name = @"signatureLabel";
     return helloNode;

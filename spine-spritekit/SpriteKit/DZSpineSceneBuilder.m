@@ -318,7 +318,9 @@ static void _spine_adapt_disposeTexture( void * rendobj );
 {
     if ( textureName && attachmentName ) {
         // Override before building sprite tree
-		NSString* string; //MAC INSERT
+		
+		//MAC INSERT
+		NSString* string;
 #if TARGET_OS_IPHONE
 		string = NSStringFromCGRect(rect);
 #else
