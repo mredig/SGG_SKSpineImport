@@ -27,7 +27,7 @@
 	return self;
 }
 
--(void)skeletonFromFileNamed:(NSString*)name{
+-(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName{
 	SGG_SpineJSONTools* tools = [[SGG_SpineJSONTools alloc]init];
 	NSDictionary* spineDict = [tools readJSONFileNamed:name];
 	
@@ -35,7 +35,7 @@
 	[self createBonesFromArray:boneArray];
 	
 	NSDictionary* skinsDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"skins"]];
-	[self createSkinsFromDict:skinsDict];
+	[self createSkinsFromDict:skinsDict andAtlasNamed:atlasName];
 	
 
 	
@@ -87,7 +87,8 @@
 	
 }
 
--(void)createSkinsFromDict:(NSDictionary*)skinsDict{
+-(void)createSkinsFromDict:(NSDictionary*)skinsDict andAtlasNamed:(NSString*)atlasName{
+	SKTextureAtlas* atlas = [SKTextureAtlas atlasNamed:atlasName];
 
 //get all skins
 	NSArray* skinKeys = [skinsDict allKeys];
@@ -96,7 +97,6 @@
 		skin.name = [skinKeys objectAtIndex:i];
 
 		//pull in texture atlas
-		SKTextureAtlas* atlas = [SKTextureAtlas atlasNamed:skin.name];
 		
 		//get all skin slots
 		NSDictionary* skinSlots = [NSDictionary dictionaryWithDictionary:[skinsDict objectForKey:skin.name]];
@@ -112,7 +112,7 @@
 			
 				NSString* spriteString = [skinSpriteNames objectAtIndex:j];
 				NSDictionary* spriteDict = [NSDictionary dictionaryWithDictionary:[skinSprites objectForKey: spriteString]];
-				SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithImageNamed:spriteString];
+				SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithTexture:[atlas textureNamed:spriteString]];
 				skinSprite.name = spriteString;
 				if ([spriteDict objectForKey:@"name"]) {
 					skinSprite.actualAttachmentName = [spriteDict objectForKey:@"name"];

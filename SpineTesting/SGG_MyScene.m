@@ -25,7 +25,8 @@
 		
 		spineTest = [SGG_Spine node];
 		spineTest.debugMode = YES;
-		[spineTest skeletonFromFileNamed:@"skeleton"];
+//		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
+		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy"] ;
 		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
 		[self addChild:spineTest];
     }

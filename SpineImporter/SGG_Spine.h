@@ -18,7 +18,7 @@
 
 
 
--(void)skeletonFromFileNamed:(NSString*)name;
+-(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName;
 
 
 
