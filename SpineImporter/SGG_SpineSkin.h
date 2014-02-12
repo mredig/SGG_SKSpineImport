@@ -11,5 +11,6 @@
 @interface SGG_SpineSkin : SKNode
 
 @property (nonatomic, assign) NSString* defaultSkin;
+@property (nonatomic, strong) NSMutableDictionary* skinSlotsDictionary;
 
 @end

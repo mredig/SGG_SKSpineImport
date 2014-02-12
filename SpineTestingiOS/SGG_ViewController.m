@@ -11,22 +11,52 @@
 
 @implementation SGG_ViewController
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    // Configure the view.
-    SKView * skView = (SKView *)self.view;
-    skView.showsFPS = YES;
-    skView.showsNodeCount = YES;
-    
-    // Create and configure the scene.
-    SKScene * scene = [SGG_MyScene sceneWithSize:skView.bounds.size];
-    scene.scaleMode = SKSceneScaleModeAspectFill;
-    
-    // Present the scene.
-    [skView presentScene:scene];
+//    gameData = [REP_GameData sharedData];
+	
 }
+
+
+
+-(void)viewWillLayoutSubviews {
+	
+    [super viewWillLayoutSubviews];
+	
+	
+	
+    // Configure the view.
+    SKView* skView = (SKView*) self.view;
+	if (!skView.scene){
+		
+		
+			
+
+        self.view.multipleTouchEnabled = NO;
+        
+        NSLog(@"scene size: %f %f", skView.bounds.size.width, skView.bounds.size.height);
+        
+		
+        // Create and configure the scene.
+		SKScene* scene = [SGG_MyScene sceneWithSize:CGSizeMake(320, 586)];
+        
+		//		NSLog(@"scene size is %f x %f", skView.bounds.size.width, skView.bounds.size.height);
+		
+        scene.scaleMode = SKSceneScaleModeAspectFill;
+		
+        
+        // Present the scene.
+        [skView presentScene:scene];
+    }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 
 - (BOOL)shouldAutorotate
 {

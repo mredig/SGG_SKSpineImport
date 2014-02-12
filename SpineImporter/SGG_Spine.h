@@ -14,9 +14,9 @@
 @property (nonatomic, assign) BOOL debugMode;
 
 @property (nonatomic, strong) NSArray* bones;
-@property (nonatomic, strong) NSDictionary* skins;
+@property (nonatomic, strong) NSMutableDictionary* skins;
 
-
+@property (nonatomic, assign) NSString* currentSkin;
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName;
 
