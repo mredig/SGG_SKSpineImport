@@ -10,4 +10,15 @@
 
 @interface SGG_SkinSlot : SKNode
 
+
+@property (nonatomic, assign) NSString* currentAttachment;
+
+@property (nonatomic, assign) NSString* defaultAttachment;
+
+
+
+-(void)setAttachmentTo:(NSString*)attachmentName;
+-(void)setToDefaultAttachment;
+
+
 @end

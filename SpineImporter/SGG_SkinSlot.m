@@ -7,6 +7,7 @@
 //
 
 #import "SGG_SkinSlot.h"
+#import "SpineImport.h"
 
 @implementation SGG_SkinSlot
 
@@ -15,6 +16,25 @@
 		
 	}
 	return self;
+}
+
+-(void)setAttachmentTo:(NSString*)attachmentName {
+	
+	[self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
+		if ([node.name isEqualToString:attachmentName]) {
+			node.hidden = VISIBLE;
+		} else {
+			node.hidden = HIDDEN;
+		}
+	}];
+	_currentAttachment = attachmentName;
+	
+}
+
+-(void)setToDefaultAttachment {
+	
+	[self setAttachmentTo:_defaultAttachment];
+
 }
 
 @end

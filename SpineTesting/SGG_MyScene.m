@@ -29,10 +29,10 @@
 		
 		spineTest = [SGG_Spine node];
 //		spineTest.debugMode = YES;
-//		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
-		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy"] ;
+		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
+//		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy"] ;
 		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
-		[spineTest runAnimation:@"walk" andCount:-1];
+		[spineTest runAnimation:@"standing" andCount:-1];
 		[self addChild:spineTest];
 
     }
@@ -65,6 +65,9 @@
 
 -(void)mouseDragged:(NSEvent *)theEvent {
 	CGPoint location = [theEvent locationInNode:self];
+
+	[spineTest stopAnimation];
+	[spineTest resetSkeleton];
 
 }
 
