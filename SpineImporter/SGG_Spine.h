@@ -27,7 +27,8 @@ typedef enum {
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
-
+-(void)stopAnimation;
+-(void)resetSkeleton;
 
 
 @end

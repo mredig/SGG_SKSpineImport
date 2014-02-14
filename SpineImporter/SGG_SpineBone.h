@@ -22,6 +22,6 @@
 -(void)debugWithLength;
 
 -(void)setDefaults;
-
+-(void)setToDefaults;
 
 @end

@@ -28,12 +28,18 @@
 		
 		
 		spineTest = [SGG_Spine node];
-//		spineTest.debugMode = YES;
-		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
-//		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy"] ;
+		spineTest.debugMode = YES;
+//		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
+		[spineTest skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin"] ;
 		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
-		[spineTest runAnimation:@"standing" andCount:-1];
+		[spineTest runAnimation:@"walk" andCount:-1];
 		[self addChild:spineTest];
+		
+		SKTextureAtlas* goblins = [SKTextureAtlas atlasNamed:@"goblin"];
+		
+		SKSpriteNode* spriteTest = [SKSpriteNode spriteNodeWithTexture:[goblins textureNamed:@"goblingirlhead"]];
+		spriteTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+		[self addChild: spriteTest];
 
     }
     return self;
