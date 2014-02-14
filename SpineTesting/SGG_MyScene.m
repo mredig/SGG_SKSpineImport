@@ -11,6 +11,9 @@
 
 @interface SGG_MyScene () {
 	SGG_Spine* spineTest;
+	SGG_SKUtilities* sharedUtilities;
+	
+	
 }
 
 @end
@@ -23,22 +26,26 @@
     if (self = [super initWithSize:size]) {
         /* Setup your scene here */
 		
+		
 		spineTest = [SGG_Spine node];
-		spineTest.debugMode = YES;
+//		spineTest.debugMode = YES;
 //		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
 		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy"] ;
 		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[spineTest runAnimation:@"walk" andCount:-1];
 		[self addChild:spineTest];
+
     }
     return self;
 }
 
+
 #if TARGET_OS_IPHONE
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-		NSLog(@"%@", node);
-	}];
+//	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+//		NSLog(@"%@", node);
+//	}];
 	
 	
 	
@@ -51,22 +58,23 @@
      /* Called when a mouse click occurs */
     
     CGPoint location = [theEvent locationInNode:self];
-    
-    SKSpriteNode *sprite = [SKSpriteNode spriteNodeWithImageNamed:@"Spaceship"];
-    
-    sprite.position = location;
-    sprite.scale = 0.5;
-    
-    SKAction *action = [SKAction rotateByAngle:M_PI duration:1];
-    
-    [sprite runAction:[SKAction repeatActionForever:action]];
-    
-    [self addChild:sprite];
+	[spineTest runAnimation:@"jump" andCount:1];
+
+
+}
+
+-(void)mouseDragged:(NSEvent *)theEvent {
+	CGPoint location = [theEvent locationInNode:self];
+
 }
 
 #endif
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }
+
+
+
+
 
 @end

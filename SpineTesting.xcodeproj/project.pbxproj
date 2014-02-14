@@ -967,6 +967,7 @@
 				33004CCE18A8D33D003F3D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		33004CCF18A8D33D003F3D0C /* Build configuration list for PBXNativeTarget "SpineTestingTests" */ = {
 			isa = XCConfigurationList;
@@ -975,6 +976,7 @@
 				33004CD118A8D33D003F3D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		33004D0C18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SpineTestingiOS" */ = {
 			isa = XCConfigurationList;
@@ -983,6 +985,7 @@
 				33004D0E18A8D366003F3D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		33004D0F18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SpineTestingiOSTests" */ = {
 			isa = XCConfigurationList;
@@ -991,6 +994,7 @@
 				33004D1118A8D366003F3D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
