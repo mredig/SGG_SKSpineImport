@@ -31,9 +31,7 @@
 		
 		spineTest = [SGG_Spine node];
 //		spineTest.debugMode = YES;
-//		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
-		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-//		[spineTest skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin"];
+		[spineTest skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		spineTest.position = CGPointMake(self.size.width/4, self.size.height/4);
 		[spineTest runAnimation:@"walk" andCount:-1];
 		spineTest.zPosition = 0;
@@ -49,9 +47,9 @@
 		
 		
 		spineTest3 = [SGG_Spine node];
-		[spineTest3 skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf" andUseSkinNamed:nil];
+		[spineTest3 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
 		spineTest3.position = CGPointMake((self.size.width/2), self.size.height/4);
-		[spineTest3 runAnimation:@"standing" andCount:-1];
+		[spineTest3 runAnimation:@"walk" andCount:-1];
 		spineTest3.zPosition = 20;
 		[self addChild:spineTest3];
 
@@ -90,7 +88,7 @@
     
     CGPoint location = [theEvent locationInNode:self];
 	[spineTest runAnimation:@"jump" andCount:1];
-	[spineTest2 changeSkinTo:@"goblingirl"];
+//	[spineTest2 changeSkinTo:@"goblin"];
 
 
 }
@@ -98,13 +96,13 @@
 -(void)mouseDragged:(NSEvent *)theEvent {
 	CGPoint location = [theEvent locationInNode:self];
 
-	[spineTest stopAnimation];
-	[spineTest resetSkeleton];
+//	[spineTest stopAnimation];
+//	[spineTest resetSkeleton];
 }
 
 -(void)mouseUp:(NSEvent *)theEvent {
 	
-	[spineTest2 changeSkinTo:@"goblin"];
+	[spineTest2 changeSkinTo:@"goblingirl"];
 
 }
 

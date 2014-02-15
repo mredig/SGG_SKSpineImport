@@ -15,7 +15,6 @@
 		33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33004CAC18A8D33D003F3D0C /* MainMenu.xib */; };
 		33004CAF18A8D33D003F3D0C /* SGG_MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */; };
 		33004CB218A8D33D003F3D0C /* SGG_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CB118A8D33D003F3D0C /* SGG_AppDelegate.m */; };
-		33004CB518A8D33D003F3D0C /* Spaceship.png in Resources */ = {isa = PBXBuildFile; fileRef = 33004CB418A8D33D003F3D0C /* Spaceship.png */; };
 		33004CB718A8D33D003F3D0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33004CB618A8D33D003F3D0C /* Images.xcassets */; };
 		33004CBE18A8D33D003F3D0C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CBD18A8D33D003F3D0C /* XCTest.framework */; };
 		33004CBF18A8D33D003F3D0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004C9818A8D33D003F3D0C /* Cocoa.framework */; };
@@ -37,18 +36,10 @@
 		33004D0918A8D366003F3D0C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33004D0718A8D366003F3D0C /* InfoPlist.strings */; };
 		33004D0B18A8D366003F3D0C /* SpineTestingiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004D0A18A8D366003F3D0C /* SpineTestingiOSTests.m */; };
 		33004D1418A8D398003F3D0C /* SGG_MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */; };
-		3300502A18A90C09003F3D0C /* skeleton.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300502718A90C09003F3D0C /* skeleton.atlas */; };
-		3300502B18A90C09003F3D0C /* skeleton.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300502718A90C09003F3D0C /* skeleton.atlas */; };
-		3300502C18A90C09003F3D0C /* skeleton.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300502718A90C09003F3D0C /* skeleton.atlas */; };
-		3300502D18A90C09003F3D0C /* skeleton.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300502718A90C09003F3D0C /* skeleton.atlas */; };
-		3300502E18A90C09003F3D0C /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* skeleton.json */; };
-		3300502F18A90C09003F3D0C /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* skeleton.json */; };
-		3300503018A90C09003F3D0C /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* skeleton.json */; };
-		3300503118A90C09003F3D0C /* skeleton.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* skeleton.json */; };
-		3300503218A90C09003F3D0C /* skeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3300502918A90C09003F3D0C /* skeleton.png */; };
-		3300503318A90C09003F3D0C /* skeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3300502918A90C09003F3D0C /* skeleton.png */; };
-		3300503418A90C09003F3D0C /* skeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3300502918A90C09003F3D0C /* skeleton.png */; };
-		3300503518A90C09003F3D0C /* skeleton.png in Resources */ = {isa = PBXBuildFile; fileRef = 3300502918A90C09003F3D0C /* skeleton.png */; };
+		3300502E18A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
+		3300502F18A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
+		3300503018A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
+		3300503118A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
 		3300517418A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */; };
 		3300517518A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */; };
 		3300517C18A9420E003F3D0C /* SGG_Spine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517B18A9420E003F3D0C /* SGG_Spine.m */; };
@@ -59,8 +50,8 @@
 		3300518B18A94599003F3D0C /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3300518618A94599003F3D0C /* changelog.txt */; };
 		3300518C18A94599003F3D0C /* SGG_SKUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518818A94599003F3D0C /* SGG_SKUtilities.m */; };
 		3300518D18A94599003F3D0C /* SGG_SKUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518818A94599003F3D0C /* SGG_SKUtilities.m */; };
-		3300519018A949AD003F3D0C /* skelly.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* skelly.json */; };
-		3300519118A949AD003F3D0C /* skelly.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* skelly.json */; };
+		3300519018A949AD003F3D0C /* spineboy.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* spineboy.json */; };
+		3300519118A949AD003F3D0C /* spineboy.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* spineboy.json */; };
 		3300519318A95030003F3D0C /* elf.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300519218A95030003F3D0C /* elf.atlas */; };
 		3300519418A95030003F3D0C /* elf.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300519218A95030003F3D0C /* elf.atlas */; };
 		3300519718A95ACA003F3D0C /* SGG_SpineSkin.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300519618A95ACA003F3D0C /* SGG_SpineSkin.m */; };
@@ -111,7 +102,6 @@
 		33004CB018A8D33D003F3D0C /* SGG_MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGG_MyScene.h; sourceTree = "<group>"; };
 		33004CB118A8D33D003F3D0C /* SGG_AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGG_AppDelegate.m; sourceTree = "<group>"; };
 		33004CB318A8D33D003F3D0C /* SGG_AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGG_AppDelegate.h; sourceTree = "<group>"; };
-		33004CB418A8D33D003F3D0C /* Spaceship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Spaceship.png; sourceTree = "<group>"; };
 		33004CB618A8D33D003F3D0C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		33004CBC18A8D33D003F3D0C /* SpineTestingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpineTestingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33004CBD18A8D33D003F3D0C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -136,9 +126,7 @@
 		33004D0618A8D366003F3D0C /* SpineTestingiOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpineTestingiOSTests-Info.plist"; sourceTree = "<group>"; };
 		33004D0818A8D366003F3D0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		33004D0A18A8D366003F3D0C /* SpineTestingiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpineTestingiOSTests.m; sourceTree = "<group>"; };
-		3300502718A90C09003F3D0C /* skeleton.atlas */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = skeleton.atlas; sourceTree = "<group>"; };
-		3300502818A90C09003F3D0C /* skeleton.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skeleton.json; sourceTree = "<group>"; };
-		3300502918A90C09003F3D0C /* skeleton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skeleton.png; sourceTree = "<group>"; };
+		3300502818A90C09003F3D0C /* elf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elf.json; sourceTree = "<group>"; };
 		3300517218A9354B003F3D0C /* SGG_SpineJSONTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineJSONTools.h; path = SpineImporter/SGG_SpineJSONTools.h; sourceTree = SOURCE_ROOT; };
 		3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineJSONTools.m; path = SpineImporter/SGG_SpineJSONTools.m; sourceTree = SOURCE_ROOT; };
 		3300517A18A9420E003F3D0C /* SGG_Spine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_Spine.h; path = SpineImporter/SGG_Spine.h; sourceTree = SOURCE_ROOT; };
@@ -151,7 +139,7 @@
 		3300518818A94599003F3D0C /* SGG_SKUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGG_SKUtilities.m; sourceTree = "<group>"; };
 		3300518918A94599003F3D0C /* SKUtilityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUtilityConstants.h; sourceTree = "<group>"; };
 		3300518E18A945D9003F3D0C /* SpineImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpineImport.h; path = SpineImporter/SpineImport.h; sourceTree = SOURCE_ROOT; };
-		3300518F18A949AD003F3D0C /* skelly.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = skelly.json; sourceTree = "<group>"; };
+		3300518F18A949AD003F3D0C /* spineboy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spineboy.json; sourceTree = "<group>"; };
 		3300519218A95030003F3D0C /* elf.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = elf.atlas; sourceTree = "<group>"; };
 		3300519518A95ACA003F3D0C /* SGG_SpineSkin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineSkin.h; path = SpineImporter/SGG_SpineSkin.h; sourceTree = SOURCE_ROOT; };
 		3300519618A95ACA003F3D0C /* SGG_SpineSkin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineSkin.m; path = SpineImporter/SGG_SpineSkin.m; sourceTree = SOURCE_ROOT; };
@@ -162,6 +150,7 @@
 		330051A118A98285003F3D0C /* spineboy.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = spineboy.atlas; sourceTree = "<group>"; };
 		331E1FE118AED9E40087ABD9 /* goblins.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goblins.json; sourceTree = "<group>"; };
 		331E1FE418AEDA1D0087ABD9 /* goblin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = goblin.atlas; sourceTree = "<group>"; };
+		331E1FE718AF056C0087ABD9 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -354,15 +343,8 @@
 				3300517E18A9445C003F3D0C /* test.plist */,
 				33004CB018A8D33D003F3D0C /* SGG_MyScene.h */,
 				33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */,
-				3300502718A90C09003F3D0C /* skeleton.atlas */,
-				331E1FE118AED9E40087ABD9 /* goblins.json */,
-				3300502818A90C09003F3D0C /* skeleton.json */,
-				3300518F18A949AD003F3D0C /* skelly.json */,
-				3300502918A90C09003F3D0C /* skeleton.png */,
-				33004CB418A8D33D003F3D0C /* Spaceship.png */,
-				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
-				330051A118A98285003F3D0C /* spineboy.atlas */,
-				3300519218A95030003F3D0C /* elf.atlas */,
+				331E1FE818AF057D0087ABD9 /* esoteric examples */,
+				331E1FE918AF05870087ABD9 /* raywenderlich examples */,
 				33004CB618A8D33D003F3D0C /* Images.xcassets */,
 				3300518518A94599003F3D0C /* Utilities */,
 				3300517118A93508003F3D0C /* SpineImporter */,
@@ -400,6 +382,27 @@
 				3300518918A94599003F3D0C /* SKUtilityConstants.h */,
 			);
 			path = Utilities;
+			sourceTree = "<group>";
+		};
+		331E1FE818AF057D0087ABD9 /* esoteric examples */ = {
+			isa = PBXGroup;
+			children = (
+				331E1FE118AED9E40087ABD9 /* goblins.json */,
+				3300518F18A949AD003F3D0C /* spineboy.json */,
+				331E1FE718AF056C0087ABD9 /* license.txt */,
+				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
+				330051A118A98285003F3D0C /* spineboy.atlas */,
+			);
+			name = "esoteric examples";
+			sourceTree = "<group>";
+		};
+		331E1FE918AF05870087ABD9 /* raywenderlich examples */ = {
+			isa = PBXGroup;
+			children = (
+				3300502818A90C09003F3D0C /* elf.json */,
+				3300519218A95030003F3D0C /* elf.atlas */,
+			);
+			name = "raywenderlich examples";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -520,17 +523,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */,
-				33004CB518A8D33D003F3D0C /* Spaceship.png in Resources */,
 				33004CB718A8D33D003F3D0C /* Images.xcassets in Resources */,
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
-				3300519018A949AD003F3D0C /* skelly.json in Resources */,
-				3300502E18A90C09003F3D0C /* skeleton.json in Resources */,
-				3300503218A90C09003F3D0C /* skeleton.png in Resources */,
+				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
+				3300502E18A90C09003F3D0C /* elf.json in Resources */,
 				33004CAB18A8D33D003F3D0C /* Credits.rtf in Resources */,
 				3300518A18A94599003F3D0C /* changelog.txt in Resources */,
 				3300519318A95030003F3D0C /* elf.atlas in Resources */,
 				331E1FE218AED9E40087ABD9 /* goblins.json in Resources */,
-				3300502A18A90C09003F3D0C /* skeleton.atlas in Resources */,
 				330051A218A98285003F3D0C /* spineboy.atlas in Resources */,
 				33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */,
 			);
@@ -540,10 +540,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3300503318A90C09003F3D0C /* skeleton.png in Resources */,
-				3300502B18A90C09003F3D0C /* skeleton.atlas in Resources */,
 				33004CC718A8D33D003F3D0C /* InfoPlist.strings in Resources */,
-				3300502F18A90C09003F3D0C /* skeleton.json in Resources */,
+				3300502F18A90C09003F3D0C /* elf.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -552,16 +550,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				330051A318A98285003F3D0C /* spineboy.atlas in Resources */,
-				3300503018A90C09003F3D0C /* skeleton.json in Resources */,
+				3300503018A90C09003F3D0C /* elf.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
 				3300518B18A94599003F3D0C /* changelog.txt in Resources */,
-				3300502C18A90C09003F3D0C /* skeleton.atlas in Resources */,
 				331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				3300519418A95030003F3D0C /* elf.atlas in Resources */,
-				3300503418A90C09003F3D0C /* skeleton.png in Resources */,
 				33004CE318A8D365003F3D0C /* InfoPlist.strings in Resources */,
-				3300519118A949AD003F3D0C /* skelly.json in Resources */,
+				3300519118A949AD003F3D0C /* spineboy.json in Resources */,
 				331E1FE318AED9E40087ABD9 /* goblins.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,10 +566,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3300503518A90C09003F3D0C /* skeleton.png in Resources */,
-				3300502D18A90C09003F3D0C /* skeleton.atlas in Resources */,
 				33004D0918A8D366003F3D0C /* InfoPlist.strings in Resources */,
-				3300503118A90C09003F3D0C /* skeleton.json in Resources */,
+				3300503118A90C09003F3D0C /* elf.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
