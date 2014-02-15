@@ -45,11 +45,11 @@
 	NSDictionary* skinsDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"skins"]];
 	[self createSkinsFromDict:skinsDict andAtlasNamed:atlasName];
 
-	NSArray* slotsArray = [NSArray arrayWithArray:[spineDict objectForKey:@"slots"]];
-	[self setUpAttachmentsWithSlotsArray:slotsArray];
+	_slotsArray = [NSArray arrayWithArray:[spineDict objectForKey:@"slots"]];
+	[self setUpAttachmentsWithSlotsArray:_slotsArray];
 
-	NSDictionary* animationDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"animations"]];
-	[self setUpAnimationsWithAnimationDictionary:animationDict];
+	_animationDictionary = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"animations"]];
+	[self setUpAnimationsWithAnimationDictionary:_animationDictionary];
 	
 	NSTimeInterval timeb = CFAbsoluteTimeGetCurrent(); //benchmarking
 //	NSLog(@"time taken: %f", timeb - timea); //benchmarking
@@ -119,6 +119,22 @@
 		[node removeAllActions];
 	}];
 
+}
+
+-(void)changeSkinTo:(NSString*)skin {
+	
+	for (int i = 0; i < _currentSkinSlots.count; i++) {
+		SKNode* slot = (SKNode*)[_currentSkinSlots objectAtIndex:i];
+		[slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+			node.hidden = HIDDEN;
+		}];
+		[slot removeFromParent];
+	}
+
+	_currentSkin = skin;
+	
+	[self setUpAttachmentsWithSlotsArray:_slotsArray];
+	
 }
 
 -(void)resetSkeleton {
@@ -324,6 +340,8 @@
 
 -(void)setUpAttachmentsWithSlotsArray:(NSArray*)slotsArray {
 	
+	NSMutableArray* currentSkinSlotsMutable = [[NSMutableArray alloc] init];
+	
 	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
 	NSDictionary* defaultDict;
 	if (![_currentSkin isEqualToString:@"default"]) {
@@ -369,18 +387,24 @@
 		
 		skinSlot.zPosition = i * 0.1;
 
-		for (int b = 0; b < _bones.count; b++) {
+		for (int b = 0; b < _bones.count; b++) { //find bone for slot
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:b];
 			if ([bone.name isEqualToString:boneString]) {
 				[bone addChild:skinSlot];
 			}
 		}
+		
+		
+		
 		[skinSlot enumerateChildNodesWithName:skinSlot.currentAttachment usingBlock:^(SKNode *node, BOOL *stop) {
 			node.hidden = VISIBLE;
 		}];
 		
+		[currentSkinSlotsMutable addObject:skinSlot];
 		
 	}
+	
+	_currentSkinSlots = [NSArray arrayWithArray:currentSkinSlotsMutable];
 	
 	
 }

@@ -41,7 +41,7 @@
 		
 		
 		spineTest2 = [SGG_Spine node];
-		[spineTest2 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
+		[spineTest2 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
 		spineTest2.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
 		[spineTest2 runAnimation:@"walk" andCount:-1];
 		spineTest2.zPosition = 10;
@@ -90,6 +90,7 @@
     
     CGPoint location = [theEvent locationInNode:self];
 	[spineTest runAnimation:@"jump" andCount:1];
+	[spineTest2 changeSkinTo:@"goblingirl"];
 
 
 }
@@ -99,6 +100,11 @@
 
 	[spineTest stopAnimation];
 	[spineTest resetSkeleton];
+}
+
+-(void)mouseUp:(NSEvent *)theEvent {
+	
+	[spineTest2 changeSkinTo:@"goblin"];
 
 }
 

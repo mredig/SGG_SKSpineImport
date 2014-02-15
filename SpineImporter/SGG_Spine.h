@@ -22,13 +22,19 @@ typedef enum {
 @property (nonatomic, strong) NSArray* bones;
 @property (nonatomic, strong) NSMutableDictionary* skins;
 @property (nonatomic, strong) NSDictionary* animations;
-
+@property (nonatomic, strong) NSArray* currentSkinSlots;
 @property (nonatomic, assign) NSString* currentSkin;
+
+
+@property (nonatomic, strong) NSArray* slotsArray;
+@property (nonatomic, strong) NSDictionary* animationDictionary;
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)stopAnimation;
 -(void)resetSkeleton;
+-(void)changeSkinTo:(NSString*)skin;
+
 
 
 @end
