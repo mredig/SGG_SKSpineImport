@@ -249,7 +249,9 @@
 	//get all skins
 	NSArray* skinKeys = [skinsDict allKeys];
 	
-	NSLog(@"skinKeys: %@", skinKeys);
+	if (_debugMode) {
+		NSLog(@"skinKeys: %@", skinKeys);
+	}
 	for (int i = 0; i < skinKeys.count; i++) {
 		NSString* skinName = [skinKeys objectAtIndex:i];
 		
@@ -277,13 +279,13 @@
 				if ([spriteDict objectForKey:@"name"]) {
 					spriteNameString = [spriteDict objectForKey:@"name"];
 					spriteNameString = [spriteNameString stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
-					NSLog(@"spriteNameString after conversion: %@", spriteNameString);
+//					NSLog(@"spriteNameString after conversion: %@", spriteNameString);
 				} else {
 					spriteNameString = spriteString;
 				}
 				
 				SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithTexture:[atlas textureNamed:spriteNameString]];
-				skinSprite.name = spriteNameString;
+				skinSprite.name = spriteString;
 //				if ([spriteDict objectForKey:@"name"]) {
 //					skinSprite.actualAttachmentName = [spriteDict objectForKey:@"name"];
 //				} else {
@@ -305,7 +307,7 @@
 				[skinSprite setDefaults];
 				skinSprite.hidden = HIDDEN;
 	
-				NSLog(@"skinSprite %@ added to skinSlot %@", skinSprite.name, skinSlot.name);
+//				NSLog(@"skinSprite %@ added to skinSlot %@", skinSprite.name, skinSlot.name);
 				[skinSlot addChild:skinSprite];
 			}
 			//			[skin addChild:skinSlot];
@@ -322,12 +324,10 @@
 
 -(void)setUpAttachmentsWithSlotsArray:(NSArray*)slotsArray {
 	
-	bool isDefaultSkin = YES;
 	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
 	NSDictionary* defaultDict;
 	if (![_currentSkin isEqualToString:@"default"]) {
 		defaultDict = [_skins objectForKey:@"default"];
-		isDefaultSkin = NO;
 	}
 	
 	//	NSLog(@"skinDict: %@", skinDict);
@@ -338,21 +338,34 @@
 		NSString* boneString = [slotDict objectForKey:@"bone"];
 		NSString* name = [slotDict objectForKey:@"name"];
 		
+		bool usesDefaultSkin = YES;
+
+		
 		SGG_SkinSlot* skinSlot;
 		if ([skinDict objectForKey:name]) {
 			skinSlot = (SGG_SkinSlot*)[skinDict objectForKey:name];
+			if (_debugMode) {
+				NSLog(@"using %@ for %@", _currentSkin, skinSlot.name);
+			}
+			usesDefaultSkin = NO;
 		} else {
 			skinSlot = (SGG_SkinSlot*)[defaultDict objectForKey:name];
-			
+			if (_debugMode) {
+				NSLog(@"using default for %@", skinSlot.name);
+			}
+			usesDefaultSkin = YES;
 		}
-		if (isDefaultSkin) {
+		
+//		if ([_currentSkin isEqualToString:@"default"] || usesDefaultSkin) {
 			skinSlot.currentAttachment = attachment;
 			skinSlot.defaultAttachment = attachment;
-		} else {
-			NSString* attachmentName = [NSString stringWithFormat:@"%@-%@", _currentSkin, attachment];
-			skinSlot.currentAttachment = attachmentName;
-			skinSlot.defaultAttachment = attachmentName;
-		}
+//		} else {
+//			NSString* attachmentName = [NSString stringWithFormat:@"%@-%@", _currentSkin, attachment];
+//			skinSlot.currentAttachment = attachmentName;
+//			skinSlot.defaultAttachment = attachmentName;
+//		}
+		
+//		NSLog(@"currentAttachment: %@", skinSlot.currentAttachment);
 		
 		skinSlot.zPosition = i * 0.1;
 
