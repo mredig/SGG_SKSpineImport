@@ -19,6 +19,12 @@ typedef enum {
 
 @property (nonatomic, assign) BOOL debugMode;
 
+
+@property (nonatomic, readonly) BOOL isRunningAnimation;
+@property (nonatomic, assign) NSArray* currentAnimationSequence;
+
+
+
 @property (nonatomic, strong) NSArray* bones;
 @property (nonatomic, strong) NSMutableDictionary* skins;
 @property (nonatomic, strong) NSDictionary* animations;

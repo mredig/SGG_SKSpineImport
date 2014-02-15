@@ -12,6 +12,7 @@
 @interface SGG_Spine () {
 	
 	SGG_SKUtilities* sharedUtilities;
+	
 }
 
 @end
@@ -22,13 +23,14 @@
 	
 	if (self = [super init]) {
 		sharedUtilities = [SGG_SKUtilities sharedUtilities];
+		_isRunningAnimation = NO;
 	}
 	return self;
 }
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName { //add skin name as an option here
 
-	NSTimeInterval timea = CFAbsoluteTimeGetCurrent(); //benchmarking
+//	NSTimeInterval timea = CFAbsoluteTimeGetCurrent(); //benchmarking
 
 	if (skinName) {
 		_currentSkin = skinName;
@@ -51,7 +53,7 @@
 	_animationDictionary = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"animations"]];
 	[self setUpAnimationsWithAnimationDictionary:_animationDictionary];
 	
-	NSTimeInterval timeb = CFAbsoluteTimeGetCurrent(); //benchmarking
+//	NSTimeInterval timeb = CFAbsoluteTimeGetCurrent(); //benchmarking
 //	NSLog(@"time taken: %f", timeb - timea); //benchmarking
 
 }
@@ -67,18 +69,23 @@
 
 -(void)runAnimation:(NSString *)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor { //intended to change speed of the animation, but isn't working with any value other than 1
 	
+	[self stopAnimation];
+//	[self resetSkeleton];
+	
 	NSArray* thisAnimation = [_animations objectForKey:animationName];
+
+	CGFloat longestAction = 0;
+	
 	for (int i = 0; i < thisAnimation.count; i++) {
 		NSDictionary* thisAniDict = [thisAnimation objectAtIndex:i];
 		kSGG_SpineAnimationType animationType = [[thisAniDict objectForKey:@"animationType"] intValue];
 		NSString* attachmentName = [thisAniDict objectForKey:@"attachmentName"];
 		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
 
-
-		
+		SKAction* action;
 		if (animationType == kSGG_SpineAnimationTypeBone) {
 			SGG_SpineBone* bone = [self findBoneNamed:attachmentName];
-			SKAction* action = [thisAniDict objectForKey:@"action"];
+			action = [thisAniDict objectForKey:@"action"];
 			if (count == -1) {
 				action = [SKAction repeatActionForever:action];
 			} else {
@@ -88,7 +95,7 @@
 		} else if (animationType == kSGG_SpineAnimationTypeSlots) {
 			
 			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:attachmentName];
-			SKAction* action = [thisAniDict objectForKey:@"action"];
+			action = [thisAniDict objectForKey:@"action"];
 			if (count == -1) {
 				action = [SKAction repeatActionForever:action];
 			} else {
@@ -98,6 +105,24 @@
 //			NSLog(@"slot animation linked: %@ to slot %@", action, slot);
 //			NSLog(@"skinDict: %@", skinDict);
 		}
+		
+		if (action.duration > longestAction) {
+			longestAction = action.duration;
+		}
+	}
+	
+	_currentAnimationSequence = [NSArray arrayWithObject:animationName];
+	
+	_isRunningAnimation = YES;
+	
+	if (count > -1) {
+		SKAction* turnBoolOff = [SKAction performSelector:@selector(setIsRunningAnimationNO) onTarget:self];
+		turnBoolOff = [SKAction sequence:@[
+										   [SKAction waitForDuration:longestAction],
+										   turnBoolOff,
+										   ]];
+		[self runAction:turnBoolOff withKey:@"setToTurnIsRunningAnimationOff"];
+//		[self performSelector:@selector(setIsRunningAnimationNO) withObject:nil afterDelay:longestAction];
 	}
 	
 }
@@ -118,6 +143,8 @@
 	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
 		[node removeAllActions];
 	}];
+	
+	[self setIsRunningAnimationNO];
 
 }
 
@@ -593,94 +620,6 @@
 	return longestDuration;
 }
 
--(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration {
-	
-//	NSLog(@"slotDict: %@", slotDict);
-	
-
-	NSArray* attachmentTimings = [NSArray arrayWithArray:[slotDict objectForKey:@"attachment"]];
-	NSArray* colorTimings = [slotDict objectForKey:@"color"];
-	SKAction* slotAction = [[SKAction alloc] init];
-
-	//attachments
-	SKAction* attachmentAction = [[SKAction alloc] init];
-
-	if (attachmentTimings) {
-		
-		CGFloat totalTimeForThisAnimation = 0;
-		
-		for (int c = 0; c < attachmentTimings.count; c++) {
-			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-			
-			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
-			totalTimeForThisAnimation += timeForThisAnimationSegment;
-			
-			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-			attachmentAction = [SKAction sequence:@[
-											  attachmentAction,
-											  waitingAction,
-											  [SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-														SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-														[skinSlot setAttachmentTo:attachmentName];
-//														NSLog(@"custom action ran");
-													}]
-											  ]];
-			
-			
-		}
-
-		if (totalTimeForThisAnimation < longestDuration) {
-			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
-			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-		}
-	}
-
-	
-	
-	//colors
-	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
-	if (colorTimings) {
-		CGFloat totalTimeForThisAnimation = 0;
-		
-		for (int c = 0; c < attachmentTimings.count; c++) {
-			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-			
-			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
-			totalTimeForThisAnimation += timeForThisAnimationSegment;
-			
-			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-			attachmentAction = [SKAction sequence:@[
-													attachmentAction,
-													waitingAction,
-													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-				[skinSlot setAttachmentTo:attachmentName];
-				//														NSLog(@"custom action ran");
-			}]
-													]];
-			
-			
-		}
-		
-		if (totalTimeForThisAnimation < longestDuration) {
-			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
-			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-		}
-	}
-		
-
-	slotAction = [SKAction group:@[
-								   attachmentAction,
-//								   colorAction,
-								   ]];
-	
-	return slotAction;
-}
-
 -(SKAction*)createBoneRotationActionsFromArray:(NSArray*)rotations forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration {
 	
 	CGFloat totalTimeForThisAnimation = 0;
@@ -872,6 +811,105 @@
 	return boneScale;
 }
 
+-(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration {
+	
+	//	NSLog(@"slotDict: %@", slotDict);
+	
+	
+	NSArray* attachmentTimings = [NSArray arrayWithArray:[slotDict objectForKey:@"attachment"]];
+	NSArray* colorTimings = [slotDict objectForKey:@"color"];
+	SKAction* slotAction = [[SKAction alloc] init];
+	
+	//attachments
+	SKAction* attachmentAction = [[SKAction alloc] init];
+	
+	if (attachmentTimings) {
+		
+		CGFloat totalTimeForThisAnimation = 0;
+		
+		for (int c = 0; c < attachmentTimings.count; c++) {
+			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
+			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
+			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
+			
+			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
+			totalTimeForThisAnimation += timeForThisAnimationSegment;
+			
+			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
+			attachmentAction = [SKAction sequence:@[
+													attachmentAction,
+													waitingAction,
+													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
+				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
+				[skinSlot setAttachmentTo:attachmentName];
+				//														NSLog(@"custom action ran");
+			}]
+													]];
+			
+			
+		}
+		
+		if (totalTimeForThisAnimation < longestDuration) {
+			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
+			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
+		}
+	}
+	
+	
+	
+	//colors
+	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
+	if (colorTimings) {
+		CGFloat totalTimeForThisAnimation = 0;
+		
+		for (int c = 0; c < attachmentTimings.count; c++) {
+			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
+			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
+			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
+			
+			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
+			totalTimeForThisAnimation += timeForThisAnimationSegment;
+			
+			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
+			attachmentAction = [SKAction sequence:@[
+													attachmentAction,
+													waitingAction,
+													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
+				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
+				[skinSlot setAttachmentTo:attachmentName];
+				//														NSLog(@"custom action ran");
+			}]
+													]];
+			
+			
+		}
+		
+		if (totalTimeForThisAnimation < longestDuration) {
+			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
+			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
+		}
+	}
+	
+	
+	slotAction = [SKAction group:@[
+								   attachmentAction,
+								   //								   colorAction,
+								   ]];
+	
+	return slotAction;
+}
 
+#pragma mark PROPERTY HANDLERS
+
+-(void)setIsRunningAnimationYES {
+	_isRunningAnimation = YES;
+}
+
+-(void)setIsRunningAnimationNO {
+	_isRunningAnimation = NO;
+	_currentAnimationSequence = nil;
+//	NSLog(@"animation done");
+	
+}
 
 @end
