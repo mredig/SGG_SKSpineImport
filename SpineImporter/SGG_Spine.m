@@ -22,14 +22,19 @@
 	
 	if (self = [super init]) {
 		sharedUtilities = [SGG_SKUtilities sharedUtilities];
-			_currentSkin = @"default";
 	}
 	return self;
 }
 
--(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName{ //add skin name as an option here
+-(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName { //add skin name as an option here
 
 	NSTimeInterval timea = CFAbsoluteTimeGetCurrent(); //benchmarking
+
+	if (skinName) {
+		_currentSkin = skinName;
+	} else {
+		_currentSkin = @"default";
+	}
 
 	SGG_SpineJSONTools* tools = [[SGG_SpineJSONTools alloc]init];
 	NSDictionary* spineDict = [tools readJSONFileNamed:name];
@@ -39,10 +44,10 @@
 	
 	NSDictionary* skinsDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"skins"]];
 	[self createSkinsFromDict:skinsDict andAtlasNamed:atlasName];
-	
+
 	NSArray* slotsArray = [NSArray arrayWithArray:[spineDict objectForKey:@"slots"]];
 	[self setUpAttachmentsWithSlotsArray:slotsArray];
-	
+
 	NSDictionary* animationDict = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"animations"]];
 	[self setUpAnimationsWithAnimationDictionary:animationDict];
 	
@@ -103,9 +108,6 @@
 	
 	
 }
-
-
-
 
 -(void)stopAnimation {
 	
@@ -194,8 +196,6 @@
 	return finalMode;
 }
 
-
-
 -(void)createBonesFromArray:(NSArray*)boneArray{
 	
 	NSMutableArray* mutableBones = [[NSMutableArray alloc] init];
@@ -242,18 +242,18 @@
 }
 
 -(void)createSkinsFromDict:(NSDictionary*)skinsDict andAtlasNamed:(NSString*)atlasName{
+	//pull in texture atlas
 	SKTextureAtlas* atlas = [SKTextureAtlas atlasNamed:atlasName];
 	
 	_skins = [[NSMutableDictionary alloc] init];
 	//get all skins
 	NSArray* skinKeys = [skinsDict allKeys];
 	
-	//	NSLog(@"skinKeys: %@", skinKeys);
+	NSLog(@"skinKeys: %@", skinKeys);
 	for (int i = 0; i < skinKeys.count; i++) {
 		NSString* skinName = [skinKeys objectAtIndex:i];
 		
 		NSMutableDictionary* skinSlotsDictionary = [[NSMutableDictionary alloc] init];
-		//pull in texture atlas
 		
 		//get all skin slots
 		NSDictionary* skinSlots = [NSDictionary dictionaryWithDictionary:[skinsDict objectForKey:skinName]];
@@ -272,13 +272,23 @@
 				
 				NSString* spriteString = [skinSpriteNames objectAtIndex:j];
 				NSDictionary* spriteDict = [NSDictionary dictionaryWithDictionary:[skinSprites objectForKey: spriteString]];
-				SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithTexture:[atlas textureNamed:spriteString]];
-				skinSprite.name = spriteString;
+				
+				NSString* spriteNameString;
 				if ([spriteDict objectForKey:@"name"]) {
-					skinSprite.actualAttachmentName = [spriteDict objectForKey:@"name"];
+					spriteNameString = [spriteDict objectForKey:@"name"];
+					spriteNameString = [spriteNameString stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+					NSLog(@"spriteNameString after conversion: %@", spriteNameString);
 				} else {
-					skinSprite.actualAttachmentName = skinSprite.name;
+					spriteNameString = spriteString;
 				}
+				
+				SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithTexture:[atlas textureNamed:spriteNameString]];
+				skinSprite.name = spriteNameString;
+//				if ([spriteDict objectForKey:@"name"]) {
+//					skinSprite.actualAttachmentName = [spriteDict objectForKey:@"name"];
+//				} else {
+//					skinSprite.actualAttachmentName = skinSprite.name;
+//				}
 				
 				skinSprite.position = CGPointMake([[spriteDict objectForKey:@"x"] doubleValue], [[spriteDict objectForKey:@"y"] doubleValue]);
 				if ([spriteDict objectForKey:@"scaleX"]) {
@@ -291,8 +301,11 @@
 				skinSprite.zRotation = [[spriteDict objectForKey:@"rotation"] doubleValue] * sharedUtilities.degreesToRadiansConversionFactor;
 				skinSprite.sizeFromJSON = CGSizeMake([[spriteDict objectForKey:@"width"] doubleValue], [[spriteDict objectForKey:@"height"] doubleValue]);
 				
+
 				[skinSprite setDefaults];
 				skinSprite.hidden = HIDDEN;
+	
+				NSLog(@"skinSprite %@ added to skinSlot %@", skinSprite.name, skinSlot.name);
 				[skinSlot addChild:skinSprite];
 			}
 			//			[skin addChild:skinSlot];
@@ -309,7 +322,13 @@
 
 -(void)setUpAttachmentsWithSlotsArray:(NSArray*)slotsArray {
 	
+	bool isDefaultSkin = YES;
 	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
+	NSDictionary* defaultDict;
+	if (![_currentSkin isEqualToString:@"default"]) {
+		defaultDict = [_skins objectForKey:@"default"];
+		isDefaultSkin = NO;
+	}
 	
 	//	NSLog(@"skinDict: %@", skinDict);
 	
@@ -319,11 +338,24 @@
 		NSString* boneString = [slotDict objectForKey:@"bone"];
 		NSString* name = [slotDict objectForKey:@"name"];
 		
-		SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)[skinDict objectForKey:name];
-		skinSlot.zPosition = i * 0.1;
-		skinSlot.currentAttachment = attachment;
-		skinSlot.defaultAttachment = attachment;
+		SGG_SkinSlot* skinSlot;
+		if ([skinDict objectForKey:name]) {
+			skinSlot = (SGG_SkinSlot*)[skinDict objectForKey:name];
+		} else {
+			skinSlot = (SGG_SkinSlot*)[defaultDict objectForKey:name];
+			
+		}
+		if (isDefaultSkin) {
+			skinSlot.currentAttachment = attachment;
+			skinSlot.defaultAttachment = attachment;
+		} else {
+			NSString* attachmentName = [NSString stringWithFormat:@"%@-%@", _currentSkin, attachment];
+			skinSlot.currentAttachment = attachmentName;
+			skinSlot.defaultAttachment = attachmentName;
+		}
 		
+		skinSlot.zPosition = i * 0.1;
+
 		for (int b = 0; b < _bones.count; b++) {
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:b];
 			if ([bone.name isEqualToString:boneString]) {

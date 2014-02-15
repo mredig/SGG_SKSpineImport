@@ -25,7 +25,7 @@ typedef enum {
 
 @property (nonatomic, assign) NSString* currentSkin;
 
--(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName;
+-(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)stopAnimation;
 -(void)resetSkeleton;

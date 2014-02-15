@@ -11,6 +11,7 @@
 
 @interface SGG_MyScene () {
 	SGG_Spine* spineTest;
+	SGG_Spine* spineTest2;
 	SGG_SKUtilities* sharedUtilities;
 	
 	
@@ -28,18 +29,31 @@
 		
 		
 		spineTest = [SGG_Spine node];
-		spineTest.debugMode = YES;
+//		spineTest.debugMode = YES;
 //		[spineTest skeletonFromFileNamed:@"skeleton" andAtlasNamed:@"elf"] ;
-		[spineTest skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin"] ;
-		spineTest.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[spineTest skeletonFromFileNamed:@"skelly" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+//		[spineTest skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin"];
+		spineTest.position = CGPointMake(self.size.width/4, self.size.height/4);
 		[spineTest runAnimation:@"walk" andCount:-1];
 		[self addChild:spineTest];
 		
-		SKTextureAtlas* goblins = [SKTextureAtlas atlasNamed:@"goblin"];
 		
-		SKSpriteNode* spriteTest = [SKSpriteNode spriteNodeWithTexture:[goblins textureNamed:@"goblingirlhead"]];
-		spriteTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-		[self addChild: spriteTest];
+		spineTest2 = [SGG_Spine node];
+		[spineTest2 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+		spineTest2.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+		[spineTest2 runAnimation:@"walk" andCount:-1];
+		[self addChild:spineTest2];
+
+//		SKTextureAtlas* goblins = [SKTextureAtlas atlasNamed:@"goblin"];
+//		
+//		SKSpriteNode* spriteTest = [SKSpriteNode spriteNodeWithTexture:[goblins textureNamed:@"goblingirl-head"]];
+//		spriteTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+//		[self addChild: spriteTest];
+
+//		NSString* string = @"this is a test - badabing";
+//		NSLog(@"%@",string);
+//		string = [string stringByReplacingOccurrencesOfString:@" - " withString:@"///"];
+//		NSLog(@"%@", string);
 
     }
     return self;
