@@ -33,7 +33,7 @@
 //		spineTest.debugMode = YES;
 		[spineTest skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		spineTest.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[spineTest runAnimation:@"walk" andCount:-1];
+		[spineTest runAnimation:@"jump" andCount:-1];
 		spineTest.zPosition = 0;
 		[self addChild:spineTest];
 		
@@ -47,10 +47,12 @@
 		
 		
 		spineTest3 = [SGG_Spine node];
-		[spineTest3 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
-		spineTest3.position = CGPointMake((self.size.width/2), self.size.height/4);
-		[spineTest3 runAnimation:@"walk" andCount:-1];
+		[spineTest3 skeletonFromFileNamed:@"dragon" andAtlasNamed:@"dragon" andUseSkinNamed:nil];
+		spineTest3.position = CGPointMake((self.size.width/2), self.size.height/2);
+		[spineTest3 runAnimation:@"flying" andCount:-1];
 		spineTest3.zPosition = 20;
+		spineTest3.xScale = kPhone4Scale;
+		spineTest3.yScale = kPhone4Scale;
 		[self addChild:spineTest3];
 
 //		SKTextureAtlas* goblins = [SKTextureAtlas atlasNamed:@"goblin"];
@@ -87,8 +89,8 @@
      /* Called when a mouse click occurs */
     
     CGPoint location = [theEvent locationInNode:self];
-	[spineTest runAnimation:@"jump" andCount:1];
-//	[spineTest2 changeSkinTo:@"goblin"];
+	[spineTest runAnimation:@"walk" andCount:-1 withIntroPeriodOf:0.1];
+	[spineTest2 changeSkinTo:@"goblin"];
 
 
 }
@@ -104,6 +106,26 @@
 	
 	[spineTest2 changeSkinTo:@"goblingirl"];
 
+}
+
+-(void)keyDown:(NSEvent *)theEvent {
+	
+	NSString *characters = [theEvent characters];
+	if ([characters length]) {
+		for (int s = 0; s<[characters length]; s++) {
+			unichar character = [characters characterAtIndex:s];
+			switch (character) {
+				case ' ':{
+					[spineTest runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1];
+					
+				}
+					break;
+			}
+		}
+	}
+	
+	
+	
 }
 
 #endif
