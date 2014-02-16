@@ -8,6 +8,7 @@
 
 #import "SGG_MyScene.h"
 #import "SpineImport.h"
+#import "SGG_SKUtilities.h"
 
 @interface SGG_MyScene () {
 	SGG_Spine* spineTest;
@@ -33,7 +34,10 @@
 //		spineTest.debugMode = YES;
 		[spineTest skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		spineTest.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[spineTest runAnimation:@"jump" andCount:-1];
+		[spineTest runAnimation:@"walk" andCount:-1];
+		spineTest.queueCount = -1;
+		spineTest.queuedAnimation = @"walk";
+		spineTest.queueIntro = 0.1;
 		spineTest.zPosition = 0;
 		[self addChild:spineTest];
 		
@@ -88,15 +92,14 @@
 -(void)mouseDown:(NSEvent *)theEvent {
      /* Called when a mouse click occurs */
     
-    CGPoint location = [theEvent locationInNode:self];
-	[spineTest runAnimation:@"walk" andCount:-1 withIntroPeriodOf:0.1];
+//    CGPoint location = [theEvent locationInNode:self];
 	[spineTest2 changeSkinTo:@"goblin"];
 
 
 }
 
 -(void)mouseDragged:(NSEvent *)theEvent {
-	CGPoint location = [theEvent locationInNode:self];
+//	CGPoint location = [theEvent locationInNode:self];
 
 //	[spineTest stopAnimation];
 //	[spineTest resetSkeleton];
@@ -116,9 +119,13 @@
 			unichar character = [characters characterAtIndex:s];
 			switch (character) {
 				case ' ':{
-					[spineTest runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1];
+					[spineTest runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
 					
 				}
+					break;
+				case 'a': spineTest.xScale = -1;
+					break;
+				case 'd': spineTest.xScale = 1;
 					break;
 			}
 		}

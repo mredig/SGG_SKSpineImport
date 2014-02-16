@@ -21,7 +21,13 @@ typedef enum {
 
 
 @property (nonatomic, readonly) BOOL isRunningAnimation;
-@property (nonatomic, assign) NSArray* currentAnimationSequence;
+@property (nonatomic, assign) NSArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
+
+@property (nonatomic, assign) NSString* queuedAnimation;
+@property (nonatomic, assign) CGFloat queueIntro;
+@property (nonatomic, assign) NSInteger queueCount;
+
+
 
 
 
@@ -36,11 +42,12 @@ typedef enum {
 @property (nonatomic, strong) NSDictionary* rawAnimationDictionary;
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
--(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)stopAnimation;
 -(void)resetSkeleton;
 -(void)changeSkinTo:(NSString*)skin;
--(void)runAnimation:(NSString *)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod;
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
+
 
 
 

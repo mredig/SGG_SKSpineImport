@@ -11,7 +11,7 @@
 
 @interface SGG_Spine () {
 	
-	SGG_SKUtilities* sharedUtilities;
+//	SGG_SKUtilities* sharedUtilities;
 	
 }
 
@@ -22,7 +22,7 @@
 -(id)init {
 	
 	if (self = [super init]) {
-		sharedUtilities = [SGG_SKUtilities sharedUtilities];
+//		sharedUtilities = [SGG_SKUtilities sharedUtilities];
 		_isRunningAnimation = NO;
 	}
 	return self;
@@ -63,75 +63,23 @@
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count {
 	
 	
-	[self runAnimation:animationName andCount:count withSpeedFactor:1];
+//	[self runAnimation:animationName andCount:count withSpeedFactor:1];
+	[self runAnimation:animationName andCount:count withSpeedFactor:1 withIntroPeriodOf:0 andUseQueue:YES];
 	
 }
 
--(void)runAnimation:(NSString *)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor { //intended to change speed of the animation, but isn't working with any value other than 1
-	
-	[self stopAnimation];
-//	[self resetSkeleton];
-	
-	NSArray* thisAnimation = [_animations objectForKey:animationName];
 
-	CGFloat longestAction = 0;
-	
-	for (int i = 0; i < thisAnimation.count; i++) {
-		NSDictionary* thisAniDict = [thisAnimation objectAtIndex:i];
-		kSGG_SpineAnimationType animationType = [[thisAniDict objectForKey:@"animationType"] intValue];
-		NSString* attachmentName = [thisAniDict objectForKey:@"attachmentName"];
-		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
 
-		SKAction* action;
-		if (animationType == kSGG_SpineAnimationTypeBone) {
-			SGG_SpineBone* bone = [self findBoneNamed:attachmentName];
-			action = [thisAniDict objectForKey:@"action"];
-			if (count == -1) {
-				action = [SKAction repeatActionForever:action];
-			} else {
-				action = [SKAction repeatAction:action count:count];
-			}
-			[bone runAction:action withKey:animationName];
-		} else if (animationType == kSGG_SpineAnimationTypeSlots) {
-			
-			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:attachmentName];
-			action = [thisAniDict objectForKey:@"action"];
-			if (count == -1) {
-				action = [SKAction repeatActionForever:action];
-			} else {
-				action = [SKAction repeatAction:action count:count];
-			}
-			[slot runAction:action withKey:animationName];
-//			NSLog(@"slot animation linked: %@ to slot %@", action, slot);
-//			NSLog(@"skinDict: %@", skinDict);
-		}
-		
-		if (action.duration > longestAction) {
-			longestAction = action.duration;
-		}
+	if (_isRunningAnimation) {
+		[self stopAnimation]; //clear any current animations
 	}
 	
-	//reset root rotation and stuff
-	[self resetRootBoneOverDuration:0];
-	
-	_currentAnimationSequence = [NSArray arrayWithObject:animationName];
-	_isRunningAnimation = YES;
-	
-	if (count > -1) {
-		SKAction* turnBoolOff = [SKAction performSelector:@selector(setIsRunningAnimationNO) onTarget:self];
-		turnBoolOff = [SKAction sequence:@[
-										   [SKAction waitForDuration:longestAction],
-										   turnBoolOff,
-										   ]];
-		[self runAction:turnBoolOff withKey:@"setToTurnIsRunningAnimationOff"];
-//		[self performSelector:@selector(setIsRunningAnimationNO) withObject:nil afterDelay:longestAction];
+	if (!_queuedAnimation) {
+		_queuedAnimation = animationName;
+		_queueCount = count;
+		_queueIntro = introPeriod;
 	}
-	
-}
-
--(void)runAnimation:(NSString *)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod { 	
-
-	[self stopAnimation];
 	
 	NSString* animationNameWithIntro;
 	if (introPeriod != 0) {
@@ -193,6 +141,7 @@
 			longestAction = totalAction.duration;
 		}
 	}
+//	NSLog(@"totalAction duration: %f", longestAction);
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];
@@ -201,7 +150,12 @@
 	_isRunningAnimation = YES;
 	
 	if (count != -1) { //only turn boolean off if the action ever turns off
-		SKAction* turnBoolOff = [SKAction performSelector:@selector(setIsRunningAnimationNO) onTarget:self];
+//		SKAction* turnBoolOff = [SKAction performSelector:@selector(setIsRunningAnimationNO) onTarget:self];
+		SKAction* turnBoolOff = [SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
+			SGG_Spine* spine = (SGG_Spine*)node;
+			[spine stopAnimationAndPlayNextInQueue:useQueue];
+		}];
+		
 		turnBoolOff = [SKAction sequence:@[
 										   [SKAction waitForDuration:longestAction],
 										   turnBoolOff,
@@ -220,6 +174,10 @@
 }
 
 -(void)stopAnimation {
+	[self stopAnimationAndPlayNextInQueue:NO];
+}
+
+-(void)stopAnimationAndPlayNextInQueue:(BOOL)queueNext {
 	
 //	for (int i = 0; i < _bones.count; i++) {
 //		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
@@ -230,6 +188,11 @@
 	}];
 	
 	[self setIsRunningAnimationNO];
+	
+	if (queueNext) {
+		// play next in queue
+		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+	}
 
 }
 
@@ -352,7 +315,7 @@
 			bone.yScale = [[boneDict objectForKey:@"scaleY"] doubleValue];
 			
 		}
-		bone.zRotation = [[boneDict objectForKey:@"rotation"] doubleValue] * sharedUtilities.degreesToRadiansConversionFactor;
+		bone.zRotation = [[boneDict objectForKey:@"rotation"] doubleValue] * SPINE_DEGTORADFACTOR;
 		bone.name = [boneDict objectForKey:@"name"];
 		NSString* parent = [boneDict objectForKey:@"parent"];
 		if (parent) {
@@ -439,7 +402,7 @@
 				if ([spriteDict objectForKey:@"scaleY"]) {
 					skinSprite.yScale = [[spriteDict objectForKey:@"scaleY"] doubleValue];
 				}
-				skinSprite.zRotation = [[spriteDict objectForKey:@"rotation"] doubleValue] * sharedUtilities.degreesToRadiansConversionFactor;
+				skinSprite.zRotation = [[spriteDict objectForKey:@"rotation"] doubleValue] * SPINE_DEGTORADFACTOR;
 				skinSprite.sizeFromJSON = CGSizeMake([[spriteDict objectForKey:@"width"] doubleValue], [[spriteDict objectForKey:@"height"] doubleValue]);
 				
 
@@ -738,7 +701,7 @@
 		CGFloat angle, time;
 		id curveInfo;
 		
-		angle = [[rotation objectForKey:@"angle"] doubleValue] * sharedUtilities.degreesToRadiansConversionFactor;
+		angle = [[rotation objectForKey:@"angle"] doubleValue] * SPINE_DEGTORADFACTOR;
 		time = [[rotation objectForKey:@"time"] doubleValue];
 		
 		CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
@@ -966,7 +929,7 @@
 	
 	
 	//colors
-	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
+//	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
 	if (colorTimings) {
 		CGFloat totalTimeForThisAnimation = 0;
 		

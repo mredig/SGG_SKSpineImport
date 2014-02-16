@@ -66,6 +66,10 @@
 		331E1FE318AED9E40087ABD9 /* goblins.json in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE118AED9E40087ABD9 /* goblins.json */; };
 		331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE418AEDA1D0087ABD9 /* goblin.atlas */; };
 		331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE418AEDA1D0087ABD9 /* goblin.atlas */; };
+		331E1FEB18AF09B80087ABD9 /* dragon.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FEA18AF09B80087ABD9 /* dragon.atlas */; };
+		331E1FEC18AF09B80087ABD9 /* dragon.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FEA18AF09B80087ABD9 /* dragon.atlas */; };
+		331E1FEE18AF09BF0087ABD9 /* dragon.json in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FED18AF09BF0087ABD9 /* dragon.json */; };
+		331E1FEF18AF09BF0087ABD9 /* dragon.json in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FED18AF09BF0087ABD9 /* dragon.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +155,8 @@
 		331E1FE118AED9E40087ABD9 /* goblins.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goblins.json; sourceTree = "<group>"; };
 		331E1FE418AEDA1D0087ABD9 /* goblin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = goblin.atlas; sourceTree = "<group>"; };
 		331E1FE718AF056C0087ABD9 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		331E1FEA18AF09B80087ABD9 /* dragon.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dragon.atlas; sourceTree = "<group>"; };
+		331E1FED18AF09BF0087ABD9 /* dragon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dragon.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -346,6 +352,8 @@
 				331E1FE818AF057D0087ABD9 /* esoteric examples */,
 				331E1FE918AF05870087ABD9 /* raywenderlich examples */,
 				33004CB618A8D33D003F3D0C /* Images.xcassets */,
+				331E1FED18AF09BF0087ABD9 /* dragon.json */,
+				331E1FEA18AF09B80087ABD9 /* dragon.atlas */,
 				3300518518A94599003F3D0C /* Utilities */,
 				3300517118A93508003F3D0C /* SpineImporter */,
 			);
@@ -524,10 +532,12 @@
 			files = (
 				331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				33004CB718A8D33D003F3D0C /* Images.xcassets in Resources */,
+				331E1FEB18AF09B80087ABD9 /* dragon.atlas in Resources */,
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
 				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
 				3300502E18A90C09003F3D0C /* elf.json in Resources */,
 				33004CAB18A8D33D003F3D0C /* Credits.rtf in Resources */,
+				331E1FEE18AF09BF0087ABD9 /* dragon.json in Resources */,
 				3300518A18A94599003F3D0C /* changelog.txt in Resources */,
 				3300519318A95030003F3D0C /* elf.atlas in Resources */,
 				331E1FE218AED9E40087ABD9 /* goblins.json in Resources */,
@@ -552,8 +562,10 @@
 				330051A318A98285003F3D0C /* spineboy.atlas in Resources */,
 				3300503018A90C09003F3D0C /* elf.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
+				331E1FEC18AF09B80087ABD9 /* dragon.atlas in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
 				3300518B18A94599003F3D0C /* changelog.txt in Resources */,
+				331E1FEF18AF09BF0087ABD9 /* dragon.json in Resources */,
 				331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				3300519418A95030003F3D0C /* elf.atlas in Resources */,
 				33004CE318A8D365003F3D0C /* InfoPlist.strings in Resources */,
