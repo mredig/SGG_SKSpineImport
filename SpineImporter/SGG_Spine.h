@@ -21,7 +21,7 @@ typedef enum {
 
 
 @property (nonatomic, readonly) BOOL isRunningAnimation;
-@property (nonatomic, assign) NSArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
+@property (nonatomic, strong) NSArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
 
 @property (nonatomic, assign) NSString* queuedAnimation;
 @property (nonatomic, assign) CGFloat queueIntro;

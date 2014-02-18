@@ -11,9 +11,9 @@
 #import "SGG_SKUtilities.h"
 
 @interface SGG_MyScene () {
-	SGG_Spine* spineTest;
-	SGG_Spine* spineTest2;
-	SGG_Spine* spineTest3;
+	SGG_Spine* boy;
+	SGG_Spine* elf;
+	SGG_Spine* goblin;
 	SGG_SKUtilities* sharedUtilities;
 	
 	
@@ -30,45 +30,42 @@
         /* Setup your scene here */
 		
 		
-		spineTest = [SGG_Spine node];
-//		spineTest.debugMode = YES;
-		[spineTest skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-		spineTest.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[spineTest runAnimation:@"walk" andCount:-1];
-		spineTest.queueCount = -1;
-		spineTest.queuedAnimation = @"walk";
-		spineTest.queueIntro = 0.1;
-		spineTest.zPosition = 0;
-		[self addChild:spineTest];
+		boy = [SGG_Spine node];
+//		boy.debugMode = YES;
+		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
+		[boy runAnimation:@"walk" andCount:-1];
+		boy.queueCount = -1;
+		boy.queuedAnimation = @"walk";
+		boy.queueIntro = 0.1;
+		boy.zPosition = 0;
+		[self addChild:boy];
 		
 		
-		spineTest2 = [SGG_Spine node];
-		[spineTest2 skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-		spineTest2.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-		[spineTest2 runAnimation:@"walk" andCount:-1];
-		spineTest2.zPosition = 10;
-		[self addChild:spineTest2];
+		
+		elf = [SGG_Spine node];
+		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[elf runAnimation:@"standing" andCount:-1];
+		elf.queueCount = -1;
+		elf.queuedAnimation = @"standing";
+		elf.queueIntro = 0.1;
+		elf.zPosition = 20;
+		elf.xScale = 0.6;
+		elf.yScale = 0.6;
+		[self addChild:elf];
 		
 		
-		spineTest3 = [SGG_Spine node];
-		[spineTest3 skeletonFromFileNamed:@"dragon" andAtlasNamed:@"dragon" andUseSkinNamed:nil];
-		spineTest3.position = CGPointMake((self.size.width/2), self.size.height/2);
-		[spineTest3 runAnimation:@"flying" andCount:-1];
-		spineTest3.zPosition = 20;
-		spineTest3.xScale = kPhone4Scale;
-		spineTest3.yScale = kPhone4Scale;
-		[self addChild:spineTest3];
+		goblin = [SGG_Spine node];
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+		[goblin runAnimation:@"walk" andCount:-1];
+		goblin.zPosition = 10;
+		[self addChild:goblin];
+		
+		
 
-//		SKTextureAtlas* goblins = [SKTextureAtlas atlasNamed:@"goblin"];
-//		
-//		SKSpriteNode* spriteTest = [SKSpriteNode spriteNodeWithTexture:[goblins textureNamed:@"goblingirl-head"]];
-//		spriteTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-//		[self addChild: spriteTest];
 
-//		NSString* string = @"this is a test - badabing";
-//		NSLog(@"%@",string);
-//		string = [string stringByReplacingOccurrencesOfString:@" - " withString:@"///"];
-//		NSLog(@"%@", string);
 
 		SKLabelNode* label1 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
 		label1.text = @"space to make boy jump";
@@ -111,7 +108,8 @@
      /* Called when a mouse click occurs */
     
 //    CGPoint location = [theEvent locationInNode:self];
-	[spineTest2 changeSkinTo:@"goblin"];
+	[goblin changeSkinTo:@"goblin"];
+	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
 
 
 }
@@ -125,7 +123,7 @@
 
 -(void)mouseUp:(NSEvent *)theEvent {
 	
-	[spineTest2 changeSkinTo:@"goblingirl"];
+	[goblin changeSkinTo:@"goblingirl"];
 
 }
 
@@ -137,13 +135,15 @@
 			unichar character = [characters characterAtIndex:s];
 			switch (character) {
 				case ' ':{
-					[spineTest runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+					if (![[boy.currentAnimationSequence objectAtIndex:0] isEqualToString:@"jump"]) {
+						[boy runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+					}
 					
 				}
 					break;
-				case 'a': spineTest.xScale = -1;
+				case 'a': boy.xScale = -1;
 					break;
-				case 'd': spineTest.xScale = 1;
+				case 'd':boy.xScale = 1;
 					break;
 			}
 		}

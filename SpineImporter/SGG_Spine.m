@@ -141,7 +141,6 @@
 			longestAction = totalAction.duration;
 		}
 	}
-//	NSLog(@"totalAction duration: %f", longestAction);
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];
@@ -150,7 +149,6 @@
 	_isRunningAnimation = YES;
 	
 	if (count != -1) { //only turn boolean off if the action ever turns off
-//		SKAction* turnBoolOff = [SKAction performSelector:@selector(setIsRunningAnimationNO) onTarget:self];
 		SKAction* turnBoolOff = [SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
 			SGG_Spine* spine = (SGG_Spine*)node;
 			[spine stopAnimationAndPlayNextInQueue:useQueue];
@@ -236,6 +234,7 @@
 	SKAction* setRootBoneScale = [SKAction scaleXTo:rootBone.xScale y:rootBone.yScale duration:duration];
 	SKAction* rootBoneSRT = [SKAction group:@[setRootBoneRotation, setRootBoneTranslate, setRootBoneScale]];
 	[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
+//	NSLog(@"root reset");
 }
 
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName {
