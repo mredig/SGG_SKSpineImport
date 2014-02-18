@@ -150,7 +150,7 @@
 		330051A118A98285003F3D0C /* spineboy.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = spineboy.atlas; sourceTree = "<group>"; };
 		331E1FE118AED9E40087ABD9 /* goblins.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goblins.json; sourceTree = "<group>"; };
 		331E1FE418AEDA1D0087ABD9 /* goblin.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = goblin.atlas; sourceTree = "<group>"; };
-		331E1FE718AF056C0087ABD9 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "goblin and spineboy license.txt"; sourceTree = "<group>"; };
 		331E1FF218B2FFD10087ABD9 /* elfREADME.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = elfREADME.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -390,7 +390,7 @@
 			children = (
 				331E1FE118AED9E40087ABD9 /* goblins.json */,
 				3300518F18A949AD003F3D0C /* spineboy.json */,
-				331E1FE718AF056C0087ABD9 /* license.txt */,
+				331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */,
 				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
 				330051A118A98285003F3D0C /* spineboy.atlas */,
 			);
