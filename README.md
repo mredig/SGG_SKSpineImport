@@ -3,6 +3,9 @@ SGG_SKSpineImport
 
 This is a library to import json animations created in Esoteric Software's Spine application.
 
+DISCLAIMER:
+
+I have no affiliation with esoteric Software whatsoever and built this runtime without the use of their supplied starting point. I am still relatively new to this whole *programming* thing and therefore may not have implemented everything in the most efficient or optimized manner. Therefore, I will not be held responsible for problems pertaining to this runtime in any way. Also, don't make fun of things that I didn't do right please. I have feelings! If something could be done in a better way, that's the reason I open sourced this. Feel free to make changes and go through whatever process there is to get them up here (I haven't collaborated on github yet, so I'm not exactly sure of the process yet). And finally, in all sincerity, I hope that this project either helps you or makes your life a little easier. :)
 
 Usage:
 
