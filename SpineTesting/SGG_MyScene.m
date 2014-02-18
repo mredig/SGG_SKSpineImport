@@ -91,9 +91,7 @@
 #if TARGET_OS_IPHONE
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-//	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-//		NSLog(@"%@", node);
-//	}];
+
 	
 	
 	
