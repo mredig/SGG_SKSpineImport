@@ -54,8 +54,7 @@ Limitations:
 
 Requirements:
 
-*	Xcode 5
-*	XCode 5+
+*	Xcode 5+
 *	SpriteKit project
 
 Target requirements:
