@@ -157,6 +157,7 @@
 		331E1FE718AF056C0087ABD9 /* license.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
 		331E1FEA18AF09B80087ABD9 /* dragon.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = dragon.atlas; sourceTree = "<group>"; };
 		331E1FED18AF09BF0087ABD9 /* dragon.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = dragon.json; sourceTree = "<group>"; };
+		331E1FF218B2FFD10087ABD9 /* elfREADME.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = elfREADME.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +410,7 @@
 			children = (
 				3300502818A90C09003F3D0C /* elf.json */,
 				3300519218A95030003F3D0C /* elf.atlas */,
+				331E1FF218B2FFD10087ABD9 /* elfREADME.txt */,
 			);
 			name = "raywenderlich examples";
 			sourceTree = "<group>";

@@ -70,6 +70,24 @@
 //		string = [string stringByReplacingOccurrencesOfString:@" - " withString:@"///"];
 //		NSLog(@"%@", string);
 
+		SKLabelNode* label1 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+		label1.text = @"space to make boy jump";
+		label1.color = [SKColor whiteColor];
+		label1.position = CGPointMake(self.size.width/2, self.size.height/4 - 20);
+		[self addChild:label1];
+		
+		SKLabelNode* label2 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+		label2.text = @"\"a\" and \"d\" to change directions for boy";
+		label2.color = [SKColor whiteColor];
+		label2.position = CGPointMake(self.size.width/2, label1.position.y - 30);
+		[self addChild:label2];
+		
+		SKLabelNode* label3 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+		label3.text = @"click to change goblin skin";
+		label3.color = [SKColor whiteColor];
+		label3.position = CGPointMake(self.size.width/2, label2.position.y - 30);
+		[self addChild:label3];
+
     }
     return self;
 }
