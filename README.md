@@ -53,6 +53,7 @@ Limitations:
 *	Z order keyframes are implemented
 *	Mixing animation (have your feet walking while your arms swing a weapon, for example) is not implemented.
 *	Requires using the built in atlas managment.
+*	Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is.
 
 
 Requirements:
