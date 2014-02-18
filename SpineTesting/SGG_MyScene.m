@@ -8,13 +8,11 @@
 
 #import "SGG_MyScene.h"
 #import "SpineImport.h"
-#import "SGG_SKUtilities.h"
 
 @interface SGG_MyScene () {
 	SGG_Spine* boy;
 	SGG_Spine* elf;
 	SGG_Spine* goblin;
-	SGG_SKUtilities* sharedUtilities;
 	
 	
 }

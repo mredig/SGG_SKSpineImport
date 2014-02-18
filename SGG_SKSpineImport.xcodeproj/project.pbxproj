@@ -15,11 +15,6 @@
 		33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 33004CAC18A8D33D003F3D0C /* MainMenu.xib */; };
 		33004CAF18A8D33D003F3D0C /* SGG_MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */; };
 		33004CB218A8D33D003F3D0C /* SGG_AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CB118A8D33D003F3D0C /* SGG_AppDelegate.m */; };
-		33004CB718A8D33D003F3D0C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33004CB618A8D33D003F3D0C /* Images.xcassets */; };
-		33004CBE18A8D33D003F3D0C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CBD18A8D33D003F3D0C /* XCTest.framework */; };
-		33004CBF18A8D33D003F3D0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004C9818A8D33D003F3D0C /* Cocoa.framework */; };
-		33004CC718A8D33D003F3D0C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33004CC518A8D33D003F3D0C /* InfoPlist.strings */; };
-		33004CC918A8D33D003F3D0C /* SpineTestingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CC818A8D33D003F3D0C /* SpineTestingTests.m */; };
 		33004CD818A8D365003F3D0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CD718A8D365003F3D0C /* Foundation.framework */; };
 		33004CDA18A8D365003F3D0C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CD918A8D365003F3D0C /* CoreGraphics.framework */; };
 		33004CDC18A8D365003F3D0C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CDB18A8D365003F3D0C /* UIKit.framework */; };
@@ -30,26 +25,15 @@
 		33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33004CEA18A8D365003F3D0C /* Main_iPhone.storyboard */; };
 		33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33004CED18A8D365003F3D0C /* Main_iPad.storyboard */; };
 		33004CF218A8D365003F3D0C /* SGG_ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CF118A8D365003F3D0C /* SGG_ViewController.m */; };
-		33004CFF18A8D366003F3D0C /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CBD18A8D33D003F3D0C /* XCTest.framework */; };
-		33004D0018A8D366003F3D0C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CD718A8D365003F3D0C /* Foundation.framework */; };
-		33004D0118A8D366003F3D0C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004CDB18A8D365003F3D0C /* UIKit.framework */; };
-		33004D0918A8D366003F3D0C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33004D0718A8D366003F3D0C /* InfoPlist.strings */; };
-		33004D0B18A8D366003F3D0C /* SpineTestingiOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004D0A18A8D366003F3D0C /* SpineTestingiOSTests.m */; };
 		33004D1418A8D398003F3D0C /* SGG_MyScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */; };
 		3300502E18A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
-		3300502F18A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
 		3300503018A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
-		3300503118A90C09003F3D0C /* elf.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300502818A90C09003F3D0C /* elf.json */; };
 		3300517418A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */; };
 		3300517518A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */; };
 		3300517C18A9420E003F3D0C /* SGG_Spine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517B18A9420E003F3D0C /* SGG_Spine.m */; };
 		3300517D18A9420E003F3D0C /* SGG_Spine.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300517B18A9420E003F3D0C /* SGG_Spine.m */; };
 		3300518318A944EE003F3D0C /* SGG_SpineBone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518218A944EE003F3D0C /* SGG_SpineBone.m */; };
 		3300518418A944EE003F3D0C /* SGG_SpineBone.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518218A944EE003F3D0C /* SGG_SpineBone.m */; };
-		3300518A18A94599003F3D0C /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3300518618A94599003F3D0C /* changelog.txt */; };
-		3300518B18A94599003F3D0C /* changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3300518618A94599003F3D0C /* changelog.txt */; };
-		3300518C18A94599003F3D0C /* SGG_SKUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518818A94599003F3D0C /* SGG_SKUtilities.m */; };
-		3300518D18A94599003F3D0C /* SGG_SKUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 3300518818A94599003F3D0C /* SGG_SKUtilities.m */; };
 		3300519018A949AD003F3D0C /* spineboy.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* spineboy.json */; };
 		3300519118A949AD003F3D0C /* spineboy.json in Resources */ = {isa = PBXBuildFile; fileRef = 3300518F18A949AD003F3D0C /* spineboy.json */; };
 		3300519318A95030003F3D0C /* elf.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 3300519218A95030003F3D0C /* elf.atlas */; };
@@ -68,23 +52,6 @@
 		331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE418AEDA1D0087ABD9 /* goblin.atlas */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		33004CC018A8D33D003F3D0C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 33004C8D18A8D33D003F3D0C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 33004C9418A8D33D003F3D0C;
-			remoteInfo = SpineTesting;
-		};
-		33004D0218A8D366003F3D0C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 33004C8D18A8D33D003F3D0C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 33004CD518A8D365003F3D0C;
-			remoteInfo = SpineTestingiOS;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
 		33004C9518A8D33D003F3D0C /* SGG_SKSpineImport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGG_SKSpineImport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33004C9818A8D33D003F3D0C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -102,12 +69,7 @@
 		33004CB018A8D33D003F3D0C /* SGG_MyScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGG_MyScene.h; sourceTree = "<group>"; };
 		33004CB118A8D33D003F3D0C /* SGG_AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGG_AppDelegate.m; sourceTree = "<group>"; };
 		33004CB318A8D33D003F3D0C /* SGG_AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGG_AppDelegate.h; sourceTree = "<group>"; };
-		33004CB618A8D33D003F3D0C /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		33004CBC18A8D33D003F3D0C /* SGG_SKSpineImportTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SGG_SKSpineImportTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		33004CBD18A8D33D003F3D0C /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		33004CC418A8D33D003F3D0C /* SGG_SKSpineImportTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SGG_SKSpineImportTests-Info.plist"; sourceTree = "<group>"; };
-		33004CC618A8D33D003F3D0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		33004CC818A8D33D003F3D0C /* SpineTestingTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpineTestingTests.m; sourceTree = "<group>"; };
 		33004CD618A8D365003F3D0C /* SGG_SKSpineImportiOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGG_SKSpineImportiOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33004CD718A8D365003F3D0C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		33004CD918A8D365003F3D0C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -122,10 +84,6 @@
 		33004CEE18A8D365003F3D0C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
 		33004CF018A8D365003F3D0C /* SGG_ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGG_ViewController.h; sourceTree = "<group>"; };
 		33004CF118A8D365003F3D0C /* SGG_ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGG_ViewController.m; sourceTree = "<group>"; };
-		33004CFE18A8D366003F3D0C /* SGG_SKSpineImportiOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SGG_SKSpineImportiOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		33004D0618A8D366003F3D0C /* SGG_SKSpineImportiOSTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SGG_SKSpineImportiOSTests-Info.plist"; sourceTree = "<group>"; };
-		33004D0818A8D366003F3D0C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		33004D0A18A8D366003F3D0C /* SpineTestingiOSTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpineTestingiOSTests.m; sourceTree = "<group>"; };
 		3300502818A90C09003F3D0C /* elf.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = elf.json; sourceTree = "<group>"; };
 		3300517218A9354B003F3D0C /* SGG_SpineJSONTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineJSONTools.h; path = SpineImporter/SGG_SpineJSONTools.h; sourceTree = SOURCE_ROOT; };
 		3300517318A9354B003F3D0C /* SGG_SpineJSONTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineJSONTools.m; path = SpineImporter/SGG_SpineJSONTools.m; sourceTree = SOURCE_ROOT; };
@@ -134,10 +92,6 @@
 		3300517E18A9445C003F3D0C /* test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = test.plist; sourceTree = "<group>"; };
 		3300518118A944EE003F3D0C /* SGG_SpineBone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineBone.h; path = SpineImporter/SGG_SpineBone.h; sourceTree = SOURCE_ROOT; };
 		3300518218A944EE003F3D0C /* SGG_SpineBone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineBone.m; path = SpineImporter/SGG_SpineBone.m; sourceTree = SOURCE_ROOT; };
-		3300518618A94599003F3D0C /* changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changelog.txt; sourceTree = "<group>"; };
-		3300518718A94599003F3D0C /* SGG_SKUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGG_SKUtilities.h; sourceTree = "<group>"; };
-		3300518818A94599003F3D0C /* SGG_SKUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGG_SKUtilities.m; sourceTree = "<group>"; };
-		3300518918A94599003F3D0C /* SKUtilityConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKUtilityConstants.h; sourceTree = "<group>"; };
 		3300518E18A945D9003F3D0C /* SpineImport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SpineImport.h; path = SpineImporter/SpineImport.h; sourceTree = SOURCE_ROOT; };
 		3300518F18A949AD003F3D0C /* spineboy.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = spineboy.json; sourceTree = "<group>"; };
 		3300519218A95030003F3D0C /* elf.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = elf.atlas; sourceTree = "<group>"; };
@@ -166,15 +120,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		33004CB918A8D33D003F3D0C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004CBF18A8D33D003F3D0C /* Cocoa.framework in Frameworks */,
-				33004CBE18A8D33D003F3D0C /* XCTest.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		33004CD318A8D365003F3D0C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -183,16 +128,6 @@
 				33004CDC18A8D365003F3D0C /* UIKit.framework in Frameworks */,
 				33004CDD18A8D365003F3D0C /* SpriteKit.framework in Frameworks */,
 				33004CD818A8D365003F3D0C /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33004CFB18A8D366003F3D0C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004CFF18A8D366003F3D0C /* XCTest.framework in Frameworks */,
-				33004D0118A8D366003F3D0C /* UIKit.framework in Frameworks */,
-				33004D0018A8D366003F3D0C /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +140,6 @@
 				33004D1318A8D387003F3D0C /* Shared Assets */,
 				33004CA018A8D33D003F3D0C /* SpineTestingMac */,
 				33004CDE18A8D365003F3D0C /* SpineTestingiOS */,
-				33004D1218A8D36E003F3D0C /* tests */,
 				33004C9718A8D33D003F3D0C /* Frameworks */,
 				33004C9618A8D33D003F3D0C /* Products */,
 			);
@@ -215,9 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				33004C9518A8D33D003F3D0C /* SGG_SKSpineImport.app */,
-				33004CBC18A8D33D003F3D0C /* SGG_SKSpineImportTests.xctest */,
 				33004CD618A8D365003F3D0C /* SGG_SKSpineImportiOS.app */,
-				33004CFE18A8D366003F3D0C /* SGG_SKSpineImportiOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -270,24 +202,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		33004CC218A8D33D003F3D0C /* SpineTestingTests */ = {
-			isa = PBXGroup;
-			children = (
-				33004CC818A8D33D003F3D0C /* SpineTestingTests.m */,
-				33004CC318A8D33D003F3D0C /* Supporting Files */,
-			);
-			path = SpineTestingTests;
-			sourceTree = "<group>";
-		};
-		33004CC318A8D33D003F3D0C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				33004CC418A8D33D003F3D0C /* SGG_SKSpineImportTests-Info.plist */,
-				33004CC518A8D33D003F3D0C /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		33004CDE18A8D365003F3D0C /* SpineTestingiOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -313,33 +227,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		33004D0418A8D366003F3D0C /* SpineTestingiOSTests */ = {
-			isa = PBXGroup;
-			children = (
-				33004D0A18A8D366003F3D0C /* SpineTestingiOSTests.m */,
-				33004D0518A8D366003F3D0C /* Supporting Files */,
-			);
-			path = SpineTestingiOSTests;
-			sourceTree = "<group>";
-		};
-		33004D0518A8D366003F3D0C /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				33004D0618A8D366003F3D0C /* SGG_SKSpineImportiOSTests-Info.plist */,
-				33004D0718A8D366003F3D0C /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		33004D1218A8D36E003F3D0C /* tests */ = {
-			isa = PBXGroup;
-			children = (
-				33004CC218A8D33D003F3D0C /* SpineTestingTests */,
-				33004D0418A8D366003F3D0C /* SpineTestingiOSTests */,
-			);
-			name = tests;
-			sourceTree = "<group>";
-		};
 		33004D1318A8D387003F3D0C /* Shared Assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,8 +237,6 @@
 				33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */,
 				331E1FE818AF057D0087ABD9 /* esoteric examples */,
 				331E1FE918AF05870087ABD9 /* raywenderlich examples */,
-				33004CB618A8D33D003F3D0C /* Images.xcassets */,
-				3300518518A94599003F3D0C /* Utilities */,
 				3300517118A93508003F3D0C /* SpineImporter */,
 			);
 			name = "Shared Assets";
@@ -376,17 +261,6 @@
 				3300518E18A945D9003F3D0C /* SpineImport.h */,
 			);
 			name = SpineImporter;
-			sourceTree = "<group>";
-		};
-		3300518518A94599003F3D0C /* Utilities */ = {
-			isa = PBXGroup;
-			children = (
-				3300518618A94599003F3D0C /* changelog.txt */,
-				3300518718A94599003F3D0C /* SGG_SKUtilities.h */,
-				3300518818A94599003F3D0C /* SGG_SKUtilities.m */,
-				3300518918A94599003F3D0C /* SKUtilityConstants.h */,
-			);
-			path = Utilities;
 			sourceTree = "<group>";
 		};
 		331E1FE818AF057D0087ABD9 /* esoteric examples */ = {
@@ -431,24 +305,6 @@
 			productReference = 33004C9518A8D33D003F3D0C /* SGG_SKSpineImport.app */;
 			productType = "com.apple.product-type.application";
 		};
-		33004CBB18A8D33D003F3D0C /* SGG_SKSpineImportTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 33004CCF18A8D33D003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportTests" */;
-			buildPhases = (
-				33004CB818A8D33D003F3D0C /* Sources */,
-				33004CB918A8D33D003F3D0C /* Frameworks */,
-				33004CBA18A8D33D003F3D0C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				33004CC118A8D33D003F3D0C /* PBXTargetDependency */,
-			);
-			name = SGG_SKSpineImportTests;
-			productName = SpineTestingTests;
-			productReference = 33004CBC18A8D33D003F3D0C /* SGG_SKSpineImportTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		33004CD518A8D365003F3D0C /* SGG_SKSpineImportiOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 33004D0C18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportiOS" */;
@@ -466,24 +322,6 @@
 			productReference = 33004CD618A8D365003F3D0C /* SGG_SKSpineImportiOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		33004CFD18A8D366003F3D0C /* SGG_SKSpineImportiOSTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 33004D0F18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportiOSTests" */;
-			buildPhases = (
-				33004CFA18A8D366003F3D0C /* Sources */,
-				33004CFB18A8D366003F3D0C /* Frameworks */,
-				33004CFC18A8D366003F3D0C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				33004D0318A8D366003F3D0C /* PBXTargetDependency */,
-			);
-			name = SGG_SKSpineImportiOSTests;
-			productName = SpineTestingiOSTests;
-			productReference = 33004CFE18A8D366003F3D0C /* SGG_SKSpineImportiOSTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -493,14 +331,6 @@
 				CLASSPREFIX = SGG_;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Secret Game Group LLC";
-				TargetAttributes = {
-					33004CBB18A8D33D003F3D0C = {
-						TestTargetID = 33004C9418A8D33D003F3D0C;
-					};
-					33004CFD18A8D366003F3D0C = {
-						TestTargetID = 33004C9418A8D33D003F3D0C;
-					};
-				};
 			};
 			buildConfigurationList = 33004C9018A8D33D003F3D0C /* Build configuration list for PBXProject "SGG_SKSpineImport" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -516,9 +346,7 @@
 			projectRoot = "";
 			targets = (
 				33004C9418A8D33D003F3D0C /* SGG_SKSpineImport */,
-				33004CBB18A8D33D003F3D0C /* SGG_SKSpineImportTests */,
 				33004CD518A8D365003F3D0C /* SGG_SKSpineImportiOS */,
-				33004CFD18A8D366003F3D0C /* SGG_SKSpineImportiOSTests */,
 			);
 		};
 /* End PBXProject section */
@@ -529,25 +357,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */,
-				33004CB718A8D33D003F3D0C /* Images.xcassets in Resources */,
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
 				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
 				3300502E18A90C09003F3D0C /* elf.json in Resources */,
 				33004CAB18A8D33D003F3D0C /* Credits.rtf in Resources */,
-				3300518A18A94599003F3D0C /* changelog.txt in Resources */,
 				3300519318A95030003F3D0C /* elf.atlas in Resources */,
 				331E1FE218AED9E40087ABD9 /* goblins.json in Resources */,
 				330051A218A98285003F3D0C /* spineboy.atlas in Resources */,
 				33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33004CBA18A8D33D003F3D0C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004CC718A8D33D003F3D0C /* InfoPlist.strings in Resources */,
-				3300502F18A90C09003F3D0C /* elf.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -559,21 +376,11 @@
 				3300503018A90C09003F3D0C /* elf.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
-				3300518B18A94599003F3D0C /* changelog.txt in Resources */,
 				331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				3300519418A95030003F3D0C /* elf.atlas in Resources */,
 				33004CE318A8D365003F3D0C /* InfoPlist.strings in Resources */,
 				3300519118A949AD003F3D0C /* spineboy.json in Resources */,
 				331E1FE318AED9E40087ABD9 /* goblins.json in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33004CFC18A8D366003F3D0C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004D0918A8D366003F3D0C /* InfoPlist.strings in Resources */,
-				3300503118A90C09003F3D0C /* elf.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,18 +397,9 @@
 				33004CAF18A8D33D003F3D0C /* SGG_MyScene.m in Sources */,
 				3300517C18A9420E003F3D0C /* SGG_Spine.m in Sources */,
 				33004CA718A8D33D003F3D0C /* main.m in Sources */,
-				3300518C18A94599003F3D0C /* SGG_SKUtilities.m in Sources */,
 				3300519F18A97342003F3D0C /* SGG_SkinSprite.m in Sources */,
 				3300519B18A971FF003F3D0C /* SGG_SkinSlot.m in Sources */,
 				3300518318A944EE003F3D0C /* SGG_SpineBone.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		33004CB818A8D33D003F3D0C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004CC918A8D33D003F3D0C /* SpineTestingTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,33 +416,11 @@
 				33004CF218A8D365003F3D0C /* SGG_ViewController.m in Sources */,
 				3300519C18A971FF003F3D0C /* SGG_SkinSlot.m in Sources */,
 				3300519818A95ACA003F3D0C /* SGG_SpineSkin.m in Sources */,
-				3300518D18A94599003F3D0C /* SGG_SKUtilities.m in Sources */,
 				3300517D18A9420E003F3D0C /* SGG_Spine.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		33004CFA18A8D366003F3D0C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33004D0B18A8D366003F3D0C /* SpineTestingiOSTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		33004CC118A8D33D003F3D0C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 33004C9418A8D33D003F3D0C /* SGG_SKSpineImport */;
-			targetProxy = 33004CC018A8D33D003F3D0C /* PBXContainerItemProxy */;
-		};
-		33004D0318A8D366003F3D0C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 33004CD518A8D365003F3D0C /* SGG_SKSpineImportiOS */;
-			targetProxy = 33004D0218A8D366003F3D0C /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		33004CA318A8D33D003F3D0C /* InfoPlist.strings */ = {
@@ -661,14 +437,6 @@
 				33004CAA18A8D33D003F3D0C /* en */,
 			);
 			name = Credits.rtf;
-			sourceTree = "<group>";
-		};
-		33004CC518A8D33D003F3D0C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				33004CC618A8D33D003F3D0C /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		33004CE118A8D365003F3D0C /* InfoPlist.strings */ = {
@@ -693,14 +461,6 @@
 				33004CEE18A8D365003F3D0C /* Base */,
 			);
 			name = Main_iPad.storyboard;
-			sourceTree = "<group>";
-		};
-		33004D0718A8D366003F3D0C /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				33004D0818A8D366003F3D0C /* en */,
-			);
-			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -810,46 +570,6 @@
 			};
 			name = Release;
 		};
-		33004CD018A8D33D003F3D0C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpineTesting.app/Contents/MacOS/SpineTesting";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SpineTesting/SpineTesting-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "SpineTestingTests/SGG_SKSpineImportTests-Info.plist";
-				PRODUCT_NAME = SGG_SKSpineImportTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		33004CD118A8D33D003F3D0C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpineTesting.app/Contents/MacOS/SpineTesting";
-				COMBINE_HIDPI_IMAGES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-					"$(inherited)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SpineTesting/SpineTesting-Prefix.pch";
-				INFOPLIST_FILE = "SpineTestingTests/SGG_SKSpineImportTests-Info.plist";
-				PRODUCT_NAME = SGG_SKSpineImportTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 		33004D0D18A8D366003F3D0C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -911,55 +631,6 @@
 			};
 			name = Release;
 		};
-		33004D1018A8D366003F3D0C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpineTesting.app/Contents/MacOS/SpineTesting";
-				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SpineTestingiOS/SpineTestingiOS-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "SpineTestingiOSTests/SGG_SKSpineImportiOSTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = SGG_SKSpineImportiOSTests;
-				SDKROOT = iphoneos;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		33004D1118A8D366003F3D0C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/SpineTesting.app/Contents/MacOS/SpineTesting";
-				CLANG_ENABLE_MODULES = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "SpineTestingiOS/SpineTestingiOS-Prefix.pch";
-				INFOPLIST_FILE = "SpineTestingiOSTests/SGG_SKSpineImportiOSTests-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = SGG_SKSpineImportiOSTests;
-				SDKROOT = iphoneos;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				VALIDATE_PRODUCT = YES;
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -981,29 +652,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		33004CCF18A8D33D003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33004CD018A8D33D003F3D0C /* Debug */,
-				33004CD118A8D33D003F3D0C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		33004D0C18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportiOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				33004D0D18A8D366003F3D0C /* Debug */,
 				33004D0E18A8D366003F3D0C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		33004D0F18A8D366003F3D0C /* Build configuration list for PBXNativeTarget "SGG_SKSpineImportiOSTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33004D1018A8D366003F3D0C /* Debug */,
-				33004D1118A8D366003F3D0C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
