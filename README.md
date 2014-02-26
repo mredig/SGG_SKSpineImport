@@ -50,7 +50,7 @@ Limitations:
 *	Slot animation gets confused when you switch skins during an animation (in the example build, hold the mouse down for a while, then let go and watch the goblin eyes)
 *	Animation is built using SKAction - therefore, easing of keyframes is limited to the simple enumerated versions of easy ease that SKAction includes (ease in, ease out, ease both, linear)
 	*	This runtime automatically detects the closest approximation and applies it, however
-*	Z order keyframes are implemented
+*	Z order keyframes are NOT implemented
 *	Mixing animation (have your feet walking while your arms swing a weapon, for example) is not implemented.
 *	Requires using the built in atlas managment.
 *	Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is.
