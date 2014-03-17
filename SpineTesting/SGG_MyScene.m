@@ -82,7 +82,7 @@
 		label3.color = [SKColor whiteColor];
 		label3.position = CGPointMake(self.size.width/2, label2.position.y - 30);
 		[self addChild:label3];
-
+        
     }
     return self;
 }
@@ -91,9 +91,6 @@
 #if TARGET_OS_IPHONE
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-
-	
-	
 	
 }
 
@@ -104,9 +101,16 @@
      /* Called when a mouse click occurs */
     
 //    CGPoint location = [theEvent locationInNode:self];
-	[goblin changeSkinTo:@"goblin"];
+	//[goblin changeSkinTo:@"goblin"];
 	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+    
+    NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+    
+    NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
+    SKColor* color = [SKColor redColor];
 
+    [goblin changeSkinPartial:partReplacement];
+    [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 
 }
 
@@ -119,8 +123,16 @@
 
 -(void)mouseUp:(NSEvent *)theEvent {
 	
-	[goblin changeSkinTo:@"goblingirl"];
-
+	//[goblin changeSkinTo:@"goblingirl"];
+    
+    [goblin resetSkinPartial];
+    
+    //reset the colors
+    [boy colorizeSlots:[boy colorizedNodes] withColor:[SKColor redColor] andIntensity:0];
+    // empty the array
+    [boy.colorizedNodes removeAllObjects];
+    
+    //[goblin resetSkeleton];
 }
 
 -(void)keyDown:(NSEvent *)theEvent {

@@ -210,6 +210,80 @@
 	
 }
 
+-(void)changeSkinPartial:(NSDictionary *)slotsToReplace {
+    // replaces the skin for specified slots without redrawing the whole skin - useful for 'battle damage', etc.
+    for (int i = 0; i < _currentSkinSlots.count; i++) {
+		SKNode* slot = (SKNode*)[_currentSkinSlots objectAtIndex:i];
+        [slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+            // loop through attached NSDictionary and find matching key...
+            for(id key in slotsToReplace) {
+                NSString *thisKey = (NSString *)key;
+                if([thisKey isEqualToString:node.name]) {
+                    SKSpriteNode* thisNode = (SKSpriteNode *)node;
+                    SKTexture* originalTexture = thisNode.texture;
+                    thisNode.texture = [SKTexture textureWithImageNamed:[slotsToReplace objectForKey:(key)]];
+                    
+                    // add the original texture to an array so that we can swap back later
+                    if(!_swappedSkins.count) {
+                        _swappedSkins = [[NSMutableDictionary alloc] init];
+                    }
+                    
+                    [_swappedSkins setObject:(NSString *)originalTexture forKey:key];
+                    break;
+                }
+            }
+		}];
+	}
+}
+
+-(void)resetSkinPartial {
+    // resets any swapped slots
+    if(_swappedSkins.count) {
+        
+        for (int i = 0; i < _currentSkinSlots.count; i++) {
+            SKNode* slot = (SKNode*)[_currentSkinSlots objectAtIndex:i];
+            [slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+                // loop through attached NSDictionary and find matching key...
+                for(id key in _swappedSkins) {
+                    NSString* thisKey = (NSString *)key;
+                    if([thisKey isEqualToString:node.name]) {
+                        SKSpriteNode* thisNode = (SKSpriteNode *)node;
+                        thisNode.texture = (SKTexture *)[_swappedSkins objectForKey:(key)];
+                        break;
+                    }
+                }
+            }];
+        }
+        
+        [_swappedSkins removeAllObjects];
+    }
+}
+
+-(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor {
+    // colorizes the specified parts of the skin with the supplied color, to the intensity indicated - can be used to change hair/skin color dynamically, or 'flashing' a body part when hit...
+    
+    for (int i = 0; i < _currentSkinSlots.count; i++) {
+		SKNode* slot = (SKNode*)[_currentSkinSlots objectAtIndex:i];
+		[slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+			for(NSString* colorizedNode in slotsToColorize){
+                if([colorizedNode isEqualToString:node.name]) {
+                    SKSpriteNode* thisNode = (SKSpriteNode *)node;
+                    thisNode.color = color;
+                    thisNode.colorBlendFactor = blendFactor;
+                    
+                    if(!_colorizedNodes.count) {
+                        _colorizedNodes = [[NSMutableArray alloc] init];
+                    }
+                    
+                    _colorizedNodes[_colorizedNodes.count] = node.name;
+                    
+                    break;
+                }
+            }
+		}];
+	}
+}
+
 -(void)resetSkeleton {
 	
 	for (int i = 0; i < _bones.count; i++) {

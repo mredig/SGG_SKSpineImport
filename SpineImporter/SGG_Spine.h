@@ -28,7 +28,8 @@ typedef enum {
 @property (nonatomic, assign) NSInteger queueCount;
 
 
-
+@property (nonatomic, strong) NSMutableDictionary* swappedSkins;
+@property (nonatomic, strong) NSMutableArray* colorizedNodes;
 
 
 @property (nonatomic, strong) NSArray* bones;
@@ -45,6 +46,9 @@ typedef enum {
 -(void)stopAnimation;
 -(void)resetSkeleton;
 -(void)changeSkinTo:(NSString*)skin;
+-(void)changeSkinPartial:(NSDictionary *)slotsToReplace;
+-(void)resetSkinPartial;
+-(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
 
