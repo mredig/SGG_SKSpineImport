@@ -14,9 +14,10 @@ Added three methods:
 *Accepts: (NSMutableDictionary *)slotsToReplace*
 
 **Dictionary format:**
->node name : replacement texture
+>attachment name : replacement texture
 
 Replaces the texture of any nodes mentioned in the slotsToReplace dictionary with their accompanying textures. Creates an NSMutableDictionary in memory containing the original textures, to easily swap back.
+*Note: be sure to use the attatchment name, not the slot name.*
 
 Created to serve my own needs: I have an avatar builder in my Sprite Kit game, and I need to swap out specific slots without changing the whole skin (so the player can choose different shirts, pants etc.).
 
@@ -41,9 +42,10 @@ Should only be called after changeSkinPartial.
 
 
 ## colorizeSlots
-*Accetps: (NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor*
+*Accepts: (NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor*
 
 Colorizes the slots listed in the slotsToColorize array using the specified color and blend factor.
+*Note: be sure to use the attatchment name, not the slot name.*
 
 Can be used to make a body part flash red, or to let the player change their hair/skin color.
 
