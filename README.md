@@ -30,8 +30,8 @@ NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-h
 
 
 ### Limitations:
-* The replacement only goes one level deep, and any nested animations are ignored. Run the included project and you'll see the goblin's head and torso change when you click the mouse, but the original blinking eyes are still shown.
-* The skeleton must be well-named, and your dictionary's keys must match the slot names specified in the skeleton's .json file.
+* Your dictionary's keys must match the slot names specified in the skeleton's .json file.
+* If you need to replace any 'nested' nodes, you must create an entry for that slot in your dictionary.
 
 
 
@@ -55,8 +55,8 @@ SKColor* color = [SKColor redColor];
 ```
 
 ### Limitations:
-* Again, the colorization only goes one level deep. You can see this with Spineboy's eyes in the included demo.
-* The skeleton must be well-named, and your array values must match the slot names specified in the skeleton's .json file.
+* Your array's values must match the slot names specified in the skeleton's .json file.
+* If you need to colorize any 'nested' nodes, you must create an entry for that slot in your dictionary.
 
 
 ## Questions or comments?
