@@ -51,7 +51,7 @@ Can be used to make a body part flash red, or to let the player change their hai
 
 ### Usage:
 ```
-NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
+NSArray* partsToColorize = @[@"head", @"left-shoulder", @"torso"];
 SKColor* color = [SKColor redColor];
 [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 ```
