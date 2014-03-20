@@ -284,6 +284,13 @@
 	}
 }
 
+-(void)resetColorizedSlots {
+	
+	[self colorizeSlots:_colorizedNodes withColor:[SKColor whiteColor] andIntensity:0];
+	[_colorizedNodes removeAllObjects];
+	
+}
+
 -(void)resetSkeleton {
 	
 	for (int i = 0; i < _bones.count; i++) {

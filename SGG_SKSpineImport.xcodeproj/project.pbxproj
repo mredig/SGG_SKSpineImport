@@ -331,6 +331,11 @@
 				CLASSPREFIX = SGG_;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Secret Game Group LLC";
+				TargetAttributes = {
+					33004CD518A8D365003F3D0C = {
+						DevelopmentTeam = L5UZAT7KA9;
+					};
+				};
 			};
 			buildConfigurationList = 33004C9018A8D33D003F3D0C /* Build configuration list for PBXProject "SGG_SKSpineImport" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -499,6 +504,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -530,6 +536,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -577,6 +584,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Redig (D8F4HKNREJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -595,6 +603,7 @@
 				INFOPLIST_FILE = "SpineTestingiOS/SGG_SKSpineImportiOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = SGG_SKSpineImportiOS;
+				PROVISIONING_PROFILE = "D214832C-BE95-410D-B4CB-626FF7FAA08C";
 				SDKROOT = iphoneos;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -609,6 +618,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Michael Redig (D8F4HKNREJ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -623,6 +633,7 @@
 				INFOPLIST_FILE = "SpineTestingiOS/SGG_SKSpineImportiOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = SGG_SKSpineImportiOS;
+				PROVISIONING_PROFILE = "D214832C-BE95-410D-B4CB-626FF7FAA08C";
 				SDKROOT = iphoneos;
 				SPRITEKIT_TEXTURE_ATLAS_OUTPUT = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";

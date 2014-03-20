@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>DDD5C8F8-7C6C-4204-BA34-FDE49C11E555</string>
+	<string>D3AC62E3-E44E-453C-82B7-7F45759FDAE8</string>
 	<key>IDESourceControlProjectName</key>
 	<string>SGG_SKSpineImport</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</key>
-		<string>https://github.com/massivepenguin/SGG_SKSpineImport</string>
+		<key>F8FB7DB7-140B-4C98-8C63-0278BF06DD53</key>
+		<string>https://github.com/mredig/SGG_SKSpineImport.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>SGG_SKSpineImport.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</key>
+		<key>F8FB7DB7-140B-4C98-8C63-0278BF06DD53</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/massivepenguin/SGG_SKSpineImport</string>
+	<string>https://github.com/mredig/SGG_SKSpineImport.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</string>
+	<string>F8FB7DB7-140B-4C98-8C63-0278BF06DD53</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</string>
+			<string>F8FB7DB7-140B-4C98-8C63-0278BF06DD53</string>
 			<key>IDESourceControlWCCName</key>
 			<string>SGG_SKSpineImport</string>
 		</dict>

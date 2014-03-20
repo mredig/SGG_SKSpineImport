@@ -14,6 +14,7 @@
 	SGG_Spine* elf;
 	SGG_Spine* goblin;
 	
+	CGPoint startLocation;
 	
 }
 
@@ -91,7 +92,18 @@
 #if TARGET_OS_IPHONE
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	
+	CGPoint location = [[touches anyObject] locationInNode:self];
+	[self inputBegan:location];
+}
+
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	CGPoint location = [[touches anyObject] locationInNode:self];
+	[self inputMoved:location];
+}
+
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	CGPoint location = [[touches anyObject] locationInNode:self];
+	[self inputEnded:location];
 }
 
 
@@ -100,39 +112,21 @@
 -(void)mouseDown:(NSEvent *)theEvent {
      /* Called when a mouse click occurs */
     
-//    CGPoint location = [theEvent locationInNode:self];
-	//[goblin changeSkinTo:@"goblin"];
-	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
-    
-    NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
-    
-    NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
-    SKColor* color = [SKColor redColor];
-
-    [goblin changeSkinPartial:partReplacement];
-    [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
+    CGPoint location = [theEvent locationInNode:self];
+	[self inputBegan:location];
 
 }
 
 -(void)mouseDragged:(NSEvent *)theEvent {
-//	CGPoint location = [theEvent locationInNode:self];
+    CGPoint location = [theEvent locationInNode:self];
+	[self inputMoved:location];
 
-//	[spineTest stopAnimation];
-//	[spineTest resetSkeleton];
 }
 
 -(void)mouseUp:(NSEvent *)theEvent {
-	
-	//[goblin changeSkinTo:@"goblingirl"];
-    
-    [goblin resetSkinPartial];
-    
-    //reset the colors
-    [boy colorizeSlots:[boy colorizedNodes] withColor:[SKColor redColor] andIntensity:0];
-    // empty the array
-    [boy.colorizedNodes removeAllObjects];
-    
-    //[goblin resetSkeleton];
+	CGPoint location = [theEvent locationInNode:self];
+	[self inputEnded:location];
+
 }
 
 -(void)keyDown:(NSEvent *)theEvent {
@@ -162,6 +156,57 @@
 }
 
 #endif
+
+
+-(void)inputBegan:(CGPoint)location {
+
+	startLocation = location;
+	
+	//[goblin changeSkinTo:@"goblin"];
+	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+    
+    NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+    
+    NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
+    SKColor* color = [SKColor redColor];
+	
+    [goblin changeSkinPartial:partReplacement];
+    [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
+	
+}
+
+-(void)inputMoved:(CGPoint)location {
+
+	if (location.y > startLocation.y + 20) {
+		if (![boy.currentAnimationSequence[0] isEqualToString:@"jump"]) {
+			[boy runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+		}
+	}
+	
+	if (location.x > startLocation.x + 20) {
+		boy.xScale = 1;
+	} else if (location.x < startLocation.x -20) {
+		boy.xScale = -1;
+	}
+
+	
+}
+
+-(void)inputEnded:(CGPoint)location {
+
+	//[goblin changeSkinTo:@"goblingirl"];
+    
+    [goblin resetSkinPartial];
+    
+    //reset the colors
+	[boy resetColorizedSlots];
+    
+    //[goblin resetSkeleton];
+	
+}
+
+
+
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 }
