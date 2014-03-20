@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>DDD5C8F8-7C6C-4204-BA34-FDE49C11E555</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SGG_SKSpineImport</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</key>
+		<string>https://github.com/massivepenguin/SGG_SKSpineImport</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SGG_SKSpineImport.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/massivepenguin/SGG_SKSpineImport</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>E2F68E54-F0A2-4043-8F3B-F487BA88FA51</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SGG_SKSpineImport</string>
+		</dict>
+	</array>
+</dict>
+</plist>
