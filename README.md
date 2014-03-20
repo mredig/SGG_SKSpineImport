@@ -68,7 +68,8 @@ or
 *	Mac OS X 10.9+ or whatever SpriteKit's requirements are. I'm not 100% sure and I don't care enough to look them up just for this. I'm not your mom.
 
 
-## Merge from https://github.com/massivepenguin/SGG_SKSpineImport
+## Merge from 
+https://github.com/massivepenguin/SGG_SKSpineImport
 
 Added three methods:
 
