@@ -50,6 +50,10 @@
 		331E1FE318AED9E40087ABD9 /* goblins.json in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE118AED9E40087ABD9 /* goblins.json */; };
 		331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE418AEDA1D0087ABD9 /* goblin.atlas */; };
 		331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 331E1FE418AEDA1D0087ABD9 /* goblin.atlas */; };
+		33F32DAE193C9DF400A5C503 /* stepTesting.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DAD193C9DF400A5C503 /* stepTesting.atlas */; };
+		33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DAD193C9DF400A5C503 /* stepTesting.atlas */; };
+		33F32DB1193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
+		33F32DB2193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +112,8 @@
 		331E1FF218B2FFD10087ABD9 /* elfREADME.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = elfREADME.txt; sourceTree = "<group>"; };
 		331E1FF318B305E90087ABD9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		331E1FF518B306A50087ABD9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		33F32DAD193C9DF400A5C503 /* stepTesting.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = stepTesting.atlas; sourceTree = "<group>"; };
+		33F32DB0193C9FCE00A5C503 /* stepTesting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stepTesting.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,7 +274,9 @@
 			children = (
 				331E1FE118AED9E40087ABD9 /* goblins.json */,
 				3300518F18A949AD003F3D0C /* spineboy.json */,
+				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
 				331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */,
+				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
 				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
 				330051A118A98285003F3D0C /* spineboy.atlas */,
 			);
@@ -365,8 +373,10 @@
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
 				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
 				3300502E18A90C09003F3D0C /* elf.json in Resources */,
+				33F32DAE193C9DF400A5C503 /* stepTesting.atlas in Resources */,
 				33004CAB18A8D33D003F3D0C /* Credits.rtf in Resources */,
 				3300519318A95030003F3D0C /* elf.atlas in Resources */,
+				33F32DB1193C9FCE00A5C503 /* stepTesting.json in Resources */,
 				331E1FE218AED9E40087ABD9 /* goblins.json in Resources */,
 				330051A218A98285003F3D0C /* spineboy.atlas in Resources */,
 				33004CAD18A8D33D003F3D0C /* MainMenu.xib in Resources */,
@@ -381,8 +391,10 @@
 				3300503018A90C09003F3D0C /* elf.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
+				33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */,
 				331E1FE618AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				3300519418A95030003F3D0C /* elf.atlas in Resources */,
+				33F32DB2193C9FCE00A5C503 /* stepTesting.json in Resources */,
 				33004CE318A8D365003F3D0C /* InfoPlist.strings in Resources */,
 				3300519118A949AD003F3D0C /* spineboy.json in Resources */,
 				331E1FE318AED9E40087ABD9 /* goblins.json in Resources */,

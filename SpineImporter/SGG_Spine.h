@@ -8,6 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 #import "SpineImport.h"
+#import "SGG_SpineBone.h"
 
 typedef enum {
 	kSGG_SpineAnimationTypeBone,
@@ -52,6 +53,7 @@ typedef enum {
 -(void)resetColorizedSlots;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
+-(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;
 
 
 

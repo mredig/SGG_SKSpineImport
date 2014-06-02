@@ -797,7 +797,7 @@
 				SKAction* rotationAction = [SKAction rotateToAngle:angle duration:0 shortestUnitArc:YES];
 				boneRotation = [SKAction sequence:@[waitingAction, boneRotation, rotationAction]];
 				if (_debugMode) {
-					NSLog(@"stepped");
+					NSLog(@"stepped to %f", angle);
 				}
 			} else {
 				NSArray* curveArray = [NSArray arrayWithArray:curveInfo];
@@ -814,7 +814,7 @@
 			SKAction* rotationAction = [SKAction rotateToAngle:angle duration:timeForThisAnimationSegment shortestUnitArc:YES];
 			boneRotation = [SKAction sequence:@[boneRotation, rotationAction]];
 			if (_debugMode) {
-				NSLog(@"lineared");
+				NSLog(@"lineared to %f", angle);
 			}
 		}
 		

@@ -13,6 +13,7 @@
 	SGG_Spine* boy;
 	SGG_Spine* elf;
 	SGG_Spine* goblin;
+	SGG_Spine* stepTest;
 	
 	CGPoint startLocation;
 	
@@ -38,7 +39,7 @@
 		boy.queuedAnimation = @"walk";
 		boy.queueIntro = 0.1;
 		boy.zPosition = 0;
-		[self addChild:boy];
+//		[self addChild:boy];
 		
 		
 		
@@ -52,7 +53,7 @@
 		elf.zPosition = 20;
 		elf.xScale = 0.6;
 		elf.yScale = 0.6;
-		[self addChild:elf];
+//		[self addChild:elf];
 		
 		
 		goblin = [SGG_Spine node];
@@ -60,8 +61,15 @@
 		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
 		[goblin runAnimation:@"walk" andCount:-1];
 		goblin.zPosition = 10;
-		[self addChild:goblin];
+//		[self addChild:goblin];
 		
+		stepTest = [SGG_Spine node];
+		stepTest.debugMode = YES;
+		[stepTest skeletonFromFileNamed:@"stepTesting" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
+		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+		[stepTest runAnimation:@"step" andCount:-1];
+		stepTest.zPosition = 10;
+		[self addChild:stepTest];
 		
 
 
