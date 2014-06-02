@@ -408,7 +408,7 @@
 		} else {
 			[self addChild:bone];
 		}
-		[bone setDefaults];
+		[bone setDefaultsAndBase];
 		
 		if (_debugMode) {
 			[bone debugWithLength];

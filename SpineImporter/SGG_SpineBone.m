@@ -32,12 +32,16 @@
 }
 
 
--(void)setDefaults {
+-(void)setDefaultsAndBase {
 	
 	_defaultPosition = self.position;
 	_defaultRotation = self.zRotation;
 	_defaultScaleX = self.xScale;
 	_defaultScaleY = self.yScale;
+	_basePosition = self.position;
+	_baseRotation = self.zRotation;
+	_baseScaleX = self.xScale;
+	_baseScaleY = self.yScale;
 	
 }
 
@@ -47,7 +51,6 @@
 	self.zRotation = _defaultRotation;
 	self.xScale = _defaultScaleX;
 	self.yScale = _defaultScaleY;
-	
 	
 }
 

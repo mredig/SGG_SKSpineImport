@@ -15,13 +15,17 @@
 @property (nonatomic, assign) CGFloat defaultScaleX;
 @property (nonatomic, assign) CGFloat defaultScaleY;
 @property (nonatomic, assign) CGFloat defaultRotation;
+@property (nonatomic, assign) CGPoint basePosition;
+@property (nonatomic, assign) CGFloat baseScaleX;
+@property (nonatomic, assign) CGFloat baseScaleY;
+@property (nonatomic, assign) CGFloat baseRotation;
 
 
 
 
 -(void)debugWithLength;
 
--(void)setDefaults;
+-(void)setDefaultsAndBase;
 -(void)setToDefaults;
 
 @end
