@@ -9,9 +9,13 @@
 #import "SGG_Spine.h"
 #import "SGG_SpineJSONTools.h"
 
+
 @interface SGG_Spine () {
 	
 //	SGG_SKUtilities* sharedUtilities;
+	CGFloat universalTime;
+	
+	CGFloat animationStartTime;
 	
 }
 
@@ -53,6 +57,7 @@
 	_rawAnimationDictionary = [NSDictionary dictionaryWithDictionary:[spineDict objectForKey:@"animations"]];
 	[self setUpAnimationsWithAnimationDictionary:_rawAnimationDictionary withIntroPeriodOf:0.0f];
 	
+	
 //	NSTimeInterval timeb = CFAbsoluteTimeGetCurrent(); //benchmarking
 //	NSLog(@"time taken: %f", timeb - timea); //benchmarking
 
@@ -70,7 +75,9 @@
 
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
-
+	
+	animationStartTime = universalTime;
+	
 	if (_isRunningAnimation) {
 		[self stopAnimation]; //clear any current animations
 	}
@@ -141,6 +148,10 @@
 			longestAction = totalAction.duration;
 		}
 	}
+	for (SGG_SpineBone* bone in _bones) {
+		[bone playAnimations:@[animationName]];
+	}
+	NSLog(@"pressed play");
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];
@@ -328,6 +339,13 @@
 	}
 	
 	return nil;
+}
+
+-(void)activateAnimationsAtTime:(CGFloat)time {
+	universalTime = time;
+	for (SGG_SpineBone* bone in _bones) {
+		[bone updateAnimationAtTime:time thatStartedAt:animationStartTime];
+	}
 }
 
 #pragma mark SETUP FUNCTIONS
@@ -607,8 +625,7 @@
 			
 			//set up translation actions for bone
 			NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
-			SKAction* boneTranslation = [self createBoneTranslationActionsFromArray:translations forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-			
+			SGG_SpineBoneAction* boneTranslation = [self createBoneTranslationActionsFromArray:translations forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
 			
 			//set up scale actions for bone
 			NSArray* scales = [SRTtimelinesForBone objectForKey:@"scale"];
@@ -619,7 +636,6 @@
 			//			totalBoneAnimation.attachmentName = bone.name;
 			
 			totalBoneAnimation = (SKAction*)[SKAction group:@[boneRotation,
-															  boneTranslation,
 															  boneScale,
 															  ]]; //group SRT animations together here and add this to the dict
 			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
@@ -628,6 +644,7 @@
 			NSDictionary* thisBoneAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 			[thisTempAnimationArray addObject:thisBoneAniDict];
 			
+			[bone.animations setObject:boneTranslation forKey:thisAnimationName];
 		}
 		
 		
@@ -668,6 +685,7 @@
 		}
 		
 		[_animations setObject:immutableArray forKey:key];
+		
 	}
 }
 
@@ -827,10 +845,12 @@
 	return boneRotation;
 }
 
--(SKAction*)createBoneTranslationActionsFromArray:(NSArray*)translations forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
+-(SGG_SpineBoneAction*)createBoneTranslationActionsFromArray:(NSArray*)translations forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
 	
 	CGFloat totalTimeForThisAnimation = 0;
-	SKAction* boneTranslation = [[SKAction alloc] init];
+	
+	SGG_SpineBoneAction* boneAction = [[SGG_SpineBoneAction alloc] init];
+	[boneAction setTotalLength:longestDuration];
 	
 	for (int d = 0; d < translations.count; d++) {
 		NSDictionary* translation = [translations objectAtIndex:d];
@@ -841,48 +861,19 @@
 		y = [[translation objectForKey:@"y"] doubleValue];
 		time = [[translation objectForKey:@"time"] doubleValue];
 		
+		[boneAction addTranslationAtTime:time withPoint:CGPointMake(x, y) andCurveInfo:curveInfo];
+		
 		
 		CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
 		totalTimeForThisAnimation += timeForThisAnimationSegment;
 		
 		curveInfo = [translation objectForKey:@"curve"];
 		
-		if (curveInfo) {
-			NSString* curveString = (NSString*)curveInfo;
-			if ([curveInfo isKindOfClass:[NSString class]] && [curveString isEqualToString:@"stepped"]) {
-				SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-				CGPoint translateDestination = CGPointMake(bone.defaultPosition.x + x, bone.defaultPosition.y + y);
-				SKAction* translationAction = [SKAction moveTo:translateDestination duration:0];
-				boneTranslation = [SKAction sequence:@[waitingAction, boneTranslation, translationAction]];
-				if (_debugMode) {
-					NSLog(@"stepped");
-				}
-			} else {
-				NSArray* curveArray = [NSArray arrayWithArray:curveInfo];
-				CGPoint translateDestination = CGPointMake(bone.defaultPosition.x + x, bone.defaultPosition.y + y);
-				SKAction* translationAction = [SKAction moveTo:translateDestination duration:timeForThisAnimationSegment];
-				translationAction.timingMode = [self determineTimingMode:curveArray];
-				boneTranslation = [SKAction sequence:@[boneTranslation, translationAction]];
-				if (_debugMode) {
-					NSLog(@"eased with mode: %i", (int)translationAction.timingMode);
-				}
-			}
-		} else {
-			CGPoint translateDestination = CGPointMake(bone.defaultPosition.x + x, bone.defaultPosition.y + y);
-			SKAction* translationAction = [SKAction moveTo:translateDestination duration:timeForThisAnimationSegment];
-			boneTranslation = [SKAction sequence:@[boneTranslation, translationAction]];
-			if (_debugMode) {
-				NSLog(@"lineared");
-			}
-		}
-		
 	}
-	if (totalTimeForThisAnimation < (longestDuration + intro)) {
-		SKAction* waiting = [SKAction waitForDuration:((longestDuration + intro) - totalTimeForThisAnimation)];
-		boneTranslation = [SKAction sequence:@[boneTranslation, waiting]];
-	}
+	[boneAction calculateTotalAction];
+
 	
-	return boneTranslation;
+	return boneAction;
 }
 
 -(SKAction*)createBoneScaleActionsFromArray:(NSArray*)scales forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {

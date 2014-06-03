@@ -54,6 +54,10 @@
 		33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DAD193C9DF400A5C503 /* stepTesting.atlas */; };
 		33F32DB1193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
 		33F32DB2193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
+		33F32DB9193CA9BA00A5C503 /* SGG_SpineBoneAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F32DB8193CA9BA00A5C503 /* SGG_SpineBoneAction.m */; };
+		33F32DBA193CA9BA00A5C503 /* SGG_SpineBoneAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 33F32DB8193CA9BA00A5C503 /* SGG_SpineBoneAction.m */; };
+		33F32DBC193D744700A5C503 /* simpleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DBB193D744700A5C503 /* simpleAnimation.json */; };
+		33F32DBD193D744700A5C503 /* simpleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DBB193D744700A5C503 /* simpleAnimation.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +118,9 @@
 		331E1FF518B306A50087ABD9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		33F32DAD193C9DF400A5C503 /* stepTesting.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = stepTesting.atlas; sourceTree = "<group>"; };
 		33F32DB0193C9FCE00A5C503 /* stepTesting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stepTesting.json; sourceTree = "<group>"; };
+		33F32DB7193CA9BA00A5C503 /* SGG_SpineBoneAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineBoneAction.h; path = SpineImporter/SGG_SpineBoneAction.h; sourceTree = SOURCE_ROOT; };
+		33F32DB8193CA9BA00A5C503 /* SGG_SpineBoneAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineBoneAction.m; path = SpineImporter/SGG_SpineBoneAction.m; sourceTree = SOURCE_ROOT; };
+		33F32DBB193D744700A5C503 /* simpleAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleAnimation.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -258,6 +265,8 @@
 				3300517B18A9420E003F3D0C /* SGG_Spine.m */,
 				3300518118A944EE003F3D0C /* SGG_SpineBone.h */,
 				3300518218A944EE003F3D0C /* SGG_SpineBone.m */,
+				33F32DB7193CA9BA00A5C503 /* SGG_SpineBoneAction.h */,
+				33F32DB8193CA9BA00A5C503 /* SGG_SpineBoneAction.m */,
 				3300519518A95ACA003F3D0C /* SGG_SpineSkin.h */,
 				3300519618A95ACA003F3D0C /* SGG_SpineSkin.m */,
 				3300519918A971FF003F3D0C /* SGG_SkinSlot.h */,
@@ -275,6 +284,7 @@
 				331E1FE118AED9E40087ABD9 /* goblins.json */,
 				3300518F18A949AD003F3D0C /* spineboy.json */,
 				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
+				33F32DBB193D744700A5C503 /* simpleAnimation.json */,
 				331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */,
 				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
 				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
@@ -371,6 +381,7 @@
 			files = (
 				331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
+				33F32DBC193D744700A5C503 /* simpleAnimation.json in Resources */,
 				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
 				3300502E18A90C09003F3D0C /* elf.json in Resources */,
 				33F32DAE193C9DF400A5C503 /* stepTesting.atlas in Resources */,
@@ -389,6 +400,7 @@
 			files = (
 				330051A318A98285003F3D0C /* spineboy.atlas in Resources */,
 				3300503018A90C09003F3D0C /* elf.json in Resources */,
+				33F32DBD193D744700A5C503 /* simpleAnimation.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
 				33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */,
@@ -417,6 +429,7 @@
 				3300519F18A97342003F3D0C /* SGG_SkinSprite.m in Sources */,
 				3300519B18A971FF003F3D0C /* SGG_SkinSlot.m in Sources */,
 				3300518318A944EE003F3D0C /* SGG_SpineBone.m in Sources */,
+				33F32DB9193CA9BA00A5C503 /* SGG_SpineBoneAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +443,7 @@
 				33004CE918A8D365003F3D0C /* SGG_AppDelegate.m in Sources */,
 				3300518418A944EE003F3D0C /* SGG_SpineBone.m in Sources */,
 				33004CE518A8D365003F3D0C /* main.m in Sources */,
+				33F32DBA193CA9BA00A5C503 /* SGG_SpineBoneAction.m in Sources */,
 				33004CF218A8D365003F3D0C /* SGG_ViewController.m in Sources */,
 				3300519C18A971FF003F3D0C /* SGG_SkinSlot.m in Sources */,
 				3300519818A95ACA003F3D0C /* SGG_SpineSkin.m in Sources */,

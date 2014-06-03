@@ -53,6 +53,7 @@ typedef enum {
 -(void)resetColorizedSlots;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
+-(void)activateAnimationsAtTime:(CGFloat)time;
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;
 
 

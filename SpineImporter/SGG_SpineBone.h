@@ -7,6 +7,7 @@
 //
 
 #import <SpriteKit/SpriteKit.h>
+#import "SGG_SpineBoneAction.h"
 
 @interface SGG_SpineBone : SKNode
 
@@ -20,6 +21,9 @@
 @property (nonatomic, assign) CGFloat baseScaleY;
 @property (nonatomic, assign) CGFloat baseRotation;
 
+@property (nonatomic, strong) NSMutableDictionary* animations;
+@property (nonatomic, strong) NSArray* currentAnimation;
+
 
 
 
@@ -27,5 +31,7 @@
 
 -(void)setDefaultsAndBase;
 -(void)setToDefaults;
+-(void)playAnimations:(NSArray*)animationNames;
+-(void)updateAnimationAtTime:(CGFloat)time thatStartedAt:(CGFloat)startTime;
 
 @end

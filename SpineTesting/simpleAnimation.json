@@ -1,0 +1,31 @@
+{
+"bones": [
+	{ "name": "root" },
+	{ "name": "bone", "parent": "root", "length": 75.59 }
+],
+"slots": [
+	{ "name": "ball_02", "bone": "bone", "attachment": "ball_02" }
+],
+"skins": {
+	"default": {
+		"ball_02": {
+			"ball_02": { "width": 100, "height": 100 }
+		}
+	}
+},
+"animations": {
+	"animation": {
+		"bones": {
+			"bone": {
+				"translate": [
+					{ "time": 0, "x": -142, "y": 141.99 },
+					{ "time": 0.1666, "x": 0, "y": 0 },
+					{ "time": 0.3333, "x": 142, "y": 141.99 },
+					{ "time": 0.5333, "x": 284, "y": 0, "curve": "stepped" },
+					{ "time": 0.6666, "x": 284, "y": 0 }
+				]
+			}
+		}
+	}
+}
+}

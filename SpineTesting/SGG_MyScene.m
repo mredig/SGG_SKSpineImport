@@ -8,6 +8,7 @@
 
 #import "SGG_MyScene.h"
 #import "SpineImport.h"
+#import "SGG_SpineBoneAction.h"
 
 @interface SGG_MyScene () {
 	SGG_Spine* boy;
@@ -30,46 +31,46 @@
         /* Setup your scene here */
 		
 		
-		boy = [SGG_Spine node];
-//		boy.debugMode = YES;
-		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[boy runAnimation:@"walk" andCount:-1];
-		boy.queueCount = -1;
-		boy.queuedAnimation = @"walk";
-		boy.queueIntro = 0.1;
-		boy.zPosition = 0;
-		[self addChild:boy];
+//		boy = [SGG_Spine node];
+////		boy.debugMode = YES;
+//		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+//		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
+//		[boy runAnimation:@"walk" andCount:-1];
+//		boy.queueCount = -1;
+//		boy.queuedAnimation = @"walk";
+//		boy.queueIntro = 0.1;
+//		boy.zPosition = 0;
+////		[self addChild:boy];
+//		
+//		
+//		
+//		elf = [SGG_Spine node];
+//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+//		[elf runAnimation:@"standing" andCount:-1];
+//		elf.queueCount = -1;
+//		elf.queuedAnimation = @"standing";
+//		elf.queueIntro = 0.1;
+//		elf.zPosition = 20;
+//		elf.xScale = 0.6;
+//		elf.yScale = 0.6;
+////		[self addChild:elf];
+//		
+//		
+//		goblin = [SGG_Spine node];
+//		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+//		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+//		[goblin runAnimation:@"walk" andCount:-1];
+//		goblin.zPosition = 10;
+////		[self addChild:goblin];
 		
-		
-		
-		elf = [SGG_Spine node];
-		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-		[elf runAnimation:@"standing" andCount:-1];
-		elf.queueCount = -1;
-		elf.queuedAnimation = @"standing";
-		elf.queueIntro = 0.1;
-		elf.zPosition = 20;
-		elf.xScale = 0.6;
-		elf.yScale = 0.6;
-		[self addChild:elf];
-		
-		
-		goblin = [SGG_Spine node];
-		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-		[goblin runAnimation:@"walk" andCount:-1];
-		goblin.zPosition = 10;
-		[self addChild:goblin];
-		
-//		stepTest = [SGG_Spine node];
+		stepTest = [SGG_Spine node];
 //		stepTest.debugMode = YES;
-//		[stepTest skeletonFromFileNamed:@"stepTesting" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
-//		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-//		[stepTest runAnimation:@"step" andCount:-1];
-//		stepTest.zPosition = 10;
-//		[self addChild:stepTest];
+		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
+		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+//		[stepTest runAnimation:@"animation" andCount:-1];
+		stepTest.zPosition = 10;
+		[self addChild:stepTest];
 		
 
 
@@ -181,6 +182,34 @@
     [goblin changeSkinPartial:partReplacement];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 	
+	[stepTest runAnimation:@"animation" andCount:-1];
+
+	
+	//NSValue testing
+	/*
+	CGFloat xa = arc4random() % 100;
+	CGFloat xb = arc4random() % 100;
+	CGFloat ya = arc4random() % 100;
+	CGFloat yb = arc4random() % 100;
+	
+	xb = xb / 100;
+	yb = yb / 100;
+	
+	CGFloat x = xa + xb;
+	CGFloat y = ya + yb;
+	
+	bool xc = arc4random() % 2;
+	bool yc = arc4random() % 2;
+	
+	if (xc) {
+		x *= -1;
+	}
+	if (yc) {
+		y *= -1;
+	}
+	
+	[[[SGG_SpineBoneAction alloc] init] addTranslationAtTime:0 withPoint:CGPointMake(x, y) andCurveInfo:@[@"1.2, 2.1"]];*/
+	
 }
 
 -(void)inputMoved:(CGPoint)location {
@@ -217,6 +246,7 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
+	[stepTest activateAnimationsAtTime:currentTime];
 }
 
 
