@@ -65,9 +65,9 @@
 		
 //		stepTest = [SGG_Spine node];
 //		stepTest.debugMode = YES;
-//		[stepTest skeletonFromFileNamed:@"stepTesting" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
+//		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
 //		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-//		[stepTest runAnimation:@"step" andCount:-1];
+//		[stepTest runAnimation:@"animation" andCount:-1];
 //		stepTest.zPosition = 10;
 //		[self addChild:stepTest];
 		

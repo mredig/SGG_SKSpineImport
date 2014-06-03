@@ -32,7 +32,7 @@
 	if (!skView.scene){
 		
 		
-			
+		skView.showsFPS = YES;
 
         self.view.multipleTouchEnabled = NO;
         

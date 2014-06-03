@@ -54,6 +54,8 @@
 		33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DAD193C9DF400A5C503 /* stepTesting.atlas */; };
 		33F32DB1193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
 		33F32DB2193C9FCE00A5C503 /* stepTesting.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DB0193C9FCE00A5C503 /* stepTesting.json */; };
+		33F32DC4193DDA4600A5C503 /* simpleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DC3193DDA4600A5C503 /* simpleAnimation.json */; };
+		33F32DC5193DDA4600A5C503 /* simpleAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 33F32DC3193DDA4600A5C503 /* simpleAnimation.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +116,7 @@
 		331E1FF518B306A50087ABD9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
 		33F32DAD193C9DF400A5C503 /* stepTesting.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = stepTesting.atlas; sourceTree = "<group>"; };
 		33F32DB0193C9FCE00A5C503 /* stepTesting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stepTesting.json; sourceTree = "<group>"; };
+		33F32DC3193DDA4600A5C503 /* simpleAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleAnimation.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,6 +278,7 @@
 				331E1FE118AED9E40087ABD9 /* goblins.json */,
 				3300518F18A949AD003F3D0C /* spineboy.json */,
 				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
+				33F32DC3193DDA4600A5C503 /* simpleAnimation.json */,
 				331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */,
 				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
 				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
@@ -371,6 +375,7 @@
 			files = (
 				331E1FE518AEDA1D0087ABD9 /* goblin.atlas in Resources */,
 				33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */,
+				33F32DC4193DDA4600A5C503 /* simpleAnimation.json in Resources */,
 				3300519018A949AD003F3D0C /* spineboy.json in Resources */,
 				3300502E18A90C09003F3D0C /* elf.json in Resources */,
 				33F32DAE193C9DF400A5C503 /* stepTesting.atlas in Resources */,
@@ -389,6 +394,7 @@
 			files = (
 				330051A318A98285003F3D0C /* spineboy.atlas in Resources */,
 				3300503018A90C09003F3D0C /* elf.json in Resources */,
+				33F32DC5193DDA4600A5C503 /* simpleAnimation.json in Resources */,
 				33004CEF18A8D365003F3D0C /* Main_iPad.storyboard in Resources */,
 				33004CEC18A8D365003F3D0C /* Main_iPhone.storyboard in Resources */,
 				33F32DAF193C9DF400A5C503 /* stepTesting.atlas in Resources */,
