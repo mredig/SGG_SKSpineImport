@@ -51,7 +51,10 @@
 	self.zRotation = _defaultRotation;
 	self.xScale = _defaultScaleX;
 	self.yScale = _defaultScaleY;
-	
+	_basePosition = self.position;
+	_baseRotation = self.zRotation;
+	_baseScaleX = self.xScale;
+	_baseScaleY = self.yScale;
 }
 
 
