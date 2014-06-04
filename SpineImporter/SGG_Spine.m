@@ -13,9 +13,8 @@
 @interface SGG_Spine () {
 	
 //	SGG_SKUtilities* sharedUtilities;
-	CGFloat universalTime;
 	
-	CGFloat animationStartTime;
+	CFTimeInterval animationStartTime;
 	
 }
 
@@ -76,7 +75,7 @@
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
 	
-	animationStartTime = universalTime;
+	animationStartTime = CFAbsoluteTimeGetCurrent();
 	
 	if (_isRunningAnimation) {
 		[self stopAnimation]; //clear any current animations
@@ -341,8 +340,8 @@
 	return nil;
 }
 
--(void)activateAnimationsAtTime:(CGFloat)time {
-	universalTime = time;
+-(void)activateAnimations {
+	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
 	for (SGG_SpineBone* bone in _bones) {
 		[bone updateAnimationAtTime:time thatStartedAt:animationStartTime];
 	}

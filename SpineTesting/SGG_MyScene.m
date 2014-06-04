@@ -17,6 +17,7 @@
 	SGG_Spine* stepTest;
 	
 	CGPoint startLocation;
+	CGPoint ballPosition;
 	
 }
 
@@ -246,7 +247,18 @@
 
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
-	[stepTest activateAnimationsAtTime:currentTime];
+//	CFTimeInterval before = CFAbsoluteTimeGetCurrent();
+	[stepTest activateAnimations];
+//	CFTimeInterval after = CFAbsoluteTimeGetCurrent();
+//	CFTimeInterval elapsed = after - before;
+//	NSLog(@"elapsed: %f", elapsed);
+//	SKNode* bone = [stepTest findBoneNamed:@"bone"];
+//	if (CGPointEqualToPoint(bone.position, ballPosition)) {
+//		NSLog(@"1");
+//	} else {
+//		NSLog(@"0");
+//		ballPosition = bone.position;
+//	}
 }
 
 
