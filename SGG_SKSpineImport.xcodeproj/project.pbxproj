@@ -244,6 +244,7 @@
 				331E1FF518B306A50087ABD9 /* LICENSE */,
 				33004CB018A8D33D003F3D0C /* SGG_MyScene.h */,
 				33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */,
+				33F32DC7193F266D00A5C503 /* custom examples */,
 				331E1FE818AF057D0087ABD9 /* esoteric examples */,
 				331E1FE918AF05870087ABD9 /* raywenderlich examples */,
 				3300517118A93508003F3D0C /* SpineImporter */,
@@ -277,10 +278,7 @@
 			children = (
 				331E1FE118AED9E40087ABD9 /* goblins.json */,
 				3300518F18A949AD003F3D0C /* spineboy.json */,
-				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
-				33F32DC3193DDA4600A5C503 /* simpleAnimation.json */,
 				331E1FE718AF056C0087ABD9 /* goblin and spineboy license.txt */,
-				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
 				331E1FE418AEDA1D0087ABD9 /* goblin.atlas */,
 				330051A118A98285003F3D0C /* spineboy.atlas */,
 			);
@@ -295,6 +293,16 @@
 				331E1FF218B2FFD10087ABD9 /* elfREADME.txt */,
 			);
 			name = "raywenderlich examples";
+			sourceTree = "<group>";
+		};
+		33F32DC7193F266D00A5C503 /* custom examples */ = {
+			isa = PBXGroup;
+			children = (
+				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
+				33F32DC3193DDA4600A5C503 /* simpleAnimation.json */,
+				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
+			);
+			name = "custom examples";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
