@@ -121,6 +121,7 @@
 		33F32DB7193CA9BA00A5C503 /* SGG_SpineBoneAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineBoneAction.h; path = SpineImporter/SGG_SpineBoneAction.h; sourceTree = SOURCE_ROOT; };
 		33F32DB8193CA9BA00A5C503 /* SGG_SpineBoneAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SGG_SpineBoneAction.m; path = SpineImporter/SGG_SpineBoneAction.m; sourceTree = SOURCE_ROOT; };
 		33F32DBB193D744700A5C503 /* simpleAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = simpleAnimation.json; sourceTree = "<group>"; };
+		33F32DC8193F320800A5C503 /* simpleAnimations.spine */ = {isa = PBXFileReference; lastKnownFileType = file; path = simpleAnimations.spine; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,6 +307,7 @@
 			children = (
 				33F32DB0193C9FCE00A5C503 /* stepTesting.json */,
 				33F32DBB193D744700A5C503 /* simpleAnimation.json */,
+				33F32DC8193F320800A5C503 /* simpleAnimations.spine */,
 				33F32DAD193C9DF400A5C503 /* stepTesting.atlas */,
 			);
 			name = "custom examples";

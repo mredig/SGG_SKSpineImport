@@ -69,7 +69,7 @@
 //		stepTest.debugMode = YES;
 		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
 		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-//		[stepTest runAnimation:@"animation" andCount:-1];
+		[stepTest runAnimation:@"curved" andCount:-1];
 		stepTest.zPosition = 10;
 		[self addChild:stepTest];
 		
@@ -183,7 +183,7 @@
     [goblin changeSkinPartial:partReplacement];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 	
-	[stepTest runAnimation:@"animation" andCount:-1];
+//	[stepTest runAnimation:@"animation" andCount:-1];
 
 	
 	//NSValue testing

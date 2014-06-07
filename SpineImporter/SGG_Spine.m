@@ -859,6 +859,7 @@
 		x = [[translation objectForKey:@"x"] doubleValue];
 		y = [[translation objectForKey:@"y"] doubleValue];
 		time = [[translation objectForKey:@"time"] doubleValue];
+		curveInfo = [translation objectForKey:@"curve"];
 		
 		[boneAction addTranslationAtTime:time withPoint:CGPointMake(x, y) andCurveInfo:curveInfo];
 		
