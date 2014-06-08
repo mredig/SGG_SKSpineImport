@@ -240,9 +240,9 @@
 	}
 }
 
--(NSArray*)webSolveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d {
+-(NSArray*)solveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d {
 	
-	//used http://www.1728.org/cubic.htm as source for formula
+	//used http://www.1728.org/cubic.htm as source for formula instead of the one included with the overall algorithm
 	
 	double f = ((3 * c / a) - ((b * b) / (a * a))) / 3;
 	double g = (((2 * b * b * b) / (a * a * a)) - ((9 * b * c) / (a * a)) + ((27 * d) / a)) / 27;
@@ -327,7 +327,7 @@
 	
 	
 //	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
-	NSArray* roots = [self webSolveCubicEquationWithA:a andB:b andC:c andD:d];
+	NSArray* roots = [self solveCubicEquationWithA:a andB:b andC:c andD:d];
 	
 //	NSLog(@"roots: %@", roots);
 
