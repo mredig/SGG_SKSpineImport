@@ -20,5 +20,5 @@
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve;
 
 -(void)calculateTotalAction;
-
+-(NSArray*)webSolveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d;
 @end

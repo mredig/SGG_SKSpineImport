@@ -240,7 +240,47 @@
 	}
 }
 
+-(NSArray*)webSolveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d {
+	
+	//used http://www.1728.org/cubic.htm as source for formula
+	
+	double f = ((3 * c / a) - ((b * b) / (a * a))) / 3;
+	double g = (((2 * b * b * b) / (a * a * a)) - ((9 * b * c) / (a * a)) + ((27 * d) / a)) / 27;
+	double h = (g * g / 4) + ((f * f * f) / 27);
+	
+	if (h == 0 && g == 0 && h == 0) {
+		//3 real roots and all equal
+		NSLog(@"3 real and equal.");
+	} else if (h > 0) {
+		// 1 real root
+		NSLog(@"1 real.");
+	} else if (h <= 0) {
+		//all three real
+		double i = sqrt(( (g * g) / 4) - h);
+		double j = pow(i, 0.333333333333);
+		double k = acos(-(g / (2 * i)));
+		double L = -j;
+		double M = cos(k / 3);
+		double N = (sqrt(3) * sin(k /3));
+		double P = (b / (3 * a)) * -1;
+		
+		double xOne = 2 * j * cos(k / 3) - (b / (3 * a));
+		double xTwo = L * (M + N) + P;
+		double xThree = L * (M - N) + P;
+		
+		NSArray* roots = @[[NSNumber numberWithDouble:xOne], [NSNumber numberWithDouble:xTwo], [NSNumber numberWithDouble:xThree]];
+		
+		return roots;
+//		NSLog(@"a: %f\nb: %f\nc: %f\nd: %f\nf: %f\ng: %f\nh: %f\ni: %f\nj: %f\nk: %f\nL: %f\nM: %f\nN: %f\nP: %f\n", a, b, c, d, f, g, h, i, j, k, L, M, N, P);
+//		
+//		NSLog(@"x1: %f x2: %f x3: %f)", xOne, xTwo, xThree);
+	} else {
+		NSLog(@"I've made a huge mistake.");
+	}
+	return nil;
+}
 
+// the following formula had some inconsistencies and issues
 -(NSArray*)solveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d {
 	
 	if (!a) {
@@ -320,7 +360,8 @@
 	
 	
 	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
-	NSArray* roots = [self solveCubicEquationWithA:a andB:b andC:c andD:d];
+//	NSArray* roots = [self solveCubicEquationWithA:a andB:b andC:c andD:d];
+	NSArray* roots = [self webSolveCubicEquationWithA:a andB:b andC:c andD:d];
 	
 	NSLog(@"roots: %@", roots);
 
