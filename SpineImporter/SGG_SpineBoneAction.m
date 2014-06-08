@@ -250,10 +250,38 @@
 	
 	if (h == 0 && g == 0 && h == 0) {
 		//3 real roots and all equal
-		NSLog(@"3 real and equal.");
+//		NSLog(@"3 real and equal.");
+		
+		double x = (d / a);
+		x = pow(x, 0.3333333333333333) * -1;
+
+//		NSLog(@"x1: %f", x);
+
+		NSArray* roots = @[[NSNumber numberWithDouble:x]];
+		return roots;
+
 	} else if (h > 0) {
 		// 1 real root
-		NSLog(@"1 real.");
+//		NSLog(@"1 real.");
+		double R = -(g / 2) + sqrt(h);
+		double S = pow(R, 0.3333333333333333); //may need to do 0.3333333333
+		double T = -(g / 2) - sqrt(h);
+		double U;
+		if (T < 0) {
+			U = pow(-T, 0.3333333333333333);
+			U *= -1;
+		} else {
+			U = pow(T, 0.3333333333333333);
+		}
+		double x = (S + U) - (b / (3 * a));
+		
+		NSArray* roots = @[[NSNumber numberWithDouble:x]];
+		
+//		NSLog(@"a: %f\nb: %f\nc: %f\nd: %f\nf: %f\ng: %f\nh: %f\nR: %f\nS: %f\nT: %f\nU: %f\n", a, b, c, d, f, g, h, R, S, T, U);
+//
+//		NSLog(@"x1: %f", x);
+		
+		return roots;
 	} else if (h <= 0) {
 		//all three real
 		double i = sqrt(( (g * g) / 4) - h);
@@ -275,78 +303,17 @@
 //		
 //		NSLog(@"x1: %f x2: %f x3: %f)", xOne, xTwo, xThree);
 	} else {
-		NSLog(@"I've made a huge mistake.");
+		NSLog(@"I've made a huge mistake: Cubic equation seemingly impossible.");
 	}
 	return nil;
-}
-
-// the following formula had some inconsistencies and issues
--(NSArray*)solveCubicEquationWithA:(double)a andB:(double)b andC:(double)c andD:(double)d {
-	
-	if (!a) {
-		return [self solveQuadraticEquationWithA:b andB:c andC:d];
-	}
-	
-	double startB = b;
-	double startC = c;
-	double startD = d;
-	
-	b /= a;
-	c /= a;
-	d /= a;
-	
-//	double p = (3 * c - b * b) / 3;
-	double p = (3 * c - ((startB * startB) / (a * a))) / 3;
-//	double q = (2 * b * b * b - 9 * b * c + 27 * d) / 27;
-	double q = (2 * ((startB * startB * startB) / (a * a * a)) - ((9 * startB * startC) / (a * a)) + (27 * startD) / a) / 27;
-	
-	if (p == 0) {
-		double endValue = pow(-q, (1/3));
-		NSLog(@"3");
-		return @[[NSNumber numberWithDouble:endValue]];
-	} else if (q == 0) {
-		double endValueOne = sqrt(-p);
-		double endValueTwo = -sqrt(-p);
-		NSLog(@"4");
-		return @[[NSNumber numberWithDouble:endValueOne], [NSNumber numberWithDouble:endValueTwo]];
-
-	} else {
-//		double discriminant = pow((q / 2), 2) + pow((p / 3), 3);
-		double discriminant = ((q * q) / 4) + ((p * p * p) / 27);
-		
-		if (discriminant == 0) {
-			double endValue = pow((q / 2), (1 / 3)) - (b / 3);
-			NSLog(@"5");
-			return @[[NSNumber numberWithDouble:endValue]];
-
-		} else if (discriminant > 0) {
-			double endValue = pow( -(q / 2) + sqrt(discriminant), 1 / 3) - pow((q / 2) + sqrt(discriminant), 1 / 3) - b / 3;
-			NSLog(@"6");
-			return @[[NSNumber numberWithDouble:endValue]];
-
-		} else {
-			double r = sqrt( pow( -(p/3), 3));
-			double phi = acos(-(q / (2 * sqrt(pow(-(p/3), 3)))));
-			
-			double s = 2 * pow(r, 1/3);
-			
-			double endValueOne = s * cos(phi /3) - b / 3;
-			double endValueTwo = s * cos((phi + 2 * M_PI) / 3) - b / 3;
-			double endValueThree = s * cos((phi + 4 * M_PI) / 3) - b / 3;
-			
-			NSLog(@"7");
-			return @[[NSNumber numberWithDouble:endValueOne], [NSNumber numberWithDouble:endValueTwo], [NSNumber numberWithDouble:endValueThree]];
-		}
-	}
-	
 }
 
 
 -(double)getBezierPercentAtXValue:(double)x withXValuesFromPoint0:(double)p0x point1:(double)p1x point2:(double)p2x andPoint3:(double)p3x {
 	
-//	if (x == 0 || x == 1) {
-//		return x;
-//	}
+	if (x == 0 || x == 1) {
+		return x;
+	}
 	
 	p0x -= x;
 	p1x -= x;
@@ -360,7 +327,6 @@
 	
 	
 	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
-//	NSArray* roots = [self solveCubicEquationWithA:a andB:b andC:c andD:d];
 	NSArray* roots = [self webSolveCubicEquationWithA:a andB:b andC:c andD:d];
 	
 	NSLog(@"roots: %@", roots);

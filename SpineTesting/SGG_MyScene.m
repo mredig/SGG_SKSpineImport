@@ -183,7 +183,7 @@
     [goblin changeSkinPartial:partReplacement];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 	SGG_SpineBoneAction* test = [[SGG_SpineBoneAction alloc] init];
-	[test webSolveCubicEquationWithA:2 andB:-4 andC:-22 andD:24];
+	[test webSolveCubicEquationWithA:1 andB:6 andC:12 andD:8];
 
 	
 	
