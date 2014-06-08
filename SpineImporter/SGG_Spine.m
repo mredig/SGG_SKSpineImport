@@ -150,7 +150,7 @@
 	for (SGG_SpineBone* bone in _bones) {
 		[bone playAnimations:@[animationName]];
 	}
-	NSLog(@"pressed play");
+//	NSLog(@"pressed play");
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];

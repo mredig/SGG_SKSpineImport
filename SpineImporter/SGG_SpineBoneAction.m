@@ -62,7 +62,7 @@
 	}
 	
 	if (angle < 0) {
-		angle = 180 + 180 - fabs(angle);
+		angle = 360 - fabs(angle);
 	}
 	
 	NSNumber* timeObject = [NSNumber numberWithDouble:time];
@@ -88,7 +88,7 @@
 		_timeFrameDelta = 1.0f/120.0f;
 	}
 	NSInteger totalFrames = round(_totalLength / _timeFrameDelta);
-	NSLog(@"total time: %f, delta: %f totalFrames = %i", _totalLength, _timeFrameDelta, (int)totalFrames);
+//	NSLog(@"total time: %f, delta: %f totalFrames = %i", _totalLength, _timeFrameDelta, (int)totalFrames);
 	
 	NSMutableArray* mutableAnimation = [[NSMutableArray alloc] initWithCapacity:totalFrames];
 	
@@ -115,9 +115,9 @@
 		if (sequenceTime > 0) {
 			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
 			keyFramesInSequence = round(keyFrames);
-			NSLog(@"float: %f int: %i", keyFrames, (int)keyFramesInSequence);
+//			NSLog(@"float: %f int: %i", keyFrames, (int)keyFramesInSequence);
 		} else {
-			NSLog(@"fart");
+//			NSLog(@"end of sequence");
 			keyFramesInSequence = 1;
 		}
 		
@@ -157,7 +157,7 @@
 					
 					CGPoint bezValues = [self calculateBezierPoint:bezierProgress andPoint0:curvePointOne andPoint1:curvePointTwo andPoint2:curvePointThree andPoint3:curvePointFour];
 //					NSLog(@"prog: %f value: %f", bezierProgress, bezValues.y);
-					NSLog(@"p2: %f p3: %f timeProg: %f bezProg: %f value: %f\n\n\n", curvePointTwo.x, curvePointThree.x, timeProgress, bezierProgress, bezValues.y);
+//					NSLog(@"p2: %f p3: %f timeProg: %f bezProg: %f value: %f\n\n\n", curvePointTwo.x, curvePointThree.x, timeProgress, bezierProgress, bezValues.y);
 					
 					[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + totalDeltaX * bezValues.y, startingLocation.y + totalDeltaY * bezValues.y)] forKey:@"position"];
 					[mutableAnimation addObject:frameDict];
@@ -326,10 +326,10 @@
 	double d = p0x;
 	
 	
-	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
+//	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
 	NSArray* roots = [self webSolveCubicEquationWithA:a andB:b andC:c andD:d];
 	
-	NSLog(@"roots: %@", roots);
+//	NSLog(@"roots: %@", roots);
 
 	double closest;
 
