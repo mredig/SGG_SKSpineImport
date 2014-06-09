@@ -29,6 +29,8 @@
 	return self;
 }
 
+#pragma mark INPUT DATA
+
 -(void)addTranslationAtTime:(CGFloat)time withPoint:(CGPoint)point andCurveInfo:(id)curve {
 	if (!translationInput) {
 		translationInput = [[NSMutableArray alloc] init];
@@ -65,13 +67,15 @@
 		angle = 360 - fabs(angle);
 	}
 	
+	angle *= (M_PI / 180);
+	
 	NSNumber* timeObject = [NSNumber numberWithDouble:time];
 	NSNumber* angleObject = [NSNumber numberWithDouble:angle];
 	NSDictionary* rotationKeyFrame;
 	if (curve) {
-		rotationKeyFrame = [NSDictionary dictionaryWithObjects:@[timeObject, angleObject, curve] forKeys:@[@"time", @"point", @"curve"]];
+		rotationKeyFrame = [NSDictionary dictionaryWithObjects:@[timeObject, angleObject, curve] forKeys:@[@"time", @"angle", @"curve"]];
 	} else {
-		rotationKeyFrame = [NSDictionary dictionaryWithObjects:@[timeObject, angleObject] forKeys:@[@"time", @"point"]];
+		rotationKeyFrame = [NSDictionary dictionaryWithObjects:@[timeObject, angleObject] forKeys:@[@"time", @"angle"]];
 	}
 	[rotationInput addObject:rotationKeyFrame];
 	
@@ -81,6 +85,8 @@
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve {
 	
 }
+
+#pragma mark RENDER DATA
 
 -(void)calculateTotalAction {
 	
@@ -92,8 +98,26 @@
 	
 	NSMutableArray* mutableAnimation = [[NSMutableArray alloc] initWithCapacity:totalFrames];
 	
+	[self calculateTranslationKeyframesInTotalAnimation:mutableAnimation];
 	
-//translation keyframes
+
+	
+	
+	
+	_animation = [NSArray arrayWithArray:mutableAnimation];
+
+	NSLog(@"frameCount: %lu", (unsigned long)mutableAnimation.count);
+	for (int i = 0; i < mutableAnimation.count; i++) {
+		NSDictionary* dict = mutableAnimation[i];
+		NSLog(@"frame: %i point: %f %f rotation: %f", i, [self pointFromValueObject:dict[@"position"]].x, [self pointFromValueObject:dict[@"position"]].y, [dict[@"rotation"] doubleValue]);
+	}
+}
+
+
+-(void)calculateTranslationKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
+	
+	
+	//translation keyframes
 	for (int i = 0; i < translationInput.count; i++) {
 		NSDictionary* startKeyFrameDict = translationInput[i];
 		NSDictionary* endKeyFrameDict;
@@ -121,7 +145,7 @@
 			keyFramesInSequence = 1;
 		}
 		
-//		NSLog(@"curve: %@", curveInfo);
+		//		NSLog(@"curve: %@", curveInfo);
 		
 		if (curveInfo) {
 			NSString* curveString = (NSString*)curveInfo;
@@ -172,18 +196,102 @@
 				NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
 				[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + f * deltaX, startingLocation.y + f * deltaY)] forKey:@"position"];
 				[mutableAnimation addObject:frameDict];
+				NSLog(@"rotation added");
+			}
+		}
+	}
+}
+
+-(void)calculateRotationKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
+	
+	for (int i = 0; i < rotationInput.count; i++) {
+		NSDictionary* startKeyFrameDict = rotationInput[i];
+		NSDictionary* endKeyFrameDict;
+		if (i == rotationInput.count - 1) {
+			endKeyFrameDict = rotationInput[i];
+		} else {
+			endKeyFrameDict = rotationInput[i + 1];
+		}
+		CGFloat startingTime = [startKeyFrameDict[@"time"] doubleValue];
+		CGFloat startingAngle = [startKeyFrameDict[@"angle"] doubleValue];
+		id curveInfo = startKeyFrameDict[@"curve"];
+		
+		CGFloat endingTime = [endKeyFrameDict[@"time"] doubleValue];
+		CGFloat endingAngle = [startKeyFrameDict[@"angle"] doubleValue];
+
+		CGFloat sequenceTime = endingTime - startingTime;
+		
+		NSInteger keyFramesInSequence;
+		if (sequenceTime > 0) {
+			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
+			keyFramesInSequence = round(keyFrames);
+			//			NSLog(@"float: %f int: %i", keyFrames, (int)keyFramesInSequence);
+		} else {
+			//			NSLog(@"end of sequence");
+			keyFramesInSequence = 1;
+		}
+		
+		//		NSLog(@"curve: %@", curveInfo);
+		
+		if (curveInfo) {
+			NSString* curveString = (NSString*)curveInfo;
+			if ([curveInfo isKindOfClass:[NSString class]] && [curveString isEqualToString:@"stepped"]) {
+				//stepped
+				for (int f = 0; f < keyFramesInSequence; f++) {
+					NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
+//					[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x, startingLocation.y)] forKey:@"position"];
+//					[mutableAnimation addObject:frameDict];
+				}
+			} else {
+				//timing curve
+				NSArray* curveArray = [NSArray arrayWithArray:curveInfo];
+				//				NSLog(@"curveArray: %@", curveArray);
+				CGPoint curvePointOne, curvePointTwo, curvePointThree, curvePointFour;
+				curvePointOne = CGPointZero;
+				curvePointTwo = CGPointMake([curveArray[0] doubleValue], [curveArray[1] doubleValue]);
+				curvePointThree = CGPointMake([curveArray[2] doubleValue], [curveArray[3] doubleValue]);
+				curvePointFour = CGPointMake(1.0f, 1.0f);
+				
+				
+				
+//				CGFloat totalDeltaX = endingLocation.x - startingLocation.x;
+//				CGFloat totalDeltaY = endingLocation.y - startingLocation.y;
+				
+				//				NSLog(@"p2: %f %f p3: %f %f tDelX: %f yDelY: %f", curvePointTwo.x, curvePointTwo.y, curvePointThree.x, curvePointThree.y, totalDeltaX, totalDeltaY);
+				
+				for (int f = 0; f < keyFramesInSequence; f++) {
+					NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
+					CGFloat timeProgress = ((CGFloat)f / (CGFloat)keyFramesInSequence);
+					CGFloat bezierProgress = [self getBezierPercentAtXValue:timeProgress withXValuesFromPoint0:curvePointOne.x point1:curvePointTwo.x point2:curvePointThree.x andPoint3:curvePointFour.x];
+					
+					
+					CGPoint bezValues = [self calculateBezierPoint:bezierProgress andPoint0:curvePointOne andPoint1:curvePointTwo andPoint2:curvePointThree andPoint3:curvePointFour];
+					//					NSLog(@"prog: %f value: %f", bezierProgress, bezValues.y);
+					//					NSLog(@"p2: %f p3: %f timeProg: %f bezProg: %f value: %f\n\n\n", curvePointTwo.x, curvePointThree.x, timeProgress, bezierProgress, bezValues.y);
+					
+//					[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + totalDeltaX * bezValues.y, startingLocation.y + totalDeltaY * bezValues.y)] forKey:@"position"];
+//					[mutableAnimation addObject:frameDict];
+				}
+			}
+		} else {
+			//linear
+			CGFloat deltaRotation = (endingAngle - startingAngle) / keyFramesInSequence;
+			//			NSLog(@"span %f to %f", startingTime, endingTime);
+			for (int f = 0; f < keyFramesInSequence; f++) {
+				NSMutableDictionary* frameDict = mutableAnimation[i];
+				if (!frameDict) {
+					frameDict = [[NSMutableDictionary alloc] init];
+				}
+				[frameDict setObject:[NSNumber numberWithDouble:startingAngle + deltaRotation] forKey:@"rotation"];
+				[mutableAnimation setObject:frameDict atIndexedSubscript:i];
 			}
 		}
 	}
 	
-	_animation = [NSArray arrayWithArray:mutableAnimation];
-
-	
-//	for (int i = 0; i < mutableAnimation.count; i++) {
-//		NSDictionary* dict = mutableAnimation[i];
-//		NSLog(@"frame: %i point: %f %f", i, [self pointFromValueObject:dict[@"position"]].x, [self pointFromValueObject:dict[@"position"]].y);
-//	}
 }
+
+#pragma mark UTILITIES
+
 
 -(NSValue*)valueObjectFromPoint:(CGPoint)point {
 #if TARGET_OS_IPHONE
@@ -202,6 +310,8 @@
 #endif
 	
 }
+
+#pragma mark BEZIER MATH
 
 -(CGPoint)calculateBezierPoint:(CGFloat)t andPoint0:(CGPoint)p0 andPoint1:(CGPoint)p1 andPoint2:(CGPoint)p2 andPoint3:(CGPoint)p3 {
 	
@@ -250,19 +360,16 @@
 	
 	if (h == 0 && g == 0 && h == 0) {
 		//3 real roots and all equal
-//		NSLog(@"3 real and equal.");
 		
 		double x = (d / a);
 		x = pow(x, 0.3333333333333333) * -1;
 
-//		NSLog(@"x1: %f", x);
 
 		NSArray* roots = @[[NSNumber numberWithDouble:x]];
 		return roots;
 
 	} else if (h > 0) {
 		// 1 real root
-//		NSLog(@"1 real.");
 		double R = -(g / 2) + sqrt(h);
 		double S = pow(R, 0.3333333333333333); //may need to do 0.3333333333
 		double T = -(g / 2) - sqrt(h);
@@ -277,9 +384,6 @@
 		
 		NSArray* roots = @[[NSNumber numberWithDouble:x]];
 		
-//		NSLog(@"a: %f\nb: %f\nc: %f\nd: %f\nf: %f\ng: %f\nh: %f\nR: %f\nS: %f\nT: %f\nU: %f\n", a, b, c, d, f, g, h, R, S, T, U);
-//
-//		NSLog(@"x1: %f", x);
 		
 		return roots;
 	} else if (h <= 0) {
@@ -299,9 +403,6 @@
 		NSArray* roots = @[[NSNumber numberWithDouble:xOne], [NSNumber numberWithDouble:xTwo], [NSNumber numberWithDouble:xThree]];
 		
 		return roots;
-//		NSLog(@"a: %f\nb: %f\nc: %f\nd: %f\nf: %f\ng: %f\nh: %f\ni: %f\nj: %f\nk: %f\nL: %f\nM: %f\nN: %f\nP: %f\n", a, b, c, d, f, g, h, i, j, k, L, M, N, P);
-//		
-//		NSLog(@"x1: %f x2: %f x3: %f)", xOne, xTwo, xThree);
 	} else {
 		NSLog(@"I've made a huge mistake: Cubic equation seemingly impossible.");
 	}
