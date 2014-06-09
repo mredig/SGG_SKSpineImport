@@ -618,23 +618,22 @@
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:c];
 			NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name]; //does this work?!
 			
-			//set up rotation actions for bone
-			NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
-			SKAction* boneRotation = [self createBoneRotationActionsFromArray:rotations forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-			
-			//set up translation actions for bone
-			NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
-			SGG_SpineBoneAction* boneTranslation = [self createBoneTranslationActionsFromArray:translations forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-			
 			//set up scale actions for bone
 			NSArray* scales = [SRTtimelinesForBone objectForKey:@"scale"];
 			SKAction* boneScale = [self createBoneScaleActionsFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
 			
+			//set up actions for bone
+			NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
+			NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
+//			SGG_SpineBoneAction* boneTranslation = [self createBoneTranslationActionsFromArray:translations forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
+			SGG_SpineBoneAction* boneAction = [self createBoneTranslationActionsFromArray:translations andRotationsFromArray:rotations andScalesFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
+
+			//start old stuff
 			SKAction* totalBoneAnimation = [[SKAction alloc] init];
 			//			totalBoneAnimation.animationType = kSGG_SpineAnimationTypeBone;
 			//			totalBoneAnimation.attachmentName = bone.name;
 			
-			totalBoneAnimation = (SKAction*)[SKAction group:@[boneRotation,
+			totalBoneAnimation = (SKAction*)[SKAction group:@[
 															  boneScale,
 															  ]]; //group SRT animations together here and add this to the dict
 			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
@@ -643,7 +642,9 @@
 			NSDictionary* thisBoneAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
 			[thisTempAnimationArray addObject:thisBoneAniDict];
 			
-			[bone.animations setObject:boneTranslation forKey:thisAnimationName];
+			//end old stuff
+			
+			[bone.animations setObject:boneAction forKey:thisAnimationName];
 		}
 		
 		
@@ -872,6 +873,53 @@
 	}
 	[boneAction calculateTotalAction];
 
+	
+	return boneAction;
+}
+
+
+-(SGG_SpineBoneAction*)createBoneTranslationActionsFromArray:(NSArray*)translations andRotationsFromArray:(NSArray*)rotations andScalesFromArray:(NSArray*)scales forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
+	
+	CGFloat totalTimeForThisAnimation = 0;
+	
+	SGG_SpineBoneAction* boneAction = [[SGG_SpineBoneAction alloc] init];
+	[boneAction setTotalLength:longestDuration];
+	
+	for (int d = 0; d < translations.count; d++) {
+		NSDictionary* translation = [translations objectAtIndex:d];
+		CGFloat x, y, time;
+		id curveInfo;
+		
+		x = [[translation objectForKey:@"x"] doubleValue];
+		y = [[translation objectForKey:@"y"] doubleValue];
+		time = [[translation objectForKey:@"time"] doubleValue];
+		curveInfo = [translation objectForKey:@"curve"];
+		
+		[boneAction addTranslationAtTime:time withPoint:CGPointMake(x, y) andCurveInfo:curveInfo];
+		
+		
+//		CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
+//		totalTimeForThisAnimation += timeForThisAnimationSegment;
+		
+//		curveInfo = [translation objectForKey:@"curve"];
+	}
+	
+	for (int d = 0; d < rotations.count; d++) {
+		NSDictionary* rotation = [rotations objectAtIndex:d];
+		CGFloat angle, time;
+		id curveInfo;
+		
+		angle = [[rotation objectForKey:@"angle"] doubleValue];
+		curveInfo = [rotation objectForKey:@"curve"];
+		time = [[rotation objectForKey:@"time"] doubleValue];
+		
+		[boneAction addRotationAtTime:time withAngle:angle andCurveInfo:curveInfo];
+	}
+	
+	
+	
+	[boneAction calculateTotalAction];
+	
 	
 	return boneAction;
 }

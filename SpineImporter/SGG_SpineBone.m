@@ -80,7 +80,9 @@
 		
 //		NSLog(@"time: %f timeE: %f, frameE: %i, currentFrame: %i", time, timeElapsed, (int)framesElapsed, (int)currentFrame);
 		NSDictionary* thisFrameDict = _currentAnimation[currentFrame];
-		self.position = [self pointFromValueObject:thisFrameDict[@"position"]];
+		CGPoint offsetPos = [self pointFromValueObject:thisFrameDict[@"position"]];
+		self.position = CGPointMake(_basePosition.x + offsetPos.x, _basePosition.y + offsetPos.y) ;
+		self.zRotation = _baseRotation + [thisFrameDict[@"rotation"] doubleValue];
 //		NSLog(@"%@ updated with ani", self.name);
 
 	}

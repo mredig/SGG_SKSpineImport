@@ -79,7 +79,7 @@
 	}
 	[rotationInput addObject:rotationKeyFrame];
 	
-	NSLog(@"%@", rotationInput);
+//	NSLog(@"%@", rotationInput);
 }
 
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve {
@@ -100,16 +100,22 @@
 	
 	[self calculateTranslationKeyframesInTotalAnimation:mutableAnimation];
 	
+	[self calculateRotationKeyframesInTotalAnimation:mutableAnimation];
+	
 
 	
-	
+	[mutableAnimation removeLastObject];
 	
 	_animation = [NSArray arrayWithArray:mutableAnimation];
 
 	NSLog(@"frameCount: %lu", (unsigned long)mutableAnimation.count);
 	for (int i = 0; i < mutableAnimation.count; i++) {
-		NSDictionary* dict = mutableAnimation[i];
-		NSLog(@"frame: %i point: %f %f rotation: %f", i, [self pointFromValueObject:dict[@"position"]].x, [self pointFromValueObject:dict[@"position"]].y, [dict[@"rotation"] doubleValue]);
+		NSInteger spineFrame = i % 4;
+		if (spineFrame == 0) {
+			NSDictionary* dict = mutableAnimation[i];
+			NSLog(@"frame: %i point: %f %f rotation: %f", i, [self pointFromValueObject:dict[@"position"]].x, [self pointFromValueObject:dict[@"position"]].y, [dict[@"rotation"] doubleValue] * (180/M_PI));
+		}
+
 	}
 }
 
@@ -196,14 +202,15 @@
 				NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
 				[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + f * deltaX, startingLocation.y + f * deltaY)] forKey:@"position"];
 				[mutableAnimation addObject:frameDict];
-				NSLog(@"rotation added");
+//				NSLog(@"rotation added");
 			}
 		}
 	}
 }
 
 -(void)calculateRotationKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
-	
+
+	int frameCounter = 0;
 	for (int i = 0; i < rotationInput.count; i++) {
 		NSDictionary* startKeyFrameDict = rotationInput[i];
 		NSDictionary* endKeyFrameDict;
@@ -217,7 +224,7 @@
 		id curveInfo = startKeyFrameDict[@"curve"];
 		
 		CGFloat endingTime = [endKeyFrameDict[@"time"] doubleValue];
-		CGFloat endingAngle = [startKeyFrameDict[@"angle"] doubleValue];
+		CGFloat endingAngle = [endKeyFrameDict[@"angle"] doubleValue];
 
 		CGFloat sequenceTime = endingTime - startingTime;
 		
@@ -275,15 +282,28 @@
 			}
 		} else {
 			//linear
-			CGFloat deltaRotation = (endingAngle - startingAngle) / keyFramesInSequence;
-			//			NSLog(@"span %f to %f", startingTime, endingTime);
+			CGFloat totalDelta = endingAngle - startingAngle;
+			CGFloat deltaRotation;
+			if (fabs(totalDelta) > M_PI) {
+				deltaRotation = (endingAngle - startingAngle + (M_PI * 2)) / keyFramesInSequence;
+			} else {
+				deltaRotation = totalDelta / keyFramesInSequence;
+			}
+			NSLog(@"span %f to %f, start: %f, end: %f, delta: %f, keyCount: %i", startingTime, endingTime, startingAngle, endingAngle, deltaRotation, (int)keyFramesInSequence);
 			for (int f = 0; f < keyFramesInSequence; f++) {
-				NSMutableDictionary* frameDict = mutableAnimation[i];
-				if (!frameDict) {
+				NSMutableDictionary* frameDict;
+				if (frameCounter >= (int)(mutableAnimation.count - 1)) {
 					frameDict = [[NSMutableDictionary alloc] init];
+					[mutableAnimation addObject:frameDict];
+				} else {
+					frameDict = mutableAnimation[frameCounter];
 				}
-				[frameDict setObject:[NSNumber numberWithDouble:startingAngle + deltaRotation] forKey:@"rotation"];
-				[mutableAnimation setObject:frameDict atIndexedSubscript:i];
+				CGFloat modRotation = startingAngle + deltaRotation * f;
+				if (modRotation >= (2 * M_PI)) {
+					modRotation -= (2 * M_PI);
+				}
+				[frameDict setObject:[NSNumber numberWithDouble:startingAngle + deltaRotation * f] forKey:@"rotation"];
+				frameCounter ++;
 			}
 		}
 	}
