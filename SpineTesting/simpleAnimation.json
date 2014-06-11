@@ -55,6 +55,16 @@
 			}
 		}
 	},
+	"newRotate": {
+		"bones": {
+			"bone": {
+				"rotate": [
+					{ "time": 0, "angle": -119.54 },
+					{ "time": 0.3333, "angle": 32.98 }
+				]
+			}
+		}
+	},
 	"rotate": {
 		"bones": {
 			"bone": {

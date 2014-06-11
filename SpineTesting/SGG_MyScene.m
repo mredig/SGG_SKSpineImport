@@ -66,7 +66,7 @@
 ////		[self addChild:goblin];
 		
 		stepTest = [SGG_Spine node];
-//		stepTest.debugMode = YES;
+		stepTest.debugMode = YES;
 		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
 		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
 		[stepTest runAnimation:@"tAndRCombo" andCount:-1];

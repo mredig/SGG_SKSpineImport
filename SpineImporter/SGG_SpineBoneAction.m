@@ -63,9 +63,23 @@
 		_totalLength = time;
 	}
 	
-	if (angle < 0) {
-		angle = 360 - fabs(angle);
+//	if (angle < 0) {
+//		angle = 360 - fabs(angle);
+//	}
+	
+	while (angle > 360) {
+		angle -= 360;
 	}
+	
+	while (angle < 0) {
+		angle += 360;
+	}
+	
+//	if (angle > 180) {
+//		angle = angle - 360;
+//	}
+	
+//	NSLog(@"angle: %f", angle);
 	
 	angle *= (M_PI / 180);
 	
@@ -282,13 +296,19 @@
 			}
 		} else {
 			//linear
+			CGFloat twoPi = 2 * M_PI;
+
 			CGFloat totalDelta = endingAngle - startingAngle;
-			CGFloat deltaRotation;
-			if (fabs(totalDelta) > M_PI) {
-				deltaRotation = (endingAngle - startingAngle + (M_PI * 2)) / keyFramesInSequence;
-			} else {
-				deltaRotation = totalDelta / keyFramesInSequence;
+
+			totalDelta = fmod((totalDelta + M_PI), (2 * M_PI)) - M_PI;
+
+			if (startingAngle > M_PI && endingAngle < (startingAngle - M_PI)) {
+				endingAngle += twoPi;
+				totalDelta = endingAngle - startingAngle;
 			}
+
+			CGFloat deltaRotation = totalDelta / keyFramesInSequence;
+
 			NSLog(@"span %f to %f, start: %f, end: %f, delta: %f, keyCount: %i", startingTime, endingTime, startingAngle, endingAngle, deltaRotation, (int)keyFramesInSequence);
 			for (int f = 0; f < keyFramesInSequence; f++) {
 				NSMutableDictionary* frameDict;
