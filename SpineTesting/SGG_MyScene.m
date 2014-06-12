@@ -19,6 +19,8 @@
 	CGPoint startLocation;
 	CGPoint ballPosition;
 	
+	BOOL enabled;
+	
 }
 
 @end
@@ -58,20 +60,20 @@
 ////		[self addChild:elf];
 //		
 //		
-//		goblin = [SGG_Spine node];
-//		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-//		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-//		[goblin runAnimation:@"walk" andCount:-1];
-//		goblin.zPosition = 10;
-////		[self addChild:goblin];
+		goblin = [SGG_Spine node];
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+		[goblin runAnimation:@"walk" andCount:-1];
+		goblin.zPosition = 10;
+		[self addChild:goblin];
 		
-		stepTest = [SGG_Spine node];
-		stepTest.debugMode = YES;
-		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
-		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-		[stepTest runAnimation:@"tAndRCombo" andCount:-1];
-		stepTest.zPosition = 10;
-		[self addChild:stepTest];
+//		stepTest = [SGG_Spine node];
+//		stepTest.debugMode = YES;
+//		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
+//		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
+//		[stepTest runAnimation:@"tAndRCombo" andCount:-1];
+//		stepTest.zPosition = 10;
+//		[self addChild:stepTest];
 		
 
 
@@ -183,7 +185,7 @@
     [goblin changeSkinPartial:partReplacement];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 
-	
+	enabled = YES;
 	
 //	[stepTest runAnimation:@"animation" andCount:-1];
 
@@ -250,7 +252,12 @@
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 //	CFTimeInterval before = CFAbsoluteTimeGetCurrent();
-	[stepTest activateAnimations];
+//	[stepTest activateAnimations];
+	if (enabled) {
+		[goblin activateAnimations];
+
+	}
+
 //	CFTimeInterval after = CFAbsoluteTimeGetCurrent();
 //	CFTimeInterval elapsed = after - before;
 //	NSLog(@"elapsed: %f", elapsed);

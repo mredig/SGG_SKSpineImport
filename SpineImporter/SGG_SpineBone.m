@@ -70,20 +70,20 @@
 }
 
 -(void)updateAnimationAtTime:(double)time thatStartedAt:(double)startTime {
-	if (_currentAnimation && startTime != 0 && _currentAnimation.count) {
-//		NSLog(@"running current animation %@", _currentAnimation);
+	
+	
+//	NSLog(@"%@ updating", self.name);
+	
+	if (_currentAnimation && startTime != 0 && _currentAnimation.count ) {
 		double timeElapsed = time - startTime;
-//		NSLog(@"time: %f startTime: %f elapsed: %f", time, startTime, timeElapsed);
 
 		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
-		NSInteger currentFrame = framesElapsed % (_currentAnimation.count - 2);
+		NSInteger currentFrame = framesElapsed % (_currentAnimation.count - 1);
 		
-//		NSLog(@"time: %f timeE: %f, frameE: %i, currentFrame: %i", time, timeElapsed, (int)framesElapsed, (int)currentFrame);
 		NSDictionary* thisFrameDict = _currentAnimation[currentFrame];
 		CGPoint offsetPos = [self pointFromValueObject:thisFrameDict[@"position"]];
 		self.position = CGPointMake(_basePosition.x + offsetPos.x, _basePosition.y + offsetPos.y) ;
 		self.zRotation = _baseRotation + [thisFrameDict[@"rotation"] doubleValue];
-//		NSLog(@"%@ updated with ani", self.name);
 
 	}
 //	NSLog(@"%@ updated", self.name);
