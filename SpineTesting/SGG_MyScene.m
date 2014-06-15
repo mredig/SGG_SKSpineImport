@@ -72,7 +72,7 @@
 		stepTest.debugMode = YES;
 		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
 		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-		[stepTest runAnimation:@"scale" andCount:-1];
+		[stepTest runAnimation:@"newScale" andCount:-1];
 		stepTest.zPosition = 10;
 		[self addChild:stepTest];
 		
@@ -253,9 +253,9 @@
 -(void)update:(CFTimeInterval)currentTime {
     /* Called before each frame is rendered */
 //	CFTimeInterval before = CFAbsoluteTimeGetCurrent();
-	[stepTest activateAnimations];
 	if (enabled) {
 		[goblin activateAnimations];
+		[stepTest activateAnimations];
 
 	}
 

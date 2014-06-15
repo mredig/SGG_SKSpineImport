@@ -386,6 +386,7 @@
 		frameCounter.color = [SKColor whiteColor];
 		frameCounter.text = @"nan";
 		frameCounter.name = @"frameCounter";
+		frameCounter.zPosition = 1000000;
 		[self addChild:frameCounter];
 	} else {
 		SKNode* frameCounter = [self childNodeWithName:@"frameCounter"];

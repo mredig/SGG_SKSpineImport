@@ -80,11 +80,7 @@
 -(void)updateAnimationAtFrame:(NSInteger)currentFrame {
 	
 	if (_currentAnimation && _currentAnimation.count ) {
-		
-//		SKScene* scene = self.scene;
-		
-//		CGPoint startPos = [scene convertPoint:self.position fromNode:self];
-//		CGFloat startRot = self.zRotation;
+
 		
 		if (currentFrame >= _currentAnimation.count) {
 			currentFrame = _currentAnimation.count - 1;
@@ -94,16 +90,10 @@
 		self.position = CGPointMake(_basePosition.x + offsetPos.x, _basePosition.y + offsetPos.y) ;
 		self.zRotation = _baseRotation + [thisFrameDict[@"rotation"] doubleValue];
 		
-//		CGPoint endPos = [scene convertPoint:self.position fromNode:self];
-		
-		
-//		if (![self distanceBetweenPointA:startPos andPointB:endPos isWithinXDistance:10]) {
-//			NSLog(@"distance jump on frame %i for bone %@", (int)currentFrame, self.name);
-//		}
-		
-//		if ((abs(self.zRotation - startRot)) > (20 * (M_PI / 180))) {
-//			NSLog(@"rotation jump on frame %i for bone %@", (int)currentFrame, self.name);
-//		}
+		CGPoint newScale = [self pointFromValueObject:thisFrameDict[@"scale"]];
+		self.xScale = _baseScaleX * newScale.x;
+		self.yScale = _baseScaleY * newScale.y;
+
 		
 	}
 	
