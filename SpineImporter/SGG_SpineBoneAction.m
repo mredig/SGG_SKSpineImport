@@ -49,8 +49,6 @@
 		translationKeyframe = [NSDictionary dictionaryWithObjects:@[timeObject, pointObject] forKeys:@[@"time", @"point"]];
 	}
 	[translationInput addObject:translationKeyframe];
-
-//	NSLog(@"%@", translationInput);
 	
 }
 
@@ -63,10 +61,6 @@
 		_totalLength = time;
 	}
 	
-//	if (angle < 0) {
-//		angle = 360 - fabs(angle);
-//	}
-	
 	while (angle > 360) {
 		angle -= 360;
 	}
@@ -74,12 +68,7 @@
 	while (angle < 0) {
 		angle += 360;
 	}
-	
-//	if (angle > 180) {
-//		angle = angle - 360;
-//	}
-	
-//	NSLog(@"angle: %f", angle);
+
 	
 	angle *= (M_PI / 180);
 	
@@ -97,6 +86,19 @@
 }
 
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve {
+	if (!scaleInput) {
+		scaleInput = [[NSMutableArray alloc] init];
+	}
+	
+	NSNumber* timeObject = [NSNumber numberWithDouble:time];
+	NSValue* scaleObject = [self valueObjectFromPoint:CGPointMake(scale.width, scale.height)];
+	NSDictionary* translationKeyframe;
+	if (curve) {
+		translationKeyframe = [NSDictionary dictionaryWithObjects:@[timeObject, scaleObject, curve] forKeys:@[@"time", @"scale", @"curve"]];
+	} else {
+		translationKeyframe = [NSDictionary dictionaryWithObjects:@[timeObject, scaleObject] forKeys:@[@"time", @"scale"]];
+	}
+	[scaleInput addObject:translationKeyframe];
 	
 }
 
@@ -116,7 +118,7 @@
 	
 	[self calculateRotationKeyframesInTotalAnimation:mutableAnimation];
 	
-
+	[self calculateScaleKeyframesInTotalAnimation:mutableAnimation];
 	
 	[mutableAnimation removeLastObject];
 	
@@ -347,7 +349,127 @@
 			}
 		}
 	}
+}
+
+-(void)calculateScaleKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
 	
+	int frameCounter = 0;
+	for (int i = 0; i < scaleInput.count; i++) {
+		NSDictionary* startKeyFrameDict = scaleInput[i];
+		NSDictionary* endKeyFrameDict;
+		if (i == scaleInput.count - 1) {
+			endKeyFrameDict = scaleInput[i];
+		} else {
+			endKeyFrameDict = scaleInput[i + 1];
+		}
+		CGFloat startingTime = [startKeyFrameDict[@"time"] doubleValue];
+		CGPoint startingSize = [self pointFromValueObject:startKeyFrameDict[@"scale"]];
+		id curveInfo = startKeyFrameDict[@"curve"];
+		
+		CGFloat endingTime = [endKeyFrameDict[@"time"] doubleValue];
+		CGPoint endingSize = [self pointFromValueObject:endKeyFrameDict[@"scale"]];
+
+		CGFloat sequenceTime = endingTime - startingTime;
+		
+		NSInteger keyFramesInSequence;
+		if (sequenceTime > 0) {
+			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
+			keyFramesInSequence = round(keyFrames);
+		} else {
+			keyFramesInSequence = 1;
+		}
+		
+		//		NSLog(@"curve: %@", curveInfo);
+		
+		if (curveInfo) {
+//			NSString* curveString = (NSString*)curveInfo;
+//			if ([curveInfo isKindOfClass:[NSString class]] && [curveString isEqualToString:@"stepped"]) {
+//				//stepped
+//				
+//				for (int f = 0; f < keyFramesInSequence; f++) {
+//					NSMutableDictionary* frameDict;
+//					if (frameCounter >= (int)(mutableAnimation.count - 1)) {
+//						frameDict = [[NSMutableDictionary alloc] init];
+//						[mutableAnimation addObject:frameDict];
+//					} else {
+//						frameDict = mutableAnimation[frameCounter];
+//					}
+//					
+//					[frameDict setObject:[NSNumber numberWithDouble:startingAngle] forKey:@"rotation"];
+//					frameCounter ++;
+//				}
+//			} else {
+//				//timing curve
+//				
+//				CGFloat twoPi = 2 * M_PI;
+//				
+//				CGFloat totalDelta = endingAngle - startingAngle;
+//				
+//				totalDelta = fmod((totalDelta + M_PI), (2 * M_PI)) - M_PI;
+//				
+//				if (startingAngle > M_PI && endingAngle < (startingAngle - M_PI)) {
+//					endingAngle += twoPi;
+//					totalDelta = endingAngle - startingAngle;
+//				}
+//				
+//				NSArray* curveArray = [NSArray arrayWithArray:curveInfo];
+//				CGPoint curvePointOne, curvePointTwo, curvePointThree, curvePointFour;
+//				curvePointOne = CGPointZero;
+//				curvePointTwo = CGPointMake([curveArray[0] doubleValue], [curveArray[1] doubleValue]);
+//				curvePointThree = CGPointMake([curveArray[2] doubleValue], [curveArray[3] doubleValue]);
+//				curvePointFour = CGPointMake(1.0f, 1.0f);
+//				
+//				
+//				
+//				for (int f = 0; f < keyFramesInSequence; f++) {
+//					NSMutableDictionary* frameDict;
+//					if (frameCounter >= (int)(mutableAnimation.count - 1)) {
+//						frameDict = [[NSMutableDictionary alloc] init];
+//						[mutableAnimation addObject:frameDict];
+//					} else {
+//						frameDict = mutableAnimation[frameCounter];
+//					}
+//					
+//					CGFloat timeProgress = ((CGFloat)f / (CGFloat)keyFramesInSequence);
+//					CGFloat bezierProgress = [self getBezierPercentAtXValue:timeProgress withXValuesFromPoint0:curvePointOne.x point1:curvePointTwo.x point2:curvePointThree.x andPoint3:curvePointFour.x];
+//					
+//					
+//					CGPoint bezValues = [self calculateBezierPoint:bezierProgress andPoint0:curvePointOne andPoint1:curvePointTwo andPoint2:curvePointThree andPoint3:curvePointFour];
+//					
+//					CGFloat deltaRotation = totalDelta * bezValues.y;
+//					
+//					
+//					[frameDict setObject:[NSNumber numberWithDouble:startingAngle + deltaRotation] forKey:@"rotation"];
+//					frameCounter ++;
+//					
+//				}
+//			}
+		} else {
+			//linear
+			CGFloat totalDeltaWidth = endingSize.x - startingSize.y;
+			CGFloat totalDeltaHeight = endingSize.x - startingSize.y;
+			
+
+			
+			CGFloat deltaWidth = totalDeltaWidth / keyFramesInSequence;
+			CGFloat deltaHeight = totalDeltaHeight / keyFramesInSequence;
+			
+			for (int f = 0; f < keyFramesInSequence; f++) {
+				NSMutableDictionary* frameDict;
+				if (frameCounter >= (int)(mutableAnimation.count - 1)) {
+					frameDict = [[NSMutableDictionary alloc] init];
+					[mutableAnimation addObject:frameDict];
+				} else {
+					frameDict = mutableAnimation[frameCounter];
+				}
+				
+				NSValue* newScale = [self valueObjectFromPoint:CGPointMake((startingSize.x + deltaWidth * f), (startingSize.y + deltaHeight * f))];
+				
+				[frameDict setObject:newScale forKey:@"scale"];
+				frameCounter ++;
+			}
+		}
+	}
 }
 
 #pragma mark UTILITIES
