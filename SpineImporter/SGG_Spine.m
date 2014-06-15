@@ -360,7 +360,7 @@
 //	for (SGG_SpineBone* bone in _bones) {
 	for (int i = 0; i < _bones.count; i++) {
 		SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
-		if (bone.currentAnimation.count && !currentFrame) {
+		if (bone.currentAnimation.count > 1 && !currentFrame) {
 			currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
 		}
 		
