@@ -90,9 +90,19 @@
 		self.position = CGPointMake(_basePosition.x + offsetPos.x, _basePosition.y + offsetPos.y) ;
 		self.zRotation = _baseRotation + [thisFrameDict[@"rotation"] doubleValue];
 		
-		CGPoint newScale = [self pointFromValueObject:thisFrameDict[@"scale"]];
-		self.xScale = _baseScaleX * newScale.x;
-		self.yScale = _baseScaleY * newScale.y;
+		
+		
+		CGPoint newScale;
+		if (thisFrameDict[@"scale"]) {
+			newScale = [self pointFromValueObject:thisFrameDict[@"scale"]];
+			
+			self.xScale = _baseScaleX * newScale.x;
+			self.yScale = _baseScaleY * newScale.y;
+		} else {
+			self.xScale = _baseScaleX;
+			self.yScale = _baseScaleY;
+		}
+
 
 		
 	}
