@@ -63,10 +63,13 @@
 		SGG_SpineBoneAction* action = _animations[animationNames[i]];
 		maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
 		
-		[sequentialAnimations addObjectsFromArray:action.animation];
-		while (sequentialAnimations.count > maxFrameCount) {
-			[sequentialAnimations removeObjectAtIndex:0];
+		NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
+		
+		while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
+			[tempAnimationArray removeObjectAtIndex:0];
 		}
+		
+		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
 	}
 	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
 //	NSLog(@"setting current animation: %@", _currentAnimation);
