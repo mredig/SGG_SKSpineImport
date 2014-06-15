@@ -55,39 +55,55 @@
 }
 
 -(void)playAnimations:(NSArray*)animationNames {
-	
+	NSInteger maxFrameCount = 0;
 
 	_currentAnimation = nil;
 	NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
 	for (int i = 0; i < animationNames.count; i++) {
 		SGG_SpineBoneAction* action = _animations[animationNames[i]];
+		maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
 		
 		[sequentialAnimations addObjectsFromArray:action.animation];
+		while (sequentialAnimations.count > maxFrameCount) {
+			[sequentialAnimations removeObjectAtIndex:0];
+		}
 	}
 	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
 //	NSLog(@"setting current animation: %@", _currentAnimation);
 
 }
 
--(void)updateAnimationAtTime:(double)time thatStartedAt:(double)startTime {
-	
-	
-//	NSLog(@"%@ updating", self.name);
-	
-	if (_currentAnimation && startTime != 0 && _currentAnimation.count ) {
-		double timeElapsed = time - startTime;
 
-		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
-		NSInteger currentFrame = framesElapsed % (_currentAnimation.count - 1);
+-(void)updateAnimationAtFrame:(NSInteger)currentFrame {
+	
+	if (_currentAnimation && _currentAnimation.count ) {
 		
+		SKScene* scene = self.scene;
+		
+		CGPoint startPos = [scene convertPoint:self.position fromNode:self];
+//		CGFloat startRot = self.zRotation;
+		
+		if (currentFrame >= _currentAnimation.count) {
+			currentFrame = _currentAnimation.count - 1;
+		}
 		NSDictionary* thisFrameDict = _currentAnimation[currentFrame];
 		CGPoint offsetPos = [self pointFromValueObject:thisFrameDict[@"position"]];
 		self.position = CGPointMake(_basePosition.x + offsetPos.x, _basePosition.y + offsetPos.y) ;
 		self.zRotation = _baseRotation + [thisFrameDict[@"rotation"] doubleValue];
-
+		
+		CGPoint endPos = [scene convertPoint:self.position fromNode:self];
+		
+		
+		if (![self distanceBetweenPointA:startPos andPointB:endPos isWithinXDistance:10]) {
+			NSLog(@"distance jump on frame %i for bone %@", (int)currentFrame, self.name);
+		}
+		
+//		if ((abs(self.zRotation - startRot)) > (20 * (M_PI / 180))) {
+//			NSLog(@"rotation jump on frame %i for bone %@", (int)currentFrame, self.name);
+//		}
+		
 	}
-//	NSLog(@"%@ updated", self.name);
-
+	
 }
 
 -(NSValue*)valueObjectFromPoint:(CGPoint)point {
@@ -108,5 +124,12 @@
 	
 }
 
+-(BOOL)distanceBetweenPointA:(CGPoint)pointA andPointB:(CGPoint)pointB isWithinXDistance:(CGFloat)distance {
+	
+	CGFloat deltaX = pointA.x - pointB.x;
+	CGFloat deltaY = pointA.y - pointB.y;
+	
+	return (deltaX * deltaX) + (deltaY * deltaY) <= distance * distance;
+}
 
 @end

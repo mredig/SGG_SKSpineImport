@@ -61,6 +61,7 @@
 //		
 //		
 		goblin = [SGG_Spine node];
+		goblin.debugMode = YES;
 		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
 		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
 		[goblin runAnimation:@"walk" andCount:-1];

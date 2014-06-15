@@ -340,14 +340,58 @@
 	return nil;
 }
 
+//-(void)activateAnimations {
+//	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
+//	for (SGG_SpineBone* bone in _bones) {
+//		[bone updateAnimationAtTime:time thatStartedAt:animationStartTime];
+//	}
+//}
+
 -(void)activateAnimations {
 	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
-	for (SGG_SpineBone* bone in _bones) {
-		[bone updateAnimationAtTime:time thatStartedAt:animationStartTime];
+	
+	double timeElapsed = time - animationStartTime;
+
+	NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
+
+
+	NSInteger currentFrame = 0;
+	
+//	for (SGG_SpineBone* bone in _bones) {
+	for (int i = 0; i < _bones.count; i++) {
+		SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
+		if (bone.currentAnimation.count && !currentFrame) {
+			currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+		}
+		
+
+		[bone updateAnimationAtFrame:currentFrame];
+	}
+	
+	if (_debugMode) {
+		SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
+		frameCounter.text = [NSString stringWithFormat:@"%i", (int)currentFrame];
 	}
 }
 
 #pragma mark SETUP FUNCTIONS
+
+-(void)setDebugMode:(BOOL)debugMode {
+	
+	_debugMode = debugMode;
+	
+	if (_debugMode) {
+		SKLabelNode* frameCounter = [SKLabelNode labelNodeWithFontNamed:@"Helvetica"];
+		frameCounter.position = CGPointMake(0, -20);
+		frameCounter.color = [SKColor whiteColor];
+		frameCounter.text = @"nan";
+		frameCounter.name = @"frameCounter";
+		[self addChild:frameCounter];
+	} else {
+		SKNode* frameCounter = [self childNodeWithName:@"frameCounter"];
+		[frameCounter removeFromParent];
+	}
+}
 
 -(SKActionTimingMode)determineTimingMode:(NSArray*)bezierCurve {
 	
