@@ -658,7 +658,7 @@
 	for (int i = 0; i < animationNames.count; i++) {
 	//cycle through all animations
 	
-		NSMutableArray* thisTempAnimationArray = [[NSMutableArray alloc]init];
+//		NSMutableArray* thisTempAnimationArray = [[NSMutableArray alloc]init];
 		NSString* thisAnimationName = [animationNames objectAtIndex:i];
 		NSDictionary* thisAnimationDict = [NSDictionary dictionaryWithDictionary:[animationDictionary objectForKey:thisAnimationName]];
 		
@@ -718,6 +718,8 @@
 			
 					[skinSlot.animations setObject:slotAction forKey:thisAnimationName];
 					
+//					NSLog(@"slot: %@ animations: %@", skinSlot.name, skinSlot.animations);
+					
 					break;
 				}
 			}
@@ -730,7 +732,7 @@
 		
 		
 		//add this entire animation (individual animations for each bone and slot) to the animations dictionary
-		NSArray* immutableArray = [NSArray arrayWithArray:thisTempAnimationArray];
+		NSArray* immutableArray = [NSArray array]; // used to be where animatinos were stored... holding onto it in case it's needed again
 		
 		NSString* key;
 		if (introPeriod == 0) {
@@ -913,6 +915,7 @@
 
 -(SGG_SpineBoneAction*)createSpineSlotActionsFromDictionary:(NSDictionary*)slotDict  andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
 	SGG_SpineBoneAction* slotAction = [[SGG_SpineBoneAction alloc] init];
+	[slotAction setTotalLength:longestDuration];
 	
 	NSArray* attachmentArray = slotDict[@"attachment"];
 	NSArray* colorArray = slotDict[@"color"];
@@ -935,93 +938,93 @@
 	
 }
 
--(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
-	
-	//	NSLog(@"slotDict: %@", slotDict);
-	
-	
-	NSArray* attachmentTimings = [NSArray arrayWithArray:[slotDict objectForKey:@"attachment"]];
-	NSArray* colorTimings = [slotDict objectForKey:@"color"];
-	SKAction* slotAction = [[SKAction alloc] init];
-	
-	//attachments
-	SKAction* attachmentAction = [[SKAction alloc] init];
-	
-	if (attachmentTimings) {
-		
-		CGFloat totalTimeForThisAnimation = 0;
-		
-		for (int c = 0; c < attachmentTimings.count; c++) {
-			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-			
-			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
-			totalTimeForThisAnimation += timeForThisAnimationSegment;
-			
-			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-			attachmentAction = [SKAction sequence:@[
-													attachmentAction,
-													waitingAction,
-													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-				[skinSlot setAttachmentTo:attachmentName];
-				//														NSLog(@"custom action ran");
-			}]
-													]];
-			
-			
-		}
-		
-		if (totalTimeForThisAnimation < (longestDuration + intro)) {
-			SKAction* waiting = [SKAction waitForDuration:((longestDuration + intro) - totalTimeForThisAnimation)];
-			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-		}
-	}
-	
-	
-	
-	//colors
-//	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
-	if (colorTimings) {
-		CGFloat totalTimeForThisAnimation = 0;
-		
-		for (int c = 0; c < attachmentTimings.count; c++) {
-			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-			
-			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
-			totalTimeForThisAnimation += timeForThisAnimationSegment;
-			
-			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-			attachmentAction = [SKAction sequence:@[
-													attachmentAction,
-													waitingAction,
-													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-				[skinSlot setAttachmentTo:attachmentName];
-				//														NSLog(@"custom action ran");
-			}]
-													]];
-			
-			
-		}
-		
-		if (totalTimeForThisAnimation < longestDuration) {
-			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
-			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-		}
-	}
-	
-	
-	slotAction = [SKAction group:@[
-								   attachmentAction,
-								   //								   colorAction,
-								   ]];
-	
-	return slotAction;
-}
+//-(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
+//	
+//	//	NSLog(@"slotDict: %@", slotDict);
+//	
+//	
+//	NSArray* attachmentTimings = [NSArray arrayWithArray:[slotDict objectForKey:@"attachment"]];
+//	NSArray* colorTimings = [slotDict objectForKey:@"color"];
+//	SKAction* slotAction = [[SKAction alloc] init];
+//	
+//	//attachments
+//	SKAction* attachmentAction = [[SKAction alloc] init];
+//	
+//	if (attachmentTimings) {
+//		
+//		CGFloat totalTimeForThisAnimation = 0;
+//		
+//		for (int c = 0; c < attachmentTimings.count; c++) {
+//			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
+//			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
+//			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
+//			
+//			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
+//			totalTimeForThisAnimation += timeForThisAnimationSegment;
+//			
+//			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
+//			attachmentAction = [SKAction sequence:@[
+//													attachmentAction,
+//													waitingAction,
+//													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
+//				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
+//				[skinSlot setAttachmentTo:attachmentName];
+//				//														NSLog(@"custom action ran");
+//			}]
+//													]];
+//			
+//			
+//		}
+//		
+//		if (totalTimeForThisAnimation < (longestDuration + intro)) {
+//			SKAction* waiting = [SKAction waitForDuration:((longestDuration + intro) - totalTimeForThisAnimation)];
+//			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
+//		}
+//	}
+//	
+//	
+//	
+//	//colors
+////	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
+//	if (colorTimings) {
+//		CGFloat totalTimeForThisAnimation = 0;
+//		
+//		for (int c = 0; c < attachmentTimings.count; c++) {
+//			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
+//			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
+//			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
+//			
+//			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
+//			totalTimeForThisAnimation += timeForThisAnimationSegment;
+//			
+//			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
+//			attachmentAction = [SKAction sequence:@[
+//													attachmentAction,
+//													waitingAction,
+//													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
+//				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
+//				[skinSlot setAttachmentTo:attachmentName];
+//				//														NSLog(@"custom action ran");
+//			}]
+//													]];
+//			
+//			
+//		}
+//		
+//		if (totalTimeForThisAnimation < longestDuration) {
+//			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
+//			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
+//		}
+//	}
+//	
+//	
+//	slotAction = [SKAction group:@[
+//								   attachmentAction,
+//								   //								   colorAction,
+//								   ]];
+//	
+//	return slotAction;
+//}
 
 #pragma mark PROPERTY HANDLERS
 

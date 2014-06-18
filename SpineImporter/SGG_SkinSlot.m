@@ -13,12 +13,16 @@
 
 -(id)init {
 	if (self = [super init]) {
-		
+		_animations = [[NSMutableDictionary alloc] init];
 	}
 	return self;
 }
 
 -(void)setAttachmentTo:(NSString*)attachmentName {
+	
+	if (!attachmentName) {
+		attachmentName = _defaultAttachment;
+	}
 	
 	[self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
 		if ([node.name isEqualToString:attachmentName]) {
@@ -37,11 +41,58 @@
 
 }
 
--(void)playAnimations:(NSArray *)animationNames {
+-(void)removeAllActions {
+	[super removeAllActions];
+	
+	_currentAnimation = nil;
 	
 }
 
+-(void)playAnimations:(NSArray *)animationNames {
+	NSInteger maxFrameCount = 0;
+	
+//	if ([self.name isEqualToString:@"head"] || [self.name isEqualToString:@"eyes"]) { //this is for debugging
+
+		_currentAnimation = nil;
+		NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
+		for (int i = 0; i < animationNames.count; i++) {
+			SGG_SpineBoneAction* action = _animations[animationNames[i]];
+//			NSLog(@"action: %@", action);
+			maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
+			
+//			NSLog(@"max: %i", maxFrameCount);
+
+			NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
+			
+			while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
+				[tempAnimationArray removeObjectAtIndex:0];
+			}
+			
+			
+			[sequentialAnimations addObjectsFromArray:tempAnimationArray];
+		}
+		_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
+		
+//		NSLog(@"%@ setting current animation: %@", self.name, _currentAnimation);
+//	}
+
+}
+
 -(void)updateAnimationAtFrame:(NSInteger)currentFrame {
+	
+	if (_currentAnimation && _currentAnimation.count ) {
+		
+		
+		if (currentFrame >= _currentAnimation.count) {
+			currentFrame = _currentAnimation.count - 1;
+		}
+		NSDictionary* thisFrameDict = _currentAnimation[currentFrame];
+
+		NSString* attachment = thisFrameDict[@"attachmentName"];
+		
+		[self setAttachmentTo:attachment];
+		
+	}
 	
 }
 

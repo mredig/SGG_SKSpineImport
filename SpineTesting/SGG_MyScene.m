@@ -160,6 +160,8 @@
 					break;
 				case 'd':boy.xScale = 1;
 					break;
+				case 's':[boy stopAnimation];
+					break;
 			}
 		}
 	}
@@ -185,6 +187,7 @@
 	
     [goblin changeSkinPartial:partReplacement];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
+	[boy runAnimation:@"walk" andCount:-1];
 
 	enabled = YES;
 	

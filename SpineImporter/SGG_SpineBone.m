@@ -76,6 +76,12 @@
 
 }
 
+-(void)removeAllActions {
+	[super removeAllActions];
+	
+	_currentAnimation = nil;
+	
+}
 
 -(void)updateAnimationAtFrame:(NSInteger)currentFrame {
 	
