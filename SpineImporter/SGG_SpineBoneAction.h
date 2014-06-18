@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <SpriteKit/SpriteKit.h>
 
 @interface SGG_SpineBoneAction : NSObject
 
@@ -19,5 +20,9 @@
 -(void)addRotationAtTime:(CGFloat)time withAngle:(CGFloat)angle andCurveInfo:(id)curve;
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve;
 
+-(void)addAttachmentAnimationAtTime:(CGFloat)time withAttachmentName:(NSString*)attachmentName;
+-(void)addColorAnimationAtTime:(CGFloat)time withColor:(NSString*)colorInString; //not supported atm
+
 -(void)calculateTotalAction;
+-(void)calculateSlotAction;
 @end

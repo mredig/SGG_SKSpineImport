@@ -15,6 +15,12 @@
 
 @property (nonatomic, assign) NSString* defaultAttachment;
 
+@property (nonatomic, strong) NSMutableDictionary* animations;
+@property (nonatomic, strong) NSArray* currentAnimation;
+
+
+-(void)playAnimations:(NSArray*)animationNames;
+-(void)updateAnimationAtFrame:(NSInteger)currentFrame;
 
 
 -(void)setAttachmentTo:(NSString*)attachmentName;

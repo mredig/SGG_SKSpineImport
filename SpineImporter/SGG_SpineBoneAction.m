@@ -13,7 +13,8 @@
 	NSMutableArray* translationInput;
 	NSMutableArray* rotationInput;
 	NSMutableArray* scaleInput;
-	
+	NSMutableArray* attachmentInput;
+	NSMutableArray* colorInput;
 	
 }
 
@@ -102,6 +103,30 @@
 	
 }
 
+-(void)addAttachmentAnimationAtTime:(CGFloat)time withAttachmentName:(NSString*)attachmentName {
+	
+	if (!attachmentInput) {
+		attachmentInput= [[NSMutableArray alloc] init];
+	}
+	
+	NSNumber* timeObject = [NSNumber numberWithDouble:time];
+	NSDictionary* attachmentKeyframe = [NSDictionary dictionaryWithObjects:@[timeObject, attachmentName] forKeys:@[@"time", @"attachmentName"]];
+	
+	[attachmentInput addObject:attachmentKeyframe];
+}
+
+-(void)addColorAnimationAtTime:(CGFloat)time withColor:(NSString*)colorInString { //not supported atm
+
+	
+//	if (!colorInput) {
+//		colorInput = [[NSMutableArray alloc] init];
+//	}
+//	
+//	NSNumber* timeObject = [NSNumber numberWithDouble:time];
+
+	
+}
+
 #pragma mark RENDER DATA
 
 -(void)calculateTotalAction {
@@ -135,6 +160,18 @@
 //	}
 }
 
+-(void)calculateSlotAction {
+	
+	if (_timeFrameDelta == 0) {
+		_timeFrameDelta = 1.0f/120.0f;
+	}
+	NSInteger totalFrames = round(_totalLength / _timeFrameDelta);
+	NSMutableArray* mutableAnimation = [[NSMutableArray alloc] initWithCapacity:totalFrames];
+
+	[self calculateSlotKeyframesInTotalAnimation:mutableAnimation];
+	
+	_animation = [NSArray arrayWithArray:mutableAnimation];
+}
 
 -(void)calculateTranslationKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
 	
@@ -476,6 +513,50 @@
 	}
 }
 
+
+-(void)calculateSlotKeyframesInTotalAnimation:(NSMutableArray*)mutableAnimation {
+	
+	int frameCounter = 0;
+	for (int i = 0; i < attachmentInput.count; i++) {
+		NSDictionary* startKeyFrameDict = attachmentInput[i];
+		NSDictionary* endKeyFrameDict;
+		if (i == attachmentInput.count - 1) {
+			endKeyFrameDict = attachmentInput[i];
+		} else {
+			endKeyFrameDict = attachmentInput[i + 1];
+		}
+		CGFloat startingTime = [startKeyFrameDict[@"time"] doubleValue];
+		NSString* attachmentName = startKeyFrameDict[@"attachmentName"];
+		
+		CGFloat endingTime = [endKeyFrameDict[@"time"] doubleValue];
+		
+		CGFloat sequenceTime = endingTime - startingTime;
+		
+		NSInteger keyFramesInSequence;
+		if (sequenceTime > 0) {
+			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
+			keyFramesInSequence = round(keyFrames);
+		} else {
+			keyFramesInSequence = 1;
+		}
+	
+	
+		for (int f = 0; f < keyFramesInSequence; f++) {
+			NSMutableDictionary* frameDict;
+			if (frameCounter >= (int)(mutableAnimation.count - 1)) {
+				frameDict = [[NSMutableDictionary alloc] init];
+				[mutableAnimation addObject:frameDict];
+			} else {
+				frameDict = mutableAnimation[frameCounter];
+			}
+			
+			[frameDict setObject:attachmentName forKey:@"attachmentName"];
+			
+			frameCounter ++;
+		}
+	}
+}
+
 #pragma mark UTILITIES
 
 
@@ -496,6 +577,8 @@
 #endif
 	
 }
+
+
 
 #pragma mark BEZIER MATH
 

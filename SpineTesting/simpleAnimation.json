@@ -9,7 +9,8 @@
 "skins": {
 	"default": {
 		"ball_02": {
-			"ball_02": { "width": 100, "height": 100 }
+			"ball_02": { "width": 100, "height": 100 },
+			"ball_03": { "width": 50, "height": 50 }
 		}
 	}
 },
@@ -137,6 +138,22 @@
 					{ "time": 0.6666, "x": 1, "y": 1 },
 					{ "time": 0.8333, "x": -1, "y": 1, "curve": "stepped" },
 					{ "time": 1, "x": -1, "y": 1 }
+				]
+			}
+		}
+	},
+	"slotStuff": {
+		"slots": {
+			"ball_02": {
+				"attachment": [
+					{ "time": 0, "name": "ball_02" },
+					{ "time": 0.1666, "name": "ball_02" },
+					{ "time": 0.3333, "name": "ball_03" },
+					{ "time": 0.5, "name": "ball_03" }
+				],
+				"color": [
+					{ "time": 0.3333, "color": "ffffffff" },
+					{ "time": 0.6666, "color": "ff0011ff" }
 				]
 			}
 		}

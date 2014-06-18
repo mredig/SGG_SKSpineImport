@@ -37,4 +37,12 @@
 
 }
 
+-(void)playAnimations:(NSArray *)animationNames {
+	
+}
+
+-(void)updateAnimationAtFrame:(NSInteger)currentFrame {
+	
+}
+
 @end

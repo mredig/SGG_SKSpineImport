@@ -188,6 +188,10 @@
 
 	enabled = YES;
 	
+//	for (SGG_SkinSlot* skinSlot in boy.currentSkinSlots) {
+//		NSLog(@"%@", skinSlot);
+//	}
+	
 //	[stepTest runAnimation:@"animation" andCount:-1];
 
 	

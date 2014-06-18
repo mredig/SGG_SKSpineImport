@@ -150,6 +150,10 @@
 	for (SGG_SpineBone* bone in _bones) {
 		[bone playAnimations:@[animationName]];
 	}
+	
+	for (SGG_SkinSlot* skinSlot in _currentSkinSlots) {
+		[skinSlot playAnimations:@[animationName]];
+	}
 //	NSLog(@"pressed play");
 
 //reset root rotation and stuff
@@ -357,7 +361,6 @@
 
 	NSInteger currentFrame = 0;
 	
-//	for (SGG_SpineBone* bone in _bones) {
 	for (int i = 0; i < _bones.count; i++) {
 		SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
 		if (bone.currentAnimation.count > 1 && !currentFrame) {
@@ -366,6 +369,14 @@
 		
 
 		[bone updateAnimationAtFrame:currentFrame];
+	}
+	
+	for (int i = 0; i < _currentSkinSlots.count; i++) {
+		SGG_SkinSlot* skinSlot = _currentSkinSlots[i];
+		if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
+			currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
+		}
+		[skinSlot updateAnimationAtFrame:currentFrame];
 	}
 	
 	if (_debugMode) {
@@ -496,7 +507,7 @@
 	if (_debugMode) {
 		NSLog(@"skinKeys: %@", skinKeys);
 	}
-	for (int i = 0; i < skinKeys.count; i++) {
+	for (int i = 0; i < skinKeys.count; i++) { //cycle through all the skin names in the JSON
 		NSString* skinName = [skinKeys objectAtIndex:i];
 		
 		NSMutableDictionary* skinSlotsDictionary = [[NSMutableDictionary alloc] init];
@@ -672,20 +683,6 @@
 			NSArray* scales = [SRTtimelinesForBone objectForKey:@"scale"];
 			SGG_SpineBoneAction* boneAction = [self createBoneTranslationActionsFromArray:translations andRotationsFromArray:rotations andScalesFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
 
-			//start old stuff
-//			SKAction* totalBoneAnimation = [[SKAction alloc] init];
-			//			totalBoneAnimation.animationType = kSGG_SpineAnimationTypeBone;
-			//			totalBoneAnimation.attachmentName = bone.name;
-			
-//			totalBoneAnimation = (SKAction*)[SKAction group:@[
-//															  ]]; //group SRT animations together here and add this to the dict
-//			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
-//			NSArray* objects = @[totalBoneAnimation, [NSNumber numberWithInteger:kSGG_SpineAnimationTypeBone], bone.name];
-			
-//			NSDictionary* thisBoneAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-//			[thisTempAnimationArray addObject:thisBoneAniDict];
-			
-			//end old stuff
 			
 			[bone.animations setObject:boneAction forKey:thisAnimationName];
 		}
@@ -693,25 +690,40 @@
 		
 		NSDictionary* slotsAnimationsDict = [NSDictionary dictionaryWithDictionary:[thisAnimationDict objectForKey:@"slots"]];
 		NSArray* slotNames = [slotsAnimationsDict allKeys];
-		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-		for (int i = 0; i < slotNames.count; i++) {
-		// cycle through individual slot animations
+//		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
+//		for (int i = 0; i < slotNames.count; i++) {
+//		// cycle through individual slot animations
+//		
+//			NSString* slotName = [slotNames objectAtIndex:i];
+//			NSDictionary* slotDict = [slotsAnimationsDict objectForKey:slotName];
+//			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:[skinDict objectForKey:slotName]];
+//
+//			SKAction* slotActions = [self createSlotActionsFromDictionary:slotDict forSlot:slot andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
+//
+//			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
+//			NSArray* objects = @[slotActions, [NSNumber numberWithInteger:kSGG_SpineAnimationTypeSlots], slotName];
+//			NSDictionary* thisSlotAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+//			[thisTempAnimationArray addObject:thisSlotAniDict];
+//
+//			
+//		}
 		
-			NSString* slotName = [slotNames objectAtIndex:i];
-			NSDictionary* slotDict = [slotsAnimationsDict objectForKey:slotName];
-			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:[skinDict objectForKey:slotName]];
+		for (NSString* slotName in slotNames) {
+			for (SGG_SkinSlot* skinSlot in _currentSkinSlots) {
+				if ([skinSlot.name isEqualToString:slotName]) {
+					// matching names... do stuff here
+					NSDictionary* slotDict = [slotsAnimationsDict objectForKey:slotName];
 
-			SKAction* slotActions = [self createSlotActionsFromDictionary:slotDict forSlot:slot andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-
-			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
-			NSArray* objects = @[slotActions, [NSNumber numberWithInteger:kSGG_SpineAnimationTypeSlots], slotName];
-			NSDictionary* thisSlotAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-			[thisTempAnimationArray addObject:thisSlotAniDict];
-
+					SGG_SpineBoneAction* slotAction = [self createSpineSlotActionsFromDictionary:slotDict andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:0];
 			
+					[skinSlot.animations setObject:slotAction forKey:thisAnimationName];
+					
+					break;
+				}
+			}
 		}
 
-		
+
 		
 		
 		//		NSDictionary* drawOrderAnimationsDict = [NSDictionary dictionaryWithDictionary:[thisAnimationDict objectForKey:@"draworder"]];
@@ -899,7 +911,29 @@
 	return boneAction;
 }
 
+-(SGG_SpineBoneAction*)createSpineSlotActionsFromDictionary:(NSDictionary*)slotDict  andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
+	SGG_SpineBoneAction* slotAction = [[SGG_SpineBoneAction alloc] init];
+	
+	NSArray* attachmentArray = slotDict[@"attachment"];
+	NSArray* colorArray = slotDict[@"color"];
+	
+	for (NSDictionary* keyFrameDict in attachmentArray) {
+		CGFloat time = [keyFrameDict[@"time"] doubleValue];
+		NSString* name = keyFrameDict[@"name"];
+		[slotAction addAttachmentAnimationAtTime:time withAttachmentName:name];
+	}
+	
+	for (NSDictionary* keyFrameDict in colorArray) {
+		CGFloat time = [keyFrameDict[@"time"] doubleValue];
+		NSString* color = keyFrameDict[@"color"];
+		[slotAction addColorAnimationAtTime:time withColor:color];
+	}
+	
+	[slotAction calculateSlotAction];
 
+	return slotAction;
+	
+}
 
 -(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
 	
