@@ -34,9 +34,9 @@ typedef enum {
 
 
 @property (nonatomic, strong) NSArray* bones;
-@property (nonatomic, strong) NSMutableDictionary* skins;
+//@property (nonatomic, strong) NSMutableDictionary* skins;
 @property (nonatomic, strong) NSMutableDictionary* animations;
-@property (nonatomic, strong) NSArray* currentSkinSlots;
+@property (nonatomic, strong) NSArray* skinSlots;
 @property (nonatomic, assign) NSString* currentSkin;
 
 

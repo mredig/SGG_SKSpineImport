@@ -15,6 +15,8 @@
 
 @property (nonatomic, assign) NSString* defaultAttachment;
 
+
+@property (nonatomic, assign) NSString* currentSkin;
 @property (nonatomic, strong) NSMutableDictionary* skins;
 
 
@@ -29,5 +31,7 @@
 -(void)setAttachmentTo:(NSString*)attachmentName;
 -(void)setToDefaultAttachment;
 
+
+-(void)changeSkinTo:(NSString*)skin;
 
 @end

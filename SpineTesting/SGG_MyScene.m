@@ -34,30 +34,30 @@
         /* Setup your scene here */
 		
 		
-		boy = [SGG_Spine node];
-//		boy.debugMode = YES;
-		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[boy runAnimation:@"walk" andCount:-1];
-		boy.queueCount = -1;
-		boy.queuedAnimation = @"walk";
-		boy.queueIntro = 0.1;
-		boy.zPosition = 0;
-		[self addChild:boy];
-//
-//		
-//		
-		elf = [SGG_Spine node];
-		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-		[elf runAnimation:@"standing" andCount:-1];
-		elf.queueCount = -1;
-		elf.queuedAnimation = @"standing";
-		elf.queueIntro = 0.1;
-		elf.zPosition = 20;
-		elf.xScale = 0.6;
-		elf.yScale = 0.6;
-		[self addChild:elf];
+//		boy = [SGG_Spine node];
+////		boy.debugMode = YES;
+//		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+//		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
+//		[boy runAnimation:@"walk" andCount:-1];
+//		boy.queueCount = -1;
+//		boy.queuedAnimation = @"walk";
+//		boy.queueIntro = 0.1;
+//		boy.zPosition = 0;
+//		[self addChild:boy];
+////
+////		
+////		
+//		elf = [SGG_Spine node];
+//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+//		[elf runAnimation:@"standing" andCount:-1];
+//		elf.queueCount = -1;
+//		elf.queuedAnimation = @"standing";
+//		elf.queueIntro = 0.1;
+//		elf.zPosition = 20;
+//		elf.xScale = 0.6;
+//		elf.yScale = 0.6;
+//		[self addChild:elf];
 //
 //		
 		goblin = [SGG_Spine node];

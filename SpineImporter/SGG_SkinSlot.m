@@ -21,7 +21,22 @@
 
 -(void)changeSkinTo:(NSString*)skin {
 	
+	[self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
+		[node removeFromParent];
+	}];
 	
+	NSDictionary* currentSkin = _skins[skin];
+	if (!currentSkin) {
+		currentSkin = _skins[@"default"];
+	}
+	NSArray* attachments = [currentSkin allKeys];
+	for (NSString* attachment in attachments) {
+		SGG_SkinSprite* sprite = currentSkin[attachment];
+		[self addChild:sprite];
+		sprite.hidden = HIDDEN;
+	}
+	
+	[self setAttachmentTo:_currentAttachment];
 	
 }
 
@@ -94,9 +109,9 @@
 		
 		[self setAttachmentTo:attachment];
 		
-		if ([self.name isEqualToString:@"eyes"]) {
-			NSLog(@"current attachment: %@", attachment);
-		}
+//		if ([self.name isEqualToString:@"eyes"]) {
+//			NSLog(@"current attachment: %@", attachment);
+//		}
 		
 	}
 	
