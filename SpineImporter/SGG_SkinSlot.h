@@ -15,6 +15,9 @@
 
 @property (nonatomic, assign) NSString* defaultAttachment;
 
+@property (nonatomic, strong) NSMutableDictionary* skins;
+
+
 @property (nonatomic, strong) NSMutableDictionary* animations;
 @property (nonatomic, strong) NSArray* currentAnimation;
 

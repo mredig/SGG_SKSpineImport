@@ -212,9 +212,9 @@
 	
 	for (int i = 0; i < _currentSkinSlots.count; i++) {
 		SKNode* slot = (SKNode*)[_currentSkinSlots objectAtIndex:i];
-		[slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-			node.hidden = HIDDEN;
-		}];
+//		[slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
+//			node.hidden = HIDDEN;
+//		}];
 		[slot removeFromParent];
 	}
 
@@ -630,6 +630,7 @@
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:b];
 			if ([bone.name isEqualToString:boneString]) {
 				[bone addChild:skinSlot];
+				break;
 			}
 		}
 		

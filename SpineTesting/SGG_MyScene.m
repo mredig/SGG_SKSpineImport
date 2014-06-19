@@ -62,7 +62,7 @@
 //		
 		goblin = [SGG_Spine node];
 //		goblin.debugMode = YES;
-		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
 		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
 		[goblin runAnimation:@"walk" andCount:-1];
 		goblin.zPosition = 10;
@@ -185,7 +185,8 @@
     NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
     SKColor* color = [SKColor redColor];
 	
-    [goblin changeSkinPartial:partReplacement];
+//    [goblin changeSkinPartial:partReplacement];
+	[goblin changeSkinTo:@"goblingirl"];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 	[boy runAnimation:@"walk" andCount:-1];
 
@@ -244,9 +245,9 @@
 
 -(void)inputEnded:(CGPoint)location {
 
-	//[goblin changeSkinTo:@"goblingirl"];
+	[goblin changeSkinTo:@"goblin"];
     
-    [goblin resetSkinPartial];
+//    [goblin resetSkinPartial];
     
     //reset the colors
 	[boy resetColorizedSlots];

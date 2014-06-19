@@ -14,8 +14,15 @@
 -(id)init {
 	if (self = [super init]) {
 		_animations = [[NSMutableDictionary alloc] init];
+		_skins = [[NSMutableDictionary alloc] init];
 	}
 	return self;
+}
+
+-(void)changeSkinTo:(NSString*)skin {
+	
+	
+	
 }
 
 -(void)setAttachmentTo:(NSString*)attachmentName {
@@ -51,30 +58,25 @@
 -(void)playAnimations:(NSArray *)animationNames {
 	NSInteger maxFrameCount = 0;
 	
-//	if ([self.name isEqualToString:@"head"] || [self.name isEqualToString:@"eyes"]) { //this is for debugging
 
-		_currentAnimation = nil;
-		NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
-		for (int i = 0; i < animationNames.count; i++) {
-			SGG_SpineBoneAction* action = _animations[animationNames[i]];
-//			NSLog(@"action: %@", action);
-			maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
-			
-//			NSLog(@"max: %i", maxFrameCount);
-
-			NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
-			
-			while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
-				[tempAnimationArray removeObjectAtIndex:0];
-			}
-			
-			
-			[sequentialAnimations addObjectsFromArray:tempAnimationArray];
-		}
-		_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
+	_currentAnimation = nil;
+	NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
+	for (int i = 0; i < animationNames.count; i++) {
+		SGG_SpineBoneAction* action = _animations[animationNames[i]];
+		maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
 		
-//		NSLog(@"%@ setting current animation: %@", self.name, _currentAnimation);
-//	}
+
+		NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
+		
+		while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
+			[tempAnimationArray removeObjectAtIndex:0];
+		}
+		
+		
+		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
+	}
+	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
+	
 
 }
 
@@ -91,6 +93,10 @@
 		NSString* attachment = thisFrameDict[@"attachmentName"];
 		
 		[self setAttachmentTo:attachment];
+		
+		if ([self.name isEqualToString:@"eyes"]) {
+			NSLog(@"current attachment: %@", attachment);
+		}
 		
 	}
 	
