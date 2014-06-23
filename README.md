@@ -36,6 +36,7 @@ Features:
 *   Import Spine animations
 *	Handles fairly easily
 *	Support for multiple skins on a skeleton (click to see the alt goblin skin, using the same skeleton)
+	*	Also supports partial replacement (e.g. just hands)
 *	Start and stop animation
 *	Slot Animation
 *	Rudimentary support for easy ease keyframes
@@ -48,12 +49,14 @@ Features:
 Limitations:
 
 *	Slot animation gets confused when you switch skins during an animation (in the example build, hold the mouse down for a while, then let go and watch the goblin eyes)
-*	Animation is built using SKAction - therefore, easing of keyframes is limited to the simple enumerated versions of easy ease that SKAction includes (ease in, ease out, ease both, linear)
-	*	This runtime automatically detects the closest approximation and applies it, however
+~~*	Animation is built using SKAction - therefore, easing of keyframes is limited to the simple enumerated versions of easy ease that SKAction includes (ease in, ease out, ease both, linear)
+	*	This runtime automatically detects the closest approximation and applies it, however~~
 *	Z order keyframes are NOT implemented
 *	Mixing animation (have your feet walking while your arms swing a weapon, for example) is not implemented.
 *	Requires using the built in atlas managment.
 *	Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is.
+*	Can't have slashes (/) in image names
+
 
 
 Requirements:
@@ -78,17 +81,16 @@ Added three methods:
 *Accepts: (NSMutableDictionary *)slotsToReplace*
 
 **Dictionary format:**
->attachment name : replacement texture
+>slot name : replacement skin name
 
-Replaces the texture of any nodes mentioned in the slotsToReplace dictionary with their accompanying textures. Creates an NSMutableDictionary in memory containing the original textures, to easily swap back.
-*Note: be sure to use the attatchment name, not the slot name.*
+Replaces the texture of any nodes mentioned in the slotsToReplace dictionary with their accompanying textures.
 
 Created to serve my own needs: I have an avatar builder in my Sprite Kit game, and I need to swap out specific slots without changing the whole skin (so the player can choose different shirts, pants etc.).
 
 ### Usage:
 
 ```
-NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+NSDictionary* partReplacement = @{@"torso": @"goblin", @"head": @"goblin"};
 
 [goblin changeSkinPartial:partReplacement];
 ```
