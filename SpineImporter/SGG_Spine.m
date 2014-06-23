@@ -96,59 +96,59 @@
 		animationNameWithIntro = animationName;
 	}
 	
-	NSArray* thisAnimationWithIntro, *thisAnimation;
-	if (![_animations objectForKey:animationNameWithIntro]) {
-		[self setUpAnimationsWithAnimationDictionary:_rawAnimationDictionary withIntroPeriodOf:introPeriod];
-	}
-	thisAnimation = [_animations objectForKey:animationName];
-	thisAnimationWithIntro = [_animations objectForKey:animationNameWithIntro];
+//	NSArray* thisAnimationWithIntro, *thisAnimation;
+//	if (![_animations objectForKey:animationNameWithIntro]) {
+//		[self setUpAnimationsWithAnimationDictionary:_rawAnimationDictionary withIntroPeriodOf:introPeriod];
+//	}
+//	thisAnimation = [_animations objectForKey:animationName];
+//	thisAnimationWithIntro = [_animations objectForKey:animationNameWithIntro];
 
 	
 	
 	CGFloat longestAction = 0;
 	
-	for (int i = 0; i < thisAnimationWithIntro.count; i++) {
-		NSDictionary* thisAniDictWithIntro = [thisAnimationWithIntro objectAtIndex:i];
-		kSGG_SpineAnimationType animationType = [[thisAniDictWithIntro objectForKey:@"animationType"] intValue];
-		NSString* attachmentName = [thisAniDictWithIntro objectForKey:@"attachmentName"];
-//		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-		NSDictionary* thisAniDict = [thisAnimation objectAtIndex:i];
-		
-		SKAction* action;
-		SKAction* introAction;
-		SKAction* totalAction;
-//		if (animationType == kSGG_SpineAnimationTypeBone) {
+//	for (int i = 0; i < thisAnimationWithIntro.count; i++) {
+//		NSDictionary* thisAniDictWithIntro = [thisAnimationWithIntro objectAtIndex:i];
+//		kSGG_SpineAnimationType animationType = [[thisAniDictWithIntro objectForKey:@"animationType"] intValue];
+//		NSString* attachmentName = [thisAniDictWithIntro objectForKey:@"attachmentName"];
+////		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
+//		NSDictionary* thisAniDict = [thisAnimation objectAtIndex:i];
 //		
-//			SGG_SpineBone* bone = [self findBoneNamed:attachmentName];
-//			introAction = [thisAniDictWithIntro objectForKey:@"action"];
-//			action = [thisAniDict objectForKey:@"action"];
-//			if (count == -1) {
-//				action = [SKAction repeatActionForever:action];
-//			} else {
-//				action = [SKAction repeatAction:action count:count];
-//			}
-//			totalAction = [SKAction sequence:@[introAction, action]];
-//			[bone runAction:totalAction withKey:animationName];
-//			
-//		} else if (animationType == kSGG_SpineAnimationTypeSlots) {
-//			
-//			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:attachmentName];
-//			introAction = [thisAniDictWithIntro objectForKey:@"action"];
-//			action = [thisAniDict objectForKey:@"action"];
-//			if (count == -1) {
-//				action = [SKAction repeatActionForever:action];
-//			} else {
-//				action = [SKAction repeatAction:action count:count];
-//			}
-//			totalAction = [SKAction sequence:@[introAction, action]];
-//			[slot runAction:totalAction withKey:animationName];
-//
+//		SKAction* action;
+//		SKAction* introAction;
+//		SKAction* totalAction;
+////		if (animationType == kSGG_SpineAnimationTypeBone) {
+////		
+////			SGG_SpineBone* bone = [self findBoneNamed:attachmentName];
+////			introAction = [thisAniDictWithIntro objectForKey:@"action"];
+////			action = [thisAniDict objectForKey:@"action"];
+////			if (count == -1) {
+////				action = [SKAction repeatActionForever:action];
+////			} else {
+////				action = [SKAction repeatAction:action count:count];
+////			}
+////			totalAction = [SKAction sequence:@[introAction, action]];
+////			[bone runAction:totalAction withKey:animationName];
+////			
+////		} else if (animationType == kSGG_SpineAnimationTypeSlots) {
+////			
+////			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:attachmentName];
+////			introAction = [thisAniDictWithIntro objectForKey:@"action"];
+////			action = [thisAniDict objectForKey:@"action"];
+////			if (count == -1) {
+////				action = [SKAction repeatActionForever:action];
+////			} else {
+////				action = [SKAction repeatAction:action count:count];
+////			}
+////			totalAction = [SKAction sequence:@[introAction, action]];
+////			[slot runAction:totalAction withKey:animationName];
+////
+////		}
+//		
+//		if (totalAction.duration > longestAction) {
+//			longestAction = totalAction.duration;
 //		}
-		
-		if (totalAction.duration > longestAction) {
-			longestAction = totalAction.duration;
-		}
-	}
+//	}
 	for (SGG_SpineBone* bone in _bones) {
 		[bone playAnimations:@[animationName]];
 	}
@@ -224,51 +224,72 @@
 
 -(void)changeSkinPartial:(NSDictionary *)slotsToReplace {
     // replaces the skin for specified slots without redrawing the whole skin - useful for 'battle damage', etc.
-    for (int i = 0; i < _skinSlots.count; i++) {
-		SKNode* slot = (SKNode*)[_skinSlots objectAtIndex:i];
-        [slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-            // loop through attached NSDictionary and find matching key...
-            for(id key in slotsToReplace) {
-                NSString *thisKey = (NSString *)key;
-                if([thisKey isEqualToString:node.name]) {
-                    SKSpriteNode* thisNode = (SKSpriteNode *)node;
-                    SKTexture* originalTexture = thisNode.texture;
-                    thisNode.texture = [SKTexture textureWithImageNamed:[slotsToReplace objectForKey:(key)]];
-                    
-                    // add the original texture to an array so that we can swap back later
-                    if(!_swappedSkins.count) {
-                        _swappedSkins = [[NSMutableDictionary alloc] init];
-                    }
-                    
-                    [_swappedSkins setObject:(NSString *)originalTexture forKey:key];
-                    break;
-                }
-            }
-		}];
+	NSArray* slotNames = [slotsToReplace allKeys];
+	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+		for (NSString* slotName in slotNames) {
+			if ([slotName isEqualToString:skinSlot.name]) {
+				[skinSlot changeSkinTo:slotsToReplace[slotName]];
+				break;
+			}
+		}
 	}
 }
 
+-(void)changeTexturePartial:(NSDictionary *)attachmentsToReplace {
+	//replaces attachments for the current skin in the current slot with the textures named in the dictionary
+	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+		NSDictionary* thisSlotSkinDict = skinSlot.skins[_currentSkin];
+		for (id key in attachmentsToReplace) {
+			NSString* thisKey = (NSString*)key;
+			SKSpriteNode* thisAttachment = thisSlotSkinDict[thisKey];
+			if (thisAttachment) {
+//				NSLog(@"%@ attachement exists: %@", thisKey, thisSlotSkinDict[thisKey]);
+				SKTexture* originalTexture = thisAttachment.texture;
+				thisAttachment.texture = [SKTexture textureWithImageNamed:attachmentsToReplace[thisKey]];
+				
+				if (!_swappedTextures) {
+					_swappedTextures = [[NSMutableDictionary alloc] init];
+				}
+				
+				if (!_swappedTextures[thisAttachment.name]) {
+					NSDictionary* resetDict = [NSDictionary dictionaryWithObjects:@[originalTexture, _currentSkin] forKeys:@[@"texture", @"originalSkin"]];
+					
+					[_swappedTextures setObject:resetDict forKey:thisAttachment.name];
+				}
+				break;
+			}
+		}
+	}
+}
+
+-(void)resetTexturePartial {
+	
+	for (id key in _swappedTextures) {
+		NSString* thisKey = (NSString*)key;
+		NSDictionary* resetDict = _swappedTextures[thisKey];
+		NSString* originalSkin = resetDict[@"originalSkin"];
+		SKTexture* originalTexture = resetDict[@"texture"];
+		for (SGG_SkinSlot* skinSlot in _skinSlots) {
+			NSDictionary* thisSlotSkinDict = skinSlot.skins[originalSkin];
+			SKSpriteNode* thisAttachment = thisSlotSkinDict[thisKey];
+			if (thisAttachment) {
+				thisAttachment.texture = originalTexture;
+				break;
+			}
+		}
+	}
+	
+	_swappedTextures = nil;
+	
+
+}
+
+
 -(void)resetSkinPartial {
     // resets any swapped slots
-    if(_swappedSkins.count) {
-        
-        for (int i = 0; i < _skinSlots.count; i++) {
-            SKNode* slot = (SKNode*)[_skinSlots objectAtIndex:i];
-            [slot enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-                // loop through attached NSDictionary and find matching key...
-                for(id key in _swappedSkins) {
-                    NSString* thisKey = (NSString *)key;
-                    if([thisKey isEqualToString:node.name]) {
-                        SKSpriteNode* thisNode = (SKSpriteNode *)node;
-                        thisNode.texture = (SKTexture *)[_swappedSkins objectForKey:(key)];
-                        break;
-                    }
-                }
-            }];
-        }
-        
-        [_swappedSkins removeAllObjects];
-    }
+	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+		[skinSlot changeSkinTo:_currentSkin];
+	}
 }
 
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor {
@@ -609,28 +630,21 @@
 				skinSprite.hidden = HIDDEN;
 				
 				[slotSkinDict setObject:skinSprite forKey:attachmentName];
-				
-//				NSLog(@"skin: %@ %@: %@",skinName, attachmentName, attachmentDict);
-				
+								
 			}
-			
-			
+	
 		}
-		
 
 	}
-	
-	
-	
-	
+
 }
 
 
 -(void)setUpAnimationsWithAnimationDictionary:(NSDictionary*)animationDictionary withIntroPeriodOf:(CGFloat)introPeriod{
 	
-	if (!_animations) {
-		_animations = [[NSMutableDictionary alloc]init];
-	}
+//	if (!_animations) {
+//		_animations = [[NSMutableDictionary alloc]init];
+//	}
 	
 	NSArray* animationNames = [animationDictionary allKeys];
 	for (int i = 0; i < animationNames.count; i++) {
@@ -710,7 +724,7 @@
 		
 		
 		//add this entire animation (individual animations for each bone and slot) to the animations dictionary
-		NSArray* immutableArray = [NSArray array]; // used to be where animatinos were stored... holding onto it in case it's needed again
+//		NSArray* immutableArray = [NSArray array]; // used to be where animatinos were stored... holding onto it in case it's needed again
 		
 		NSString* key;
 		if (introPeriod == 0) {
@@ -719,7 +733,7 @@
 			key = [NSString stringWithFormat:@"%f-intro-%@", introPeriod, thisAnimationName];
 		}
 		
-		[_animations setObject:immutableArray forKey:key];
+//		[_animations setObject:immutableArray forKey:key];
 		
 	}
 }

@@ -34,35 +34,35 @@
         /* Setup your scene here */
 		
 		
-//		boy = [SGG_Spine node];
-////		boy.debugMode = YES;
-//		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-//		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-//		[boy runAnimation:@"walk" andCount:-1];
-//		boy.queueCount = -1;
-//		boy.queuedAnimation = @"walk";
-//		boy.queueIntro = 0.1;
-//		boy.zPosition = 0;
-//		[self addChild:boy];
-////
-////		
-////		
-//		elf = [SGG_Spine node];
-//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-//		[elf runAnimation:@"standing" andCount:-1];
-//		elf.queueCount = -1;
-//		elf.queuedAnimation = @"standing";
-//		elf.queueIntro = 0.1;
-//		elf.zPosition = 20;
-//		elf.xScale = 0.6;
-//		elf.yScale = 0.6;
-//		[self addChild:elf];
+		boy = [SGG_Spine node];
+//		boy.debugMode = YES;
+		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
+		[boy runAnimation:@"jump" andCount:-1];
+		boy.queueCount = -1;
+		boy.queuedAnimation = @"jump";
+		boy.queueIntro = 0.1;
+		boy.zPosition = 0;
+		[self addChild:boy];
+//
+//		
+//		
+		elf = [SGG_Spine node];
+		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[elf runAnimation:@"standing" andCount:-1];
+		elf.queueCount = -1;
+		elf.queuedAnimation = @"standing";
+		elf.queueIntro = 0.1;
+		elf.zPosition = 20;
+		elf.xScale = 0.6;
+		elf.yScale = 0.6;
+		[self addChild:elf];
 //
 //		
 		goblin = [SGG_Spine node];
 //		goblin.debugMode = YES;
-		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
 		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
 		[goblin runAnimation:@"walk" andCount:-1];
 		goblin.zPosition = 10;
@@ -180,15 +180,17 @@
 	//[goblin changeSkinTo:@"goblin"];
 	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
     
-    NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+//    NSDictionary* partReplacement = @{@"torso": @"goblin", @"head": @"goblin", @"eyes": @"goblin"};
+	NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+
     
     NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
     SKColor* color = [SKColor redColor];
 	
-//    [goblin changeSkinPartial:partReplacement];
-	[goblin changeSkinTo:@"goblingirl"];
+    [goblin changeTexturePartial:partReplacement];
+//	[goblin changeSkinTo:@"goblingirl"];
     [boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
-	[boy runAnimation:@"walk" andCount:-1];
+//	[boy runAnimation:@"walk" andCount:-1];
 
 	enabled = YES;
 	
@@ -245,9 +247,10 @@
 
 -(void)inputEnded:(CGPoint)location {
 
-	[goblin changeSkinTo:@"goblin"];
+//	[goblin changeSkinTo:@"goblin"];
     
 //    [goblin resetSkinPartial];
+	[goblin resetTexturePartial];
     
     //reset the colors
 	[boy resetColorizedSlots];

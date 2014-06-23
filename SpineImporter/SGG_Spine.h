@@ -29,13 +29,13 @@ typedef enum {
 @property (nonatomic, assign) NSInteger queueCount;
 
 
-@property (nonatomic, strong) NSMutableDictionary* swappedSkins;
+@property (nonatomic, strong) NSMutableDictionary* swappedTextures;
 @property (nonatomic, strong) NSMutableArray* colorizedNodes;
 
 
 @property (nonatomic, strong) NSArray* bones;
 //@property (nonatomic, strong) NSMutableDictionary* skins;
-@property (nonatomic, strong) NSMutableDictionary* animations;
+//@property (nonatomic, strong) NSMutableDictionary* animations;
 @property (nonatomic, strong) NSArray* skinSlots;
 @property (nonatomic, assign) NSString* currentSkin;
 
@@ -49,6 +49,8 @@ typedef enum {
 -(void)changeSkinTo:(NSString*)skin;
 -(void)changeSkinPartial:(NSDictionary *)slotsToReplace;
 -(void)resetSkinPartial;
+-(void)changeTexturePartial:(NSDictionary *)attachmentsToReplace;
+-(void)resetTexturePartial;
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)resetColorizedSlots;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;

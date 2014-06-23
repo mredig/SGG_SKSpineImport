@@ -39,7 +39,6 @@ Features:
 	*	Also supports partial replacement (e.g. just hands)
 *	Start and stop animation
 *	Slot Animation
-*	Rudimentary support for easy ease keyframes
 *	Z Ordering
 *	Queue system for animation (when you jump, it will automatically return to running/walking when the animation finishes)
 *	Animations can be transitioned into each other (as opposed to hard cutting from one to the other)

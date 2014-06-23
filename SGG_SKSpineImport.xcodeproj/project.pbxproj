@@ -116,6 +116,7 @@
 		331E1FF218B2FFD10087ABD9 /* elfREADME.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = elfREADME.txt; sourceTree = "<group>"; };
 		331E1FF318B305E90087ABD9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		331E1FF518B306A50087ABD9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		33DB834A1957CA880006DB77 /* changelog.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = changelog.txt; sourceTree = SOURCE_ROOT; };
 		33F32DAD193C9DF400A5C503 /* stepTesting.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = stepTesting.atlas; sourceTree = "<group>"; };
 		33F32DB0193C9FCE00A5C503 /* stepTesting.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = stepTesting.json; sourceTree = "<group>"; };
 		33F32DB7193CA9BA00A5C503 /* SGG_SpineBoneAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SGG_SpineBoneAction.h; path = SpineImporter/SGG_SpineBoneAction.h; sourceTree = SOURCE_ROOT; };
@@ -246,6 +247,7 @@
 			children = (
 				3300517E18A9445C003F3D0C /* test.plist */,
 				331E1FF318B305E90087ABD9 /* README.md */,
+				33DB834A1957CA880006DB77 /* changelog.txt */,
 				331E1FF518B306A50087ABD9 /* LICENSE */,
 				33004CB018A8D33D003F3D0C /* SGG_MyScene.h */,
 				33004CAE18A8D33D003F3D0C /* SGG_MyScene.m */,
