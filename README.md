@@ -43,6 +43,8 @@ Features:
 *	Z Ordering
 *	Queue system for animation (when you jump, it will automatically return to running/walking when the animation finishes)
 *	Animations can be transitioned into each other (as opposed to hard cutting from one to the other)
+*	**Supports non linear keyframe timing modes**
+
 *	Builds for OS X and iOS
 
 
@@ -50,7 +52,7 @@ Limitations:
 
 *	Slot animation gets confused when you switch skins during an animation (in the example build, hold the mouse down for a while, then let go and watch the goblin eyes)
 *	~~Animation is built using SKAction - therefore, easing of keyframes is limited to the simple enumerated versions of easy ease that SKAction includes (ease in, ease out, ease both, linear)~~
-	*	~~This runtime automatically detects the closest approximation and applies it, however~~
+	*	~~This runtime automatically detects the closest approximation and applies it, however~~ See above
 *	Z order keyframes are NOT implemented
 *	Mixing animation (have your feet walking while your arms swing a weapon, for example) is not implemented.
 *	Requires using the built in atlas managment.
