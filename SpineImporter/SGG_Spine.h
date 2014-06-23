@@ -27,6 +27,7 @@ typedef enum {
 @property (nonatomic, assign) NSString* queuedAnimation;
 @property (nonatomic, assign) CGFloat queueIntro;
 @property (nonatomic, assign) NSInteger queueCount;
+@property (nonatomic) bool useQueue;
 
 
 @property (nonatomic, strong) NSMutableDictionary* swappedTextures;

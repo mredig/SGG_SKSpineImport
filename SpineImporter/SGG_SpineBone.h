@@ -31,6 +31,8 @@
 
 -(void)setDefaultsAndBase;
 -(void)setToDefaults;
--(void)playAnimations:(NSArray*)animationNames;
+-(NSInteger)playAnimations:(NSArray*)animationNames;
 -(void)updateAnimationAtFrame:(NSInteger)currentFrame;
+-(void)stopAnimation;
+
 @end

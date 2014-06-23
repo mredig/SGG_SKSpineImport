@@ -24,9 +24,9 @@
 @property (nonatomic, strong) NSArray* currentAnimation;
 
 
--(void)playAnimations:(NSArray*)animationNames;
--(void)updateAnimationAtFrame:(NSInteger)currentFrame;
-
+-(NSInteger)playAnimations:(NSArray*)animationNames;
+-(bool)updateAnimationAtFrame:(NSInteger)currentFrame;
+-(void)stopAnimation;
 
 -(void)setAttachmentTo:(NSString*)attachmentName;
 -(void)setToDefaultAttachment;

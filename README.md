@@ -97,11 +97,6 @@ NSDictionary* partReplacement = @{@"torso": @"goblin", @"head": @"goblin"};
 ```
 
 
-### Limitations:
-* Your dictionary's keys must match the slot names specified in the skeleton's .json file.
-* If you need to replace any 'nested' nodes, you must create an entry for that slot in your dictionary.
-
-
 
 ## resetSkinPartial
 Resets any changes made through changeSkinPartial; reverts the skeleton back to the textures used when the scene was created.

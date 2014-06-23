@@ -54,10 +54,15 @@
 	_baseScaleY = self.yScale;
 }
 
--(void)playAnimations:(NSArray*)animationNames {
+-(NSInteger)playAnimations:(NSArray*)animationNames {
+	
 	NSInteger maxFrameCount = 0;
 
 	_currentAnimation = nil;
+	if (!animationNames) {
+		return maxFrameCount;
+	}
+	
 	NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
 	for (int i = 0; i < animationNames.count; i++) {
 		SGG_SpineBoneAction* action = _animations[animationNames[i]];
@@ -72,6 +77,8 @@
 		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
 	}
 	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
+	
+	return maxFrameCount;
 //	NSLog(@"setting current animation: %@", _currentAnimation);
 
 }
@@ -80,6 +87,12 @@
 	[super removeAllActions];
 	
 	_currentAnimation = nil;
+	
+}
+
+-(void)stopAnimation {
+	
+	[self playAnimations:nil];
 	
 }
 
@@ -112,7 +125,6 @@
 
 		
 	}
-	
 }
 
 -(NSValue*)valueObjectFromPoint:(CGPoint)point {

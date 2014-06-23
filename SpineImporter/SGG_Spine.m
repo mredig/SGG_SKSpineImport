@@ -15,6 +15,7 @@
 //	SGG_SKUtilities* sharedUtilities;
 	
 	CFTimeInterval animationStartTime;
+	NSInteger repeatAnimationCount;
 	
 }
 
@@ -76,14 +77,17 @@
 
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
-	
-	animationStartTime = CFAbsoluteTimeGetCurrent();
-	
+
 	if (_isRunningAnimation) {
 		[self stopAnimation]; //clear any current animations
 	}
 	
-	if (!_queuedAnimation) {
+	animationStartTime = CFAbsoluteTimeGetCurrent();
+	NSLog(@"start time: %f", animationStartTime);
+	
+
+	_useQueue = useQueue;
+	if (!_queuedAnimation && useQueue) {
 		_queuedAnimation = animationName;
 		_queueCount = count;
 		_queueIntro = introPeriod;
@@ -96,67 +100,26 @@
 		animationNameWithIntro = animationName;
 	}
 	
-//	NSArray* thisAnimationWithIntro, *thisAnimation;
-//	if (![_animations objectForKey:animationNameWithIntro]) {
-//		[self setUpAnimationsWithAnimationDictionary:_rawAnimationDictionary withIntroPeriodOf:introPeriod];
-//	}
-//	thisAnimation = [_animations objectForKey:animationName];
-//	thisAnimationWithIntro = [_animations objectForKey:animationNameWithIntro];
 
-	
-	
-	CGFloat longestAction = 0;
-	
-//	for (int i = 0; i < thisAnimationWithIntro.count; i++) {
-//		NSDictionary* thisAniDictWithIntro = [thisAnimationWithIntro objectAtIndex:i];
-//		kSGG_SpineAnimationType animationType = [[thisAniDictWithIntro objectForKey:@"animationType"] intValue];
-//		NSString* attachmentName = [thisAniDictWithIntro objectForKey:@"attachmentName"];
-////		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-//		NSDictionary* thisAniDict = [thisAnimation objectAtIndex:i];
-//		
-//		SKAction* action;
-//		SKAction* introAction;
-//		SKAction* totalAction;
-////		if (animationType == kSGG_SpineAnimationTypeBone) {
-////		
-////			SGG_SpineBone* bone = [self findBoneNamed:attachmentName];
-////			introAction = [thisAniDictWithIntro objectForKey:@"action"];
-////			action = [thisAniDict objectForKey:@"action"];
-////			if (count == -1) {
-////				action = [SKAction repeatActionForever:action];
-////			} else {
-////				action = [SKAction repeatAction:action count:count];
-////			}
-////			totalAction = [SKAction sequence:@[introAction, action]];
-////			[bone runAction:totalAction withKey:animationName];
-////			
-////		} else if (animationType == kSGG_SpineAnimationTypeSlots) {
-////			
-////			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:attachmentName];
-////			introAction = [thisAniDictWithIntro objectForKey:@"action"];
-////			action = [thisAniDict objectForKey:@"action"];
-////			if (count == -1) {
-////				action = [SKAction repeatActionForever:action];
-////			} else {
-////				action = [SKAction repeatAction:action count:count];
-////			}
-////			totalAction = [SKAction sequence:@[introAction, action]];
-////			[slot runAction:totalAction withKey:animationName];
-////
-////		}
-//		
-//		if (totalAction.duration > longestAction) {
-//			longestAction = totalAction.duration;
-//		}
-//	}
+	NSInteger totalFrameCount = 0;
 	for (SGG_SpineBone* bone in _bones) {
-		[bone playAnimations:@[animationName]];
+		NSInteger thisFrameCount = [bone playAnimations:@[animationName]];
+		totalFrameCount = MAX(totalFrameCount, thisFrameCount);
+		if (thisFrameCount == 0 && _debugMode) {
+			NSLog(@"bone %@ has no frames.", bone.name);
+		}
 	}
 	
 	for (SGG_SkinSlot* skinSlot in _skinSlots) {
-		[skinSlot playAnimations:@[animationName]];
+		NSInteger thisFrameCount = [skinSlot playAnimations:@[animationName]];
+		totalFrameCount = MAX(totalFrameCount, thisFrameCount);
+		if (thisFrameCount == 0 && _debugMode) {
+			NSLog(@"slot %@ has no frames.", skinSlot.name);
+		}
 	}
-//	NSLog(@"pressed play");
+	if (_debugMode) {
+		NSLog(@"pressed play: %i frames", (int)totalFrameCount);
+	}
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];
@@ -164,18 +127,7 @@
 	_currentAnimationSequence = [NSArray arrayWithObject:animationName];
 	_isRunningAnimation = YES;
 	
-	if (count != -1) { //only turn boolean off if the action ever turns off
-		SKAction* turnBoolOff = [SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-			SGG_Spine* spine = (SGG_Spine*)node;
-			[spine stopAnimationAndPlayNextInQueue:useQueue];
-		}];
-		
-		turnBoolOff = [SKAction sequence:@[
-										   [SKAction waitForDuration:longestAction],
-										   turnBoolOff,
-										   ]];
-		[self runAction:turnBoolOff withKey:@"setToTurnIsRunningAnimationOff"];
-	}
+
 
 	
 }
@@ -193,13 +145,13 @@
 
 -(void)stopAnimationAndPlayNextInQueue:(BOOL)queueNext {
 	
-//	for (int i = 0; i < _bones.count; i++) {
-//		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
-//		[bone removeAllActions];
-//	}
-	[self enumerateChildNodesWithName:@"//*" usingBlock:^(SKNode *node, BOOL *stop) {
-		[node removeAllActions];
-	}];
+	for (SGG_SpineBone* bone in _bones) {
+		[bone stopAnimation];
+	}
+	
+	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+		[skinSlot stopAnimation];
+	}
 	
 	[self setIsRunningAnimationNO];
 	
@@ -371,37 +323,73 @@
 //}
 
 -(void)activateAnimations {
-	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
-	
-	double timeElapsed = time - animationStartTime;
+	if (_isRunningAnimation) {
 
-	NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
+		CFTimeInterval time = CFAbsoluteTimeGetCurrent();
+		
+		double timeElapsed = time - animationStartTime;
+
+		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
 
 
-	NSInteger currentFrame = 0;
-	
-	for (int i = 0; i < _bones.count; i++) {
-		SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
-		if (bone.currentAnimation.count > 1 && !currentFrame) {
-			currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+		NSInteger currentFrame = 0;
+		NSInteger totalFrames = 0;
+		
+		bool boneAnimationEnded, slotAnimationEnded;
+		
+		for (int i = 0; i < _bones.count; i++) {
+			SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
+			if (bone.currentAnimation.count > 1 && !currentFrame) {
+				currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+				CGFloat test = framesElapsed / (bone.currentAnimation.count - 1);
+				if (test >= 1.0) {
+					boneAnimationEnded = YES;
+				}
+			}
+			
+
+			[bone updateAnimationAtFrame:currentFrame];
+			
+			
+//			if (end) {
+//				boneAnimationEnded = YES;
+//			}
 		}
 		
-
-		[bone updateAnimationAtFrame:currentFrame];
-	}
-	
-	for (int i = 0; i < _skinSlots.count; i++) {
-		SGG_SkinSlot* skinSlot = _skinSlots[i];
-		if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
-			currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
+		for (int i = 0; i < _skinSlots.count; i++) {
+			SGG_SkinSlot* skinSlot = _skinSlots[i];
+			if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
+				currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
+			}
+			slotAnimationEnded = [skinSlot updateAnimationAtFrame:currentFrame];
 		}
-		[skinSlot updateAnimationAtFrame:currentFrame];
+		
+		if (_debugMode) {
+			SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
+			frameCounter.text = [NSString stringWithFormat:@"%i of %i", (int)currentFrame, (int)totalFrames];
+		}
+		
+		if (boneAnimationEnded) {
+			NSLog(@"end of ani");
+			[self endOfAnimation];
+		}
+		
+	}
+}
+
+-(void)endOfAnimation {
+	
+	if (_queuedAnimation && _queueCount != 0 && _useQueue) {
+		NSInteger newCount;
+		if (_queueCount <= -1) {
+			newCount = -1;
+		} else {
+			newCount = _queueCount - 1;
+		}
+		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+		NSLog(@"trigger");
 	}
 	
-	if (_debugMode) {
-		SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
-		frameCounter.text = [NSString stringWithFormat:@"%i", (int)currentFrame];
-	}
 }
 
 #pragma mark SETUP FUNCTIONS
