@@ -83,7 +83,6 @@
 	}
 	
 	animationStartTime = CFAbsoluteTimeGetCurrent();
-	NSLog(@"start time: %f", animationStartTime);
 	
 
 	_useQueue = useQueue;
@@ -162,15 +161,128 @@
 
 }
 
+
+
+-(void)resetSkeleton {
+	
+	for (int i = 0; i < _bones.count; i++) {
+		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
+		[bone setToDefaults];
+	}
+//	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
+//	NSArray* allSlots = [skinDict allKeys];
+	for (int i = 0; i < _skinSlots.count; i++) {
+		SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)_skinSlots[i];
+		[skinSlot setToDefaultAttachment];
+	}
+	
+}
+
+-(void)resetRootBoneOverDuration:(CGFloat)duration {
+	
+	//this section may need modification
+	SGG_SpineBone* rootBone = [self findBoneNamed:@"root"];
+	SKAction* setRootBoneRotation = [SKAction rotateToAngle:rootBone.defaultRotation duration:duration];
+	SKAction* setRootBoneTranslate = [SKAction moveTo:rootBone.defaultPosition duration:duration];
+	SKAction* setRootBoneScale = [SKAction scaleXTo:rootBone.xScale y:rootBone.yScale duration:duration];
+	SKAction* rootBoneSRT = [SKAction group:@[setRootBoneRotation, setRootBoneTranslate, setRootBoneScale]];
+	[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
+//	NSLog(@"root reset");
+}
+
+-(SGG_SpineBone*)findBoneNamed:(NSString*)boneName {
+	
+	for (int i = 0; i < _bones.count; i++) {
+		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
+		if ([bone.name isEqualToString:boneName]) {
+			return bone;
+		}
+	}
+	
+	return nil;
+}
+
+
+-(void)activateAnimations {
+	if (_isRunningAnimation) {
+
+		CFTimeInterval time = CFAbsoluteTimeGetCurrent();
+		
+		double timeElapsed = time - animationStartTime;
+
+		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
+
+
+		NSInteger currentFrame = 0;
+		NSInteger totalFrames = 0;
+		
+		bool boneAnimationEnded = NO;
+		bool slotAnimationEnded = NO;
+		
+		for (int i = 0; i < _bones.count; i++) {
+			SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
+			if (bone.currentAnimation.count > 1 && !currentFrame) {
+				currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+				if (framesElapsed >= (bone.currentAnimation.count - 1)) {
+					
+					boneAnimationEnded = YES;
+				}
+			}
+			totalFrames = MAX(totalFrames, bone.currentAnimation.count);
+
+			[bone updateAnimationAtFrame:currentFrame];
+			
+		}
+		
+		for (int i = 0; i < _skinSlots.count; i++) {
+			SGG_SkinSlot* skinSlot = _skinSlots[i];
+			if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
+				currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
+			}
+			slotAnimationEnded = [skinSlot updateAnimationAtFrame:currentFrame];
+		}
+		
+		if (_debugMode) {
+			SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
+			frameCounter.text = [NSString stringWithFormat:@"%i of %i", (int)currentFrame, (int)totalFrames];
+		}
+		
+		if (boneAnimationEnded) {
+//			NSLog(@"end of ani, played %i frames", (int)framesElapsed);
+			[self endOfAnimation];
+		}
+		
+	}
+}
+
+-(void)endOfAnimation {
+	
+	if (_queuedAnimation && _queueCount != 0 && _useQueue) {
+		NSInteger newCount;
+		if (_queueCount <= -1) {
+			newCount = -1;
+		} else {
+			newCount = _queueCount - 1;
+		}
+		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+//		NSLog(@"trigger");
+	} else {
+		[self stopAnimation];
+	}
+	
+}
+
+#pragma mark SKINNING
+
 -(void)changeSkinTo:(NSString*)skin {
 	
 	for (SGG_SkinSlot* skinSlot in _skinSlots) {
 		[skinSlot changeSkinTo:skin];
 	}
-
+	
 	_currentSkin = skin;
 	
-//	[self creatSlotsAndAttachToBonesWithSlotsArray:_slotsArray];
+	//	[self creatSlotsAndAttachToBonesWithSlotsArray:_slotsArray];
 	
 }
 
@@ -195,7 +307,7 @@
 			NSString* thisKey = (NSString*)key;
 			SKSpriteNode* thisAttachment = thisSlotSkinDict[thisKey];
 			if (thisAttachment) {
-//				NSLog(@"%@ attachement exists: %@", thisKey, thisSlotSkinDict[thisKey]);
+				//				NSLog(@"%@ attachement exists: %@", thisKey, thisSlotSkinDict[thisKey]);
 				SKTexture* originalTexture = thisAttachment.texture;
 				thisAttachment.texture = [SKTexture textureWithImageNamed:attachmentsToReplace[thisKey]];
 				
@@ -233,7 +345,7 @@
 	
 	_swappedTextures = nil;
 	
-
+	
 }
 
 
@@ -276,121 +388,7 @@
 	
 }
 
--(void)resetSkeleton {
-	
-	for (int i = 0; i < _bones.count; i++) {
-		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
-		[bone setToDefaults];
-	}
-//	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-//	NSArray* allSlots = [skinDict allKeys];
-	for (int i = 0; i < _skinSlots.count; i++) {
-		SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)_skinSlots[i];
-		[skinSlot setToDefaultAttachment];
-	}
-	
-}
 
--(void)resetRootBoneOverDuration:(CGFloat)duration {
-	
-	//this section may need modification
-	SGG_SpineBone* rootBone = [self findBoneNamed:@"root"];
-	SKAction* setRootBoneRotation = [SKAction rotateToAngle:rootBone.defaultRotation duration:duration];
-	SKAction* setRootBoneTranslate = [SKAction moveTo:rootBone.defaultPosition duration:duration];
-	SKAction* setRootBoneScale = [SKAction scaleXTo:rootBone.xScale y:rootBone.yScale duration:duration];
-	SKAction* rootBoneSRT = [SKAction group:@[setRootBoneRotation, setRootBoneTranslate, setRootBoneScale]];
-	[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
-//	NSLog(@"root reset");
-}
-
--(SGG_SpineBone*)findBoneNamed:(NSString*)boneName {
-	
-	for (int i = 0; i < _bones.count; i++) {
-		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
-		if ([bone.name isEqualToString:boneName]) {
-			return bone;
-		}
-	}
-	
-	return nil;
-}
-
-//-(void)activateAnimations {
-//	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
-//	for (SGG_SpineBone* bone in _bones) {
-//		[bone updateAnimationAtTime:time thatStartedAt:animationStartTime];
-//	}
-//}
-
--(void)activateAnimations {
-	if (_isRunningAnimation) {
-
-		CFTimeInterval time = CFAbsoluteTimeGetCurrent();
-		
-		double timeElapsed = time - animationStartTime;
-
-		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
-
-
-		NSInteger currentFrame = 0;
-		NSInteger totalFrames = 0;
-		
-		bool boneAnimationEnded, slotAnimationEnded;
-		
-		for (int i = 0; i < _bones.count; i++) {
-			SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
-			if (bone.currentAnimation.count > 1 && !currentFrame) {
-				currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
-				CGFloat test = framesElapsed / (bone.currentAnimation.count - 1);
-				if (test >= 1.0) {
-					boneAnimationEnded = YES;
-				}
-			}
-			
-
-			[bone updateAnimationAtFrame:currentFrame];
-			
-			
-//			if (end) {
-//				boneAnimationEnded = YES;
-//			}
-		}
-		
-		for (int i = 0; i < _skinSlots.count; i++) {
-			SGG_SkinSlot* skinSlot = _skinSlots[i];
-			if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
-				currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
-			}
-			slotAnimationEnded = [skinSlot updateAnimationAtFrame:currentFrame];
-		}
-		
-		if (_debugMode) {
-			SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
-			frameCounter.text = [NSString stringWithFormat:@"%i of %i", (int)currentFrame, (int)totalFrames];
-		}
-		
-		if (boneAnimationEnded) {
-			NSLog(@"end of ani");
-			[self endOfAnimation];
-		}
-		
-	}
-}
-
--(void)endOfAnimation {
-	
-	if (_queuedAnimation && _queueCount != 0 && _useQueue) {
-		NSInteger newCount;
-		if (_queueCount <= -1) {
-			newCount = -1;
-		} else {
-			newCount = _queueCount - 1;
-		}
-		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
-		NSLog(@"trigger");
-	}
-	
-}
 
 #pragma mark SETUP FUNCTIONS
 

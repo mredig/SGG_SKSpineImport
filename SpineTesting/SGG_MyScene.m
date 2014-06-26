@@ -35,19 +35,19 @@
 		
 		
 		boy = [SGG_Spine node];
-//		boy.debugMode = YES;
+		boy.debugMode = YES;
 		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
 		[boy runAnimation:@"walk" andCount:-1];
 		boy.queueCount = -1;
 		boy.queuedAnimation = @"walk";
 		boy.name = @"boy";
-		boy.queueIntro = 0.1;
+//		boy.queueIntro = 0.1;
 		boy.zPosition = 0;
 		[self addChild:boy];
-//
-//		
-//		
+
+		
+		
 //		elf = [SGG_Spine node];
 //		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
 //		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
@@ -162,6 +162,8 @@
 				case 'd':boy.xScale = 1;
 					break;
 				case 's':[boy stopAnimation];
+					break;
+//				case 'w':[boy runAnimation:@"walk" andCount:0];
 					break;
 			}
 		}
