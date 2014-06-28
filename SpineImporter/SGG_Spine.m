@@ -77,6 +77,13 @@
 
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
+	
+	
+	if (introPeriod > 0) {
+		[self createIntroAnimationIntoAnimation:animationName overDuration:introPeriod];
+		[self runAnimationSequence:@[@"INTRO_ANIMATION", animationName] andUseQueue:useQueue];
+		return;
+	}
 
 	if (_isRunningAnimation) {
 		[self stopAnimation]; //clear any current animations
@@ -84,20 +91,14 @@
 	
 	animationStartTime = CFAbsoluteTimeGetCurrent();
 	
+	_animationCount = count;
+	
 
 	_useQueue = useQueue;
 	if (!_queuedAnimation && useQueue) {
 		_queuedAnimation = animationName;
-		_queueCount = count;
-		_queueIntro = introPeriod;
 	}
-	
-	NSString* animationNameWithIntro;
-	if (introPeriod != 0) {
-		animationNameWithIntro = [NSString stringWithFormat:@"%f-intro-%@", introPeriod, animationName];
-	} else {
-		animationNameWithIntro = animationName;
-	}
+
 	
 
 	NSInteger totalFrameCount = 0;
@@ -117,25 +118,31 @@
 		}
 	}
 	if (_debugMode) {
-		NSLog(@"pressed play: %i frames", (int)totalFrameCount);
+		NSLog(@"running animation: %@ : %i frames",animationName, (int)totalFrameCount);
 	}
 
 //reset root rotation and stuff
 	[self resetRootBoneOverDuration:introPeriod];
 	
-	_currentAnimationSequence = [NSArray arrayWithObject:animationName];
+	if (_currentAnimationSequence.count <= 1) {
+		_currentAnimationSequence = nil;
+	}
+
+	_currentAnimation = animationName;
 	_isRunningAnimation = YES;
 	
+
 
 
 	
 }
 
--(void)runAnimationSequence:(NSArray *)animationNames andCount:(NSInteger)count {
+-(void)runAnimationSequence:(NSArray *)animationNames andUseQueue:(BOOL)useQueue {
 	
 	//fill in later
-	
-	
+	_currentAnimationSequence = [NSMutableArray arrayWithArray:animationNames];
+
+	[self runAnimation:_currentAnimationSequence[0] andCount:0 withSpeedFactor:1.0f withIntroPeriodOf:0 andUseQueue:useQueue];
 }
 
 -(void)stopAnimation {
@@ -156,7 +163,7 @@
 	
 	if (queueNext) {
 		// play next in queue
-		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+		[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
 	}
 
 }
@@ -222,9 +229,9 @@
 		for (int i = 0; i < _bones.count; i++) {
 			SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
 			if (bone.currentAnimation.count > 1 && !currentFrame) {
-				currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+				currentFrame = framesElapsed;
 				if (framesElapsed >= (bone.currentAnimation.count - 1)) {
-					
+					currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
 					boneAnimationEnded = YES;
 				}
 			}
@@ -239,7 +246,10 @@
 			if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
 				currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
 			}
-			slotAnimationEnded = [skinSlot updateAnimationAtFrame:currentFrame];
+			if (framesElapsed >= (skinSlot.currentAnimation.count - 1)) {
+				slotAnimationEnded = YES;
+			}
+			[skinSlot updateAnimationAtFrame:currentFrame];
 		}
 		
 		if (_debugMode) {
@@ -248,7 +258,6 @@
 		}
 		
 		if (boneAnimationEnded) {
-//			NSLog(@"end of ani, played %i frames", (int)framesElapsed);
 			[self endOfAnimation];
 		}
 		
@@ -256,20 +265,55 @@
 }
 
 -(void)endOfAnimation {
-	
-	if (_queuedAnimation && _queueCount != 0 && _useQueue) {
-		NSInteger newCount;
-		if (_queueCount <= -1) {
-			newCount = -1;
-		} else {
-			newCount = _queueCount - 1;
+	if ([_currentAnimation isEqualToString:@"INTRO_ANIMATION"]) { //clear out intro animation after it's been used
+		NSLog(@"finished intro");
+		for (SGG_SpineBone* bone in _bones) {
+			[bone.animations removeObjectForKey:@"INTRO_ANIMATION"];
 		}
-		[self runAnimation:_queuedAnimation andCount:_queueCount withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
-//		NSLog(@"trigger");
-	} else {
+		
+		for (SGG_SkinSlot* skinSlot in _skinSlots) {
+			[skinSlot.animations removeObjectForKey:@"INTRO_ANIMATION"];
+		}
+	}
+
+	if (_currentAnimationSequence.count > 1) { //if running a sequence, remove the first listed animation in the sequence and move on to the next
+		if ([_currentAnimation isEqualToString:_currentAnimationSequence[0]]) {
+			[_currentAnimationSequence removeObjectAtIndex:0];
+		}
+		[self runAnimation:_currentAnimationSequence[0] andCount:0 withSpeedFactor:1.0f withIntroPeriodOf:0 andUseQueue:YES];
+		
+	} else if (_animationCount > 0){ //if animation is set to repeat x times start the same animation over and count -1 in count
+		_animationCount -= 1;
+		if (_animationCount == -1) {
+			[self stopAnimation];
+			_animationCount = 0;
+			return;
+		} else {
+			[self runAnimation:_currentAnimation andCount:_animationCount withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
+		}
+		
+	} else if (_animationCount == -1) { //if animation is set to repeat infinite times, repeat animation
+		[self runAnimation:_currentAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
+	} else if (_queuedAnimation != 0 && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
+		if ([_currentAnimation isEqualToString:_queuedAnimation]) {
+			NSLog(@"queued with no intro");
+			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:YES];
+		} else {
+			NSLog(@"queued with intro: %f", _queueIntro);
+			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+		}
+		NSLog(@"set to queue");
+	} else { //stop animation if nothing above qualifies
 		[self stopAnimation];
+		NSLog(@"stopped");
 	}
 	
+}
+
+-(void)animationCounter {
+	if (_animationCount >= 0) {
+		_animationCount -= 1;
+	}
 }
 
 #pragma mark SKINNING
@@ -627,16 +671,12 @@
 
 
 -(void)setUpAnimationsWithAnimationDictionary:(NSDictionary*)animationDictionary withIntroPeriodOf:(CGFloat)introPeriod{
-	
-//	if (!_animations) {
-//		_animations = [[NSMutableDictionary alloc]init];
-//	}
+
 	
 	NSArray* animationNames = [animationDictionary allKeys];
 	for (int i = 0; i < animationNames.count; i++) {
 	//cycle through all animations
 	
-//		NSMutableArray* thisTempAnimationArray = [[NSMutableArray alloc]init];
 		NSString* thisAnimationName = [animationNames objectAtIndex:i];
 		NSDictionary* thisAnimationDict = [NSDictionary dictionaryWithDictionary:[animationDictionary objectForKey:thisAnimationName]];
 		
@@ -650,7 +690,7 @@
 		//cycle through individual bone SRT animations
 		
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:c];
-			NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name]; //does this work?!
+			NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name];
 			
 			//set up scale actions for bone
 //			SKAction* boneScale = [self createBoneScaleActionsFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
@@ -659,7 +699,7 @@
 			NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
 			NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
 			NSArray* scales = [SRTtimelinesForBone objectForKey:@"scale"];
-			SGG_SpineBoneAction* boneAction = [self createBoneTranslationActionsFromArray:translations andRotationsFromArray:rotations andScalesFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
+			SGG_SpineBoneAction* boneAction = [self createBoneTranslationActionsFromArray:translations andRotationsFromArray:rotations andScalesFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration];
 
 			
 			[bone.animations setObject:boneAction forKey:thisAnimationName];
@@ -668,23 +708,6 @@
 		
 		NSDictionary* slotsAnimationsDict = [NSDictionary dictionaryWithDictionary:[thisAnimationDict objectForKey:@"slots"]];
 		NSArray* slotNames = [slotsAnimationsDict allKeys];
-//		NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-//		for (int i = 0; i < slotNames.count; i++) {
-//		// cycle through individual slot animations
-//		
-//			NSString* slotName = [slotNames objectAtIndex:i];
-//			NSDictionary* slotDict = [slotsAnimationsDict objectForKey:slotName];
-//			SGG_SkinSlot* slot = (SGG_SkinSlot*)[skinDict objectForKey:[skinDict objectForKey:slotName]];
-//
-//			SKAction* slotActions = [self createSlotActionsFromDictionary:slotDict forSlot:slot andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-//
-//			NSArray* keys = @[@"action", @"animationType", @"attachmentName"];
-//			NSArray* objects = @[slotActions, [NSNumber numberWithInteger:kSGG_SpineAnimationTypeSlots], slotName];
-//			NSDictionary* thisSlotAniDict = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-//			[thisTempAnimationArray addObject:thisSlotAniDict];
-//
-//			
-//		}
 		
 		for (NSString* slotName in slotNames) {
 			for (SGG_SkinSlot* skinSlot in _skinSlots) {
@@ -824,10 +847,174 @@
 	return longestDuration;
 }
 
+-(void)createIntroAnimationIntoAnimation:(NSString*)animationName overDuration:(CGFloat)duration {
+//	NSLog(@"creating intro");
+	
+	NSDictionary* thisAnimationDict = _rawAnimationDictionary[animationName];
+	
+	NSDictionary* boneAnimationsDict = [NSDictionary dictionaryWithDictionary:[thisAnimationDict objectForKey:@"bones"]];
+	CGFloat longestDuration = duration;
+
+	
+	for (SGG_SpineBone* bone in _bones) {
+		
+		
+		NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name];
+		
+		//set up scale actions for bone
+		//			SKAction* boneScale = [self createBoneScaleActionsFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
+		
+		//set up actions for bone
+		NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
+		NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
+		NSArray* scales = [SRTtimelinesForBone objectForKey:@"scale"];
+
+		NSDictionary* destTranDict, *destRotDict, *destScaleDict;
+		
+		destTranDict = translations[0];
+		destRotDict = rotations[0];
+		destScaleDict = scales[0];
+		
+		CGFloat destXPos, destYPos, destRot, destXScale, destYScale;
+		destXPos = [destTranDict[@"x"] doubleValue];
+		destYPos = [destTranDict[@"y"] doubleValue];
+		destRot = [destRotDict[@"angle"] doubleValue];
+		if (destScaleDict[@"x"]) {
+			destXScale = [destScaleDict[@"x"] doubleValue];
+		} else {
+			destXScale = 1.0;
+		}
+		
+		if (destScaleDict[@"y"]) {
+			destYScale = [destScaleDict[@"y"] doubleValue];
+		} else {
+			destYScale = 1.0;
+		}
+		
+		NSDictionary* startTransDict = [NSDictionary dictionaryWithObjects:@[
+																			 [NSNumber numberWithDouble:0],
+																			 [NSNumber numberWithDouble:bone.position.x - bone.defaultPosition.x],
+																			 [NSNumber numberWithDouble:bone.position.y - bone.defaultPosition.y],
+																			 ]
+																   forKeys:@[
+																			 @"time",
+																			 @"x",
+																			 @"y",
+																			 ]];
+		
+		
+		NSDictionary* endTransDict = [NSDictionary dictionaryWithObjects:@[
+																			 [NSNumber numberWithDouble:longestDuration],
+																			 [NSNumber numberWithDouble:destXPos],
+																			 [NSNumber numberWithDouble:destYPos],
+																			 ]
+																   forKeys:@[
+																			 @"time",
+																			 @"x",
+																			 @"y",
+																			 ]];
+		
+		CGFloat startRotationModified = (bone.zRotation * SPINE_RADTODEGFACTOR);
+//		NSLog(@"startRot: %f", startRotationModified);
+		startRotationModified -= bone.defaultRotation * SPINE_RADTODEGFACTOR;
+//		NSLog(@"modded: %f", startRotationModified);
+
+		
+		NSDictionary* startRotationDict = [NSDictionary dictionaryWithObjects:@[
+																				[NSNumber numberWithDouble:0],
+																				[NSNumber numberWithDouble:startRotationModified],
+																				]
+																	  forKeys:@[
+																				@"time",
+																				@"angle",
+																				]];
+		NSDictionary* endRotationDict = [NSDictionary dictionaryWithObjects:@[
+																				[NSNumber numberWithDouble:longestDuration],
+																				[NSNumber numberWithDouble:destRot],
+																				]
+																	  forKeys:@[
+																				@"time",
+																				@"angle",
+																				]];
+		
+		NSDictionary* startScaleDict = [NSDictionary dictionaryWithObjects:@[
+																				[NSNumber numberWithDouble:0],
+																				[NSNumber numberWithDouble:bone.xScale * bone.defaultScaleX],
+																				[NSNumber numberWithDouble:bone.yScale * bone.defaultScaleY],
+																				]
+																   forKeys:@[
+																			 @"time",
+																			 @"x",
+																			 @"y",
+																			 ]];
+		
+		NSDictionary* endScaleDict = [NSDictionary dictionaryWithObjects:@[
+																			 [NSNumber numberWithDouble:longestDuration],
+																			 [NSNumber numberWithDouble:destXScale],
+																			 [NSNumber numberWithDouble:destYScale],
+																			 ]
+																   forKeys:@[
+																			 @"time",
+																			 @"x",
+																			 @"y",
+																			 ]];
+		
+		NSArray* newTrans = [NSArray arrayWithObjects:startTransDict,
+													endTransDict,
+													nil];
+//		NSLog(@"%@ newTrans: %@", bone.name, newTrans);
+		NSArray* newRot = [NSArray arrayWithObjects:startRotationDict, endRotationDict, nil];
+		NSArray* newScale = [NSArray arrayWithObjects:startScaleDict, endScaleDict, nil];
+		
+		if (translations[0] || rotations[0] || scales[0]) {
+			SGG_SpineBoneAction* boneAction = [self createBoneTranslationActionsFromArray:newTrans andRotationsFromArray:newRot andScalesFromArray:newScale forBone:bone andTotalLengthOfAnimation:longestDuration];
+			
+			[boneAction calculateTotalAction];
+			
+			[bone.animations setObject:boneAction forKey:@"INTRO_ANIMATION"];
+			
+//			NSLog(@"made intro for %@: %i frames", bone.name, (int)boneAction.animation.count);
+		}
+		
+
+	}
+	
+//	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+//		NSDictionary* startDict = [NSDictionary dictionaryWithObjects:@[
+//																		[NSNumber numberWithDouble:0],
+//																		skinSlot.currentAttachment,
+//																		]
+//															  forKeys:@[
+//																		@"time",
+//																		@"name",
+//																		]];
+//		NSDictionary* endDict = [NSDictionary dictionaryWithObjects:@[
+//																	  [NSNumber numberWithDouble:longestDuration],
+//																	  skinSlot.currentAttachment,
+//																		]
+//															  forKeys:@[
+//																		@"time",
+//																		@"name",
+//																		]];
+//
+//		NSArray* aniArray = [NSArray arrayWithObjects:@[startDict, endDict], nil];
+//		NSDictionary* totalDict = [NSDictionary dictionaryWithObject:aniArray forKey:@"attachment"];
+//		SGG_SpineBoneAction* slotAction = [self createSpineSlotActionsFromDictionary:totalDict andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:0];
+//		
+//		[slotAction calculateSlotAction];
+//		
+//		[skinSlot.animations setObject:slotAction forKey:@"INTRO_ANIMATION"];
+//		NSLog(@"%@", skinSlot.animations[@"INTRO_ANIMATION"]);
+//
+//	}
+	
+//	NSLog(@"set intro");
+
+}
 
 
 
--(SGG_SpineBoneAction*)createBoneTranslationActionsFromArray:(NSArray*)translations andRotationsFromArray:(NSArray*)rotations andScalesFromArray:(NSArray*)scales forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
+-(SGG_SpineBoneAction*)createBoneTranslationActionsFromArray:(NSArray*)translations andRotationsFromArray:(NSArray*)rotations andScalesFromArray:(NSArray*)scales forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration {
 	
 //	CGFloat totalTimeForThisAnimation = 0;
 	
@@ -916,93 +1103,6 @@
 	
 }
 
-//-(SKAction*)createSlotActionsFromDictionary:(NSDictionary*)slotDict forSlot:(SGG_SkinSlot*)slot andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
-//	
-//	//	NSLog(@"slotDict: %@", slotDict);
-//	
-//	
-//	NSArray* attachmentTimings = [NSArray arrayWithArray:[slotDict objectForKey:@"attachment"]];
-//	NSArray* colorTimings = [slotDict objectForKey:@"color"];
-//	SKAction* slotAction = [[SKAction alloc] init];
-//	
-//	//attachments
-//	SKAction* attachmentAction = [[SKAction alloc] init];
-//	
-//	if (attachmentTimings) {
-//		
-//		CGFloat totalTimeForThisAnimation = 0;
-//		
-//		for (int c = 0; c < attachmentTimings.count; c++) {
-//			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-//			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-//			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-//			
-//			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation + intro;
-//			totalTimeForThisAnimation += timeForThisAnimationSegment;
-//			
-//			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-//			attachmentAction = [SKAction sequence:@[
-//													attachmentAction,
-//													waitingAction,
-//													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-//				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-//				[skinSlot setAttachmentTo:attachmentName];
-//				//														NSLog(@"custom action ran");
-//			}]
-//													]];
-//			
-//			
-//		}
-//		
-//		if (totalTimeForThisAnimation < (longestDuration + intro)) {
-//			SKAction* waiting = [SKAction waitForDuration:((longestDuration + intro) - totalTimeForThisAnimation)];
-//			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-//		}
-//	}
-//	
-//	
-//	
-//	//colors
-////	SKAction* colorAction = [SKAction colorizeWithColor:[SKColor whiteColor] colorBlendFactor:0 duration:0];
-//	if (colorTimings) {
-//		CGFloat totalTimeForThisAnimation = 0;
-//		
-//		for (int c = 0; c < attachmentTimings.count; c++) {
-//			NSDictionary* attachmentDict = [attachmentTimings objectAtIndex:c];
-//			NSString* attachmentName = [attachmentDict objectForKey:@"name"];
-//			CGFloat time = [[attachmentDict objectForKey:@"time"] doubleValue];
-//			
-//			CGFloat timeForThisAnimationSegment = time - totalTimeForThisAnimation;
-//			totalTimeForThisAnimation += timeForThisAnimationSegment;
-//			
-//			SKAction* waitingAction = [SKAction waitForDuration:timeForThisAnimationSegment];
-//			attachmentAction = [SKAction sequence:@[
-//													attachmentAction,
-//													waitingAction,
-//													[SKAction customActionWithDuration:0 actionBlock:^(SKNode* node, CGFloat elapsedTime){
-//				SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)node;
-//				[skinSlot setAttachmentTo:attachmentName];
-//				//														NSLog(@"custom action ran");
-//			}]
-//													]];
-//			
-//			
-//		}
-//		
-//		if (totalTimeForThisAnimation < longestDuration) {
-//			SKAction* waiting = [SKAction waitForDuration:(longestDuration - totalTimeForThisAnimation)];
-//			attachmentAction = [SKAction sequence:@[attachmentAction, waiting]];
-//		}
-//	}
-//	
-//	
-//	slotAction = [SKAction group:@[
-//								   attachmentAction,
-//								   //								   colorAction,
-//								   ]];
-//	
-//	return slotAction;
-//}
 
 #pragma mark PROPERTY HANDLERS
 
@@ -1012,7 +1112,7 @@
 
 -(void)setIsRunningAnimationNO {
 	_isRunningAnimation = NO;
-	_currentAnimationSequence = nil;
+	_currentAnimation = nil;
 //	NSLog(@"animation done");
 	
 }

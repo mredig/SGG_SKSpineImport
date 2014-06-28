@@ -57,6 +57,11 @@ Limitations:
 *	Requires using the built in atlas managment.
 *	Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is.
 *	Can't have slashes (/) in image names
+*	I'm not sure if the animation sequence vs queuing system order of operations is the most efficient or logical or if another configuration would be superior.
+	*	Currently, the priority is 
+	1.	runAnimation method (called directly)
+	2.	running the next animation in a sequence
+	3.	running whatever animation is queued for repeat
 
 
 

@@ -76,10 +76,22 @@
 		
 		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
 	}
+	
+	if ([animationNames[0] isEqualToString:@"INTRO_ANIMATION"]) {
+		[sequentialAnimations removeLastObject];
+		maxFrameCount--;
+	}
 	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
 	
-	return maxFrameCount;
 //	NSLog(@"setting current animation: %@", _currentAnimation);
+	if ([animationNames[0] isEqualToString:@"INTRO_ANIMATION"]) {
+		CGFloat prev = 0;
+//		for (NSDictionary* dict in _currentAnimation) {
+//			NSLog(@"bone: %@ rot: %f dev: %f", self.name, [dict[@"rotation"] doubleValue], [dict[@"rotation"] doubleValue] - prev);
+//			prev = [dict[@"rotation"] doubleValue];
+//		}
+	}
+	return maxFrameCount;
 
 }
 

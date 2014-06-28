@@ -22,11 +22,12 @@ typedef enum {
 
 
 @property (nonatomic, readonly) BOOL isRunningAnimation;
-@property (nonatomic, strong) NSArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
+@property (nonatomic, strong) NSMutableArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
+@property (nonatomic) NSString* currentAnimation;
+@property (nonatomic) NSInteger animationCount;
 
 @property (nonatomic, assign) NSString* queuedAnimation;
 @property (nonatomic, assign) CGFloat queueIntro;
-@property (nonatomic, assign) NSInteger queueCount;
 @property (nonatomic) bool useQueue;
 
 
@@ -37,12 +38,12 @@ typedef enum {
 @property (nonatomic, strong) NSArray* bones;
 //@property (nonatomic, strong) NSMutableDictionary* skins;
 //@property (nonatomic, strong) NSMutableDictionary* animations;
-@property (nonatomic, strong) NSArray* skinSlots;
-@property (nonatomic, assign) NSString* currentSkin;
+@property (nonatomic, strong) NSArray* skinSlots; //active slots in animation
+@property (nonatomic, assign) NSString* currentSkin; //name of current skin
 
 
-@property (nonatomic, strong) NSArray* slotsArray;
-@property (nonatomic, strong) NSDictionary* rawAnimationDictionary;
+@property (nonatomic, strong) NSArray* slotsArray; //raw from json
+@property (nonatomic, strong) NSDictionary* rawAnimationDictionary; //raw information from JSON
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 -(void)stopAnimation;
@@ -56,6 +57,7 @@ typedef enum {
 -(void)resetColorizedSlots;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
+-(void)runAnimationSequence:(NSArray *)animationNames andUseQueue:(BOOL)useQueue;
 -(void)activateAnimations;
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;
 

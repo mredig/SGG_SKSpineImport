@@ -35,14 +35,14 @@
 		
 		
 		boy = [SGG_Spine node];
-		boy.debugMode = YES;
+//		boy.debugMode = YES;
 		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-		[boy runAnimation:@"walk" andCount:-1];
-		boy.queueCount = -1;
+//		[boy runAnimation:@"walk" andCount:-1];
+//		[boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:YES];
 		boy.queuedAnimation = @"walk";
 		boy.name = @"boy";
-//		boy.queueIntro = 0.1;
+		boy.queueIntro = 0.1;
 		boy.zPosition = 0;
 		[self addChild:boy];
 
@@ -52,7 +52,6 @@
 //		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
 //		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
 //		[elf runAnimation:@"standing" andCount:-1];
-//		elf.queueCount = -1;
 //		elf.queuedAnimation = @"standing";
 //		elf.queueIntro = 0.1;
 //		elf.zPosition = 20;
@@ -151,7 +150,7 @@
 			unichar character = [characters characterAtIndex:s];
 			switch (character) {
 				case ' ':{
-					if (![[boy.currentAnimationSequence objectAtIndex:0] isEqualToString:@"jump"]) {
+					if (![boy.currentAnimation isEqualToString:@"jump"]) {
 						[boy runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
 					}
 					
@@ -163,7 +162,7 @@
 					break;
 				case 's':[boy stopAnimation];
 					break;
-//				case 'w':[boy runAnimation:@"walk" andCount:0];
+				case 'w':[boy runAnimation:@"walk" andCount:0 withSpeedFactor:1.0 withIntroPeriodOf:1.0 andUseQueue:YES];
 					break;
 			}
 		}
