@@ -77,20 +77,13 @@
 		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
 	}
 	
-	if ([animationNames[0] isEqualToString:@"INTRO_ANIMATION"]) {
-		[sequentialAnimations removeLastObject];
-		maxFrameCount--;
-	}
+	[sequentialAnimations removeLastObject]; //remove last frame of data as it's usually buggy
+	maxFrameCount--;
+
 	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
 	
 //	NSLog(@"setting current animation: %@", _currentAnimation);
-	if ([animationNames[0] isEqualToString:@"INTRO_ANIMATION"]) {
-		CGFloat prev = 0;
-//		for (NSDictionary* dict in _currentAnimation) {
-//			NSLog(@"bone: %@ rot: %f dev: %f", self.name, [dict[@"rotation"] doubleValue], [dict[@"rotation"] doubleValue] - prev);
-//			prev = [dict[@"rotation"] doubleValue];
-//		}
-	}
+
 	return maxFrameCount;
 
 }
@@ -112,6 +105,7 @@
 	
 	if (_currentAnimation && _currentAnimation.count ) {
 
+		CGFloat prev = self.zRotation;
 		
 		if (currentFrame >= _currentAnimation.count) {
 			currentFrame = _currentAnimation.count - 1;
@@ -134,7 +128,9 @@
 			self.yScale = _baseScaleY;
 		}
 
-
+//		if ([self.name isEqualToString:@"right shoulder"]) {
+//			NSLog(@"%@: rot: %f prev: %f dev: %f", self.name, self.zRotation, prev, self.zRotation - prev);
+//		}
 		
 	}
 }

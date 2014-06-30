@@ -231,7 +231,8 @@
 			if (bone.currentAnimation.count > 1 && !currentFrame) {
 				currentFrame = framesElapsed;
 				if (framesElapsed >= (bone.currentAnimation.count - 1)) {
-					currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+//					currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
+					currentFrame = MIN(bone.currentAnimation.count, framesElapsed);
 					boneAnimationEnded = YES;
 				}
 			}
