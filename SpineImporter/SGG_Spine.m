@@ -267,7 +267,7 @@
 
 -(void)endOfAnimation {
 	if ([_currentAnimation isEqualToString:@"INTRO_ANIMATION"]) { //clear out intro animation after it's been used
-		NSLog(@"finished intro");
+//		NSLog(@"finished intro");
 		for (SGG_SpineBone* bone in _bones) {
 			[bone.animations removeObjectForKey:@"INTRO_ANIMATION"];
 		}
@@ -297,16 +297,16 @@
 		[self runAnimation:_currentAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
 	} else if (_queuedAnimation != 0 && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
 		if ([_currentAnimation isEqualToString:_queuedAnimation]) {
-			NSLog(@"queued with no intro");
+//			NSLog(@"queued with no intro");
 			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:YES];
 		} else {
-			NSLog(@"queued with intro: %f", _queueIntro);
+//			NSLog(@"queued with intro: %f", _queueIntro);
 			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
 		}
-		NSLog(@"set to queue");
+//		NSLog(@"set to queue");
 	} else { //stop animation if nothing above qualifies
 		[self stopAnimation];
-		NSLog(@"stopped");
+//		NSLog(@"stopped");
 	}
 	
 }

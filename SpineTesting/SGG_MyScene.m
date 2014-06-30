@@ -48,25 +48,25 @@
 
 		
 		
-//		elf = [SGG_Spine node];
-//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-//		[elf runAnimation:@"standing" andCount:-1];
-//		elf.queuedAnimation = @"standing";
-//		elf.queueIntro = 0.1;
-//		elf.zPosition = 20;
-//		elf.xScale = 0.6;
-//		elf.yScale = 0.6;
-//		[self addChild:elf];
-////
-////		
-//		goblin = [SGG_Spine node];
-////		goblin.debugMode = YES;
-//		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-//		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-//		[goblin runAnimation:@"walk" andCount:-1];
-//		goblin.zPosition = 10;
-//		[self addChild:goblin];
+		elf = [SGG_Spine node];
+		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[elf runAnimation:@"standing" andCount:-1];
+		elf.queuedAnimation = @"standing";
+		elf.queueIntro = 0.1;
+		elf.zPosition = 20;
+		elf.xScale = 0.6;
+		elf.yScale = 0.6;
+		[self addChild:elf];
+//
+//		
+		goblin = [SGG_Spine node];
+//		goblin.debugMode = YES;
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+		[goblin runAnimation:@"walk" andCount:-1];
+		goblin.zPosition = 10;
+		[self addChild:goblin];
 		
 //		stepTest = [SGG_Spine node];
 //		stepTest.debugMode = YES;
@@ -162,7 +162,7 @@
 					break;
 				case 's':[boy stopAnimation];
 					break;
-				case 'w':[boy runAnimation:@"walk" andCount:0 withSpeedFactor:1.0 withIntroPeriodOf:1.0 andUseQueue:YES];
+				case 'w':[boy runAnimation:@"walk" andCount:0 withSpeedFactor:1.0 withIntroPeriodOf:0.1 andUseQueue:YES];
 					break;
 			}
 		}
