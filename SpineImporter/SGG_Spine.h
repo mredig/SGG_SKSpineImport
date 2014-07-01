@@ -22,9 +22,9 @@ typedef enum {
 
 
 @property (nonatomic, readonly) BOOL isRunningAnimation;
-@property (nonatomic, strong) NSMutableArray* currentAnimationSequence; //currently only supports one animation at a time, but is an array for future compatibilty with a sequence
-@property (nonatomic) NSString* currentAnimation;
-@property (nonatomic) NSInteger animationCount;
+@property (nonatomic, strong, readonly) NSMutableArray* currentAnimationSequence;
+@property (nonatomic, readonly) NSString* currentAnimation;
+@property (nonatomic, readonly) NSInteger animationCount;
 
 @property (nonatomic, assign) NSString* queuedAnimation;
 @property (nonatomic, assign) CGFloat queueIntro;
@@ -36,10 +36,9 @@ typedef enum {
 
 
 @property (nonatomic, strong) NSArray* bones;
-//@property (nonatomic, strong) NSMutableDictionary* skins;
-//@property (nonatomic, strong) NSMutableDictionary* animations;
 @property (nonatomic, strong) NSArray* skinSlots; //active slots in animation
 @property (nonatomic, assign) NSString* currentSkin; //name of current skin
+@property (nonatomic, readonly) NSInteger currentFrame;
 
 
 @property (nonatomic, strong) NSArray* slotsArray; //raw from json
@@ -47,6 +46,9 @@ typedef enum {
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 -(void)stopAnimation;
+-(void)jumpToFrame:(NSInteger)frame;
+-(void)jumpToNextFrame;
+-(void)jumpToPreviousFrame;
 -(void)resetSkeleton;
 -(void)changeSkinTo:(NSString*)skin;
 -(void)changeSkinPartial:(NSDictionary *)slotsToReplace;

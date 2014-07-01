@@ -17,6 +17,8 @@
 	CFTimeInterval animationStartTime;
 	NSInteger repeatAnimationCount;
 	
+	NSString* previousAnimation;
+	
 }
 
 @end
@@ -71,7 +73,13 @@
 	
 	
 //	[self runAnimation:animationName andCount:count withSpeedFactor:1];
-	[self runAnimation:animationName andCount:count withSpeedFactor:1 withIntroPeriodOf:0 andUseQueue:YES];
+	bool useQueue;
+	if (_queuedAnimation) {
+		useQueue = YES;
+	} else {
+		useQueue = NO;
+	}
+	[self runAnimation:animationName andCount:count withSpeedFactor:1 withIntroPeriodOf:0 andUseQueue:useQueue];
 	
 }
 
@@ -97,6 +105,7 @@
 	_useQueue = useQueue;
 	if (!_queuedAnimation && useQueue) {
 		_queuedAnimation = animationName;
+		NSLog(@"queue set");
 	}
 
 	
@@ -151,6 +160,11 @@
 
 -(void)stopAnimationAndPlayNextInQueue:(BOOL)queueNext {
 	
+	if (_currentAnimation) {
+		previousAnimation = _currentAnimation;
+
+	}
+
 	for (SGG_SpineBone* bone in _bones) {
 		[bone stopAnimation];
 	}
@@ -253,6 +267,10 @@
 			[skinSlot updateAnimationAtFrame:currentFrame];
 		}
 		
+		
+		_currentFrame = currentFrame;
+		
+		
 		if (_debugMode) {
 			SKLabelNode* frameCounter = (SKLabelNode*)[self childNodeWithName:@"frameCounter"];
 			frameCounter.text = [NSString stringWithFormat:@"%i of %i", (int)currentFrame, (int)totalFrames];
@@ -263,6 +281,60 @@
 		}
 		
 	}
+}
+
+-(void)jumpToFrame:(NSInteger)frame {
+	
+	[self stopAnimation];
+
+	for (SGG_SpineBone* bone in _bones) {
+		[bone playAnimations:@[previousAnimation]];
+	}
+	
+	for (SGG_SkinSlot* skinSlot in _skinSlots) {
+		[skinSlot playAnimations:@[previousAnimation]];
+	}
+
+	for (int i = 0; i < _bones.count; i++) {
+		SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
+		NSInteger aniCount = (NSInteger)bone.currentAnimation.count;
+		aniCount --;
+		NSInteger boneframe = MIN(frame, aniCount);
+
+		[bone updateAnimationAtFrame:boneframe];
+		
+	}
+	
+	for (int i = 0; i < _skinSlots.count; i++) {
+		SGG_SkinSlot* skinSlot = _skinSlots[i];
+		NSInteger aniCount = (NSInteger)(skinSlot.currentAnimation.count );
+		aniCount --;
+
+		NSInteger slotFrame = MIN(frame, aniCount);
+
+		[skinSlot updateAnimationAtFrame:slotFrame];
+	}
+	
+	[self stopAnimation];
+}
+
+-(void)jumpToNextFrame {
+	
+
+	
+	_currentFrame ++;
+	[self jumpToFrame:_currentFrame];
+	
+}
+
+-(void)jumpToPreviousFrame {
+	
+	_currentFrame--;
+	if (_currentFrame < 0) {
+		_currentFrame = 0;
+	}
+	[self jumpToFrame:_currentFrame];
+	
 }
 
 -(void)endOfAnimation {
@@ -295,7 +367,8 @@
 		
 	} else if (_animationCount == -1) { //if animation is set to repeat infinite times, repeat animation
 		[self runAnimation:_currentAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
-	} else if (_queuedAnimation != 0 && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
+//		NSLog(@"repeat");
+	} else if (_queuedAnimation != nil && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
 		if ([_currentAnimation isEqualToString:_queuedAnimation]) {
 //			NSLog(@"queued with no intro");
 			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:YES];
