@@ -30,11 +30,13 @@
 	if (self = [super init]) {
 //		sharedUtilities = [SGG_SKUtilities sharedUtilities];
 		_isRunningAnimation = NO;
+		_timeResolution = 1.0 / 120.0;
+		_playbackSpeed = 1.0;
 	}
 	return self;
 }
 
--(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName { //add skin name as an option here
+-(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName {
 
 //	NSTimeInterval timea = CFAbsoluteTimeGetCurrent(); //benchmarking
 
@@ -72,19 +74,18 @@
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count {
 	
 	
-//	[self runAnimation:animationName andCount:count withSpeedFactor:1];
 	bool useQueue;
 	if (_queuedAnimation) {
 		useQueue = YES;
 	} else {
 		useQueue = NO;
 	}
-	[self runAnimation:animationName andCount:count withSpeedFactor:1 withIntroPeriodOf:0 andUseQueue:useQueue];
+	[self runAnimation:animationName andCount:count withIntroPeriodOf:0 andUseQueue:useQueue];
 	
 }
 
 
--(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue { //speedfactor currently does nothing
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue {
 	
 	
 	if (introPeriod > 0) {
@@ -108,7 +109,6 @@
 		NSLog(@"queue set");
 	}
 
-	
 
 	NSInteger totalFrameCount = 0;
 	for (SGG_SpineBone* bone in _bones) {
@@ -151,7 +151,7 @@
 	//fill in later
 	_currentAnimationSequence = [NSMutableArray arrayWithArray:animationNames];
 
-	[self runAnimation:_currentAnimationSequence[0] andCount:0 withSpeedFactor:1.0f withIntroPeriodOf:0 andUseQueue:useQueue];
+	[self runAnimation:_currentAnimationSequence[0] andCount:0 withIntroPeriodOf:0 andUseQueue:useQueue];
 }
 
 -(void)stopAnimation {
@@ -177,7 +177,7 @@
 	
 	if (queueNext) {
 		// play next in queue
-		[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+		[self runAnimation:_queuedAnimation andCount:-1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
 	}
 
 }
@@ -190,8 +190,6 @@
 		SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:i];
 		[bone setToDefaults];
 	}
-//	NSDictionary* skinDict = [_skins objectForKey:_currentSkin];
-//	NSArray* allSlots = [skinDict allKeys];
 	for (int i = 0; i < _skinSlots.count; i++) {
 		SGG_SkinSlot* skinSlot = (SGG_SkinSlot*)_skinSlots[i];
 		[skinSlot setToDefaultAttachment];
@@ -230,8 +228,10 @@
 		CFTimeInterval time = CFAbsoluteTimeGetCurrent();
 		
 		double timeElapsed = time - animationStartTime;
-
-		NSInteger framesElapsed = round(timeElapsed / 0.008333333333333333); // 1/120
+		
+		
+		CGFloat framerateCalcuator = (1.0 / _playbackSpeed) * _timeResolution;
+		NSInteger framesElapsed = round(timeElapsed / framerateCalcuator);
 
 
 		NSInteger currentFrame = 0;
@@ -339,7 +339,10 @@
 
 -(void)endOfAnimation {
 	if ([_currentAnimation isEqualToString:@"INTRO_ANIMATION"]) { //clear out intro animation after it's been used
-//		NSLog(@"finished intro");
+		if (_debugMode) {
+			NSLog(@"finished intro");
+
+		}
 		for (SGG_SpineBone* bone in _bones) {
 			[bone.animations removeObjectForKey:@"INTRO_ANIMATION"];
 		}
@@ -353,7 +356,7 @@
 		if ([_currentAnimation isEqualToString:_currentAnimationSequence[0]]) {
 			[_currentAnimationSequence removeObjectAtIndex:0];
 		}
-		[self runAnimation:_currentAnimationSequence[0] andCount:0 withSpeedFactor:1.0f withIntroPeriodOf:0 andUseQueue:YES];
+		[self runAnimation:_currentAnimationSequence[0] andCount:0 withIntroPeriodOf:0 andUseQueue:YES];
 		
 	} else if (_animationCount > 0){ //if animation is set to repeat x times start the same animation over and count -1 in count
 		_animationCount -= 1;
@@ -362,24 +365,34 @@
 			_animationCount = 0;
 			return;
 		} else {
-			[self runAnimation:_currentAnimation andCount:_animationCount withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
+			[self runAnimation:_currentAnimation andCount:_animationCount withIntroPeriodOf:0 andUseQueue:_useQueue];
 		}
 		
 	} else if (_animationCount == -1) { //if animation is set to repeat infinite times, repeat animation
-		[self runAnimation:_currentAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:_useQueue];
-//		NSLog(@"repeat");
-	} else if (_queuedAnimation != nil && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
-		if ([_currentAnimation isEqualToString:_queuedAnimation]) {
-//			NSLog(@"queued with no intro");
-			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:0 andUseQueue:YES];
-		} else {
-//			NSLog(@"queued with intro: %f", _queueIntro);
-			[self runAnimation:_queuedAnimation andCount:-1 withSpeedFactor:1.0 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+		[self runAnimation:_currentAnimation andCount:-1 withIntroPeriodOf:0 andUseQueue:_useQueue];
+		if (_debugMode) {
+			NSLog(@"repeat");
 		}
-//		NSLog(@"set to queue");
+	} else if (_queuedAnimation != nil && _useQueue) { //if queue is set, intro into queue. if already playing the queue animation, ignore the intro
+	if ([_currentAnimation isEqualToString:_queuedAnimation]) {
+		if (_debugMode) {
+			NSLog(@"queued with no intro");
+		}
+		[self runAnimation:_queuedAnimation andCount:-1 withIntroPeriodOf:0 andUseQueue:YES];
+	} else {
+		if (_debugMode) {
+			NSLog(@"queued with intro: %f", _queueIntro);
+		}
+		[self runAnimation:_queuedAnimation andCount:-1 withIntroPeriodOf:_queueIntro andUseQueue:YES];
+	}
+		if (_debugMode) {
+			NSLog(@"set to queue");
+		}
 	} else { //stop animation if nothing above qualifies
 		[self stopAnimation];
-//		NSLog(@"stopped");
+		if (_debugMode) {
+			NSLog(@"stopped");
+		}
 	}
 	
 }
@@ -1053,34 +1066,7 @@
 
 	}
 	
-//	for (SGG_SkinSlot* skinSlot in _skinSlots) {
-//		NSDictionary* startDict = [NSDictionary dictionaryWithObjects:@[
-//																		[NSNumber numberWithDouble:0],
-//																		skinSlot.currentAttachment,
-//																		]
-//															  forKeys:@[
-//																		@"time",
-//																		@"name",
-//																		]];
-//		NSDictionary* endDict = [NSDictionary dictionaryWithObjects:@[
-//																	  [NSNumber numberWithDouble:longestDuration],
-//																	  skinSlot.currentAttachment,
-//																		]
-//															  forKeys:@[
-//																		@"time",
-//																		@"name",
-//																		]];
-//
-//		NSArray* aniArray = [NSArray arrayWithObjects:@[startDict, endDict], nil];
-//		NSDictionary* totalDict = [NSDictionary dictionaryWithObject:aniArray forKey:@"attachment"];
-//		SGG_SpineBoneAction* slotAction = [self createSpineSlotActionsFromDictionary:totalDict andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:0];
-//		
-//		[slotAction calculateSlotAction];
-//		
-//		[skinSlot.animations setObject:slotAction forKey:@"INTRO_ANIMATION"];
-//		NSLog(@"%@", skinSlot.animations[@"INTRO_ANIMATION"]);
-//
-//	}
+
 	
 //	NSLog(@"set intro");
 
@@ -1094,6 +1080,7 @@
 	
 	SGG_SpineBoneAction* boneAction = [[SGG_SpineBoneAction alloc] init];
 	[boneAction setTotalLength:longestDuration];
+	boneAction.timeFrameDelta = _timeResolution;
 	
 	for (int d = 0; d < translations.count; d++) {
 		NSDictionary* translation = [translations objectAtIndex:d];
@@ -1155,6 +1142,7 @@
 -(SGG_SpineBoneAction*)createSpineSlotActionsFromDictionary:(NSDictionary*)slotDict  andTotalLengthOfAnimation:(const CGFloat)longestDuration andIntroPeriodOf:(const CGFloat)intro {
 	SGG_SpineBoneAction* slotAction = [[SGG_SpineBoneAction alloc] init];
 	[slotAction setTotalLength:longestDuration];
+	slotAction.timeFrameDelta = _timeResolution;
 	
 	NSArray* attachmentArray = slotDict[@"attachment"];
 	NSArray* colorArray = slotDict[@"color"];

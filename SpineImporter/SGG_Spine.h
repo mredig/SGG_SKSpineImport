@@ -29,6 +29,8 @@ typedef enum {
 @property (nonatomic, assign) NSString* queuedAnimation;
 @property (nonatomic, assign) CGFloat queueIntro;
 @property (nonatomic) bool useQueue;
+@property (nonatomic) CGFloat timeResolution; //defaults to 1/120 for smooth playback at 60 fps. If you are planning to have slower motion or ramp, you should increase the resolution (lower values are higher resolution). At 1/120, you will start noticing stutters at speeds lower than 0.5x.
+@property (nonatomic) CGFloat playbackSpeed;
 
 
 @property (nonatomic, strong) NSMutableDictionary* swappedTextures;
@@ -41,7 +43,7 @@ typedef enum {
 @property (nonatomic, readonly) NSInteger currentFrame;
 
 
-@property (nonatomic, strong) NSArray* slotsArray; //raw from json
+@property (nonatomic, strong) NSArray* slotsArray; //raw array from json
 @property (nonatomic, strong) NSDictionary* rawAnimationDictionary; //raw information from JSON
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
@@ -58,7 +60,7 @@ typedef enum {
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)resetColorizedSlots;
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
--(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withSpeedFactor:(CGFloat)speedfactor withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;//speedfactor currently has no effect
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;
 -(void)runAnimationSequence:(NSArray *)animationNames andUseQueue:(BOOL)useQueue;
 -(void)activateAnimations;
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;

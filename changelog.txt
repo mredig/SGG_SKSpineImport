@@ -6,6 +6,8 @@ Version 1.1
 	- modfied changeSkinPartial method and renamed to changeTexturePartial (if you rely on the old method, use changeTexturePartial as the syntax should be the same)
 	- replaced changeSkinPartial with new method (changes the skin setting for each individiual slot instead of specific textures, which SHOULD be superior)
 	- removed queueCount property as it seemed superfluous with being able to sequence animations now
+	- added frame stepping forward and backward
+	- added playback speed control
 
 
 	Bug Fixes

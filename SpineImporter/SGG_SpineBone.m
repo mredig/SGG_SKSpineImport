@@ -105,7 +105,7 @@
 	
 	if (_currentAnimation && _currentAnimation.count ) {
 
-		CGFloat prev = self.zRotation;
+//		CGFloat prev = self.zRotation;
 		
 		if (currentFrame >= _currentAnimation.count) {
 			currentFrame = _currentAnimation.count - 1;

@@ -36,45 +36,40 @@
 		
 		boy = [SGG_Spine node];
 //		boy.debugMode = YES;
+		boy.timeResolution = 1.0 / 1200.0;
 		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-//		[boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:NO];
+//		[boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:NO]; //uncomment to see how a sequence works (commment the other animation calls)
 		boy.queuedAnimation = @"walk";
 		boy.name = @"boy";
 		boy.queueIntro = 0.1;
-		[boy runAnimation:@"walk" andCount:0];
+		[boy runAnimation:@"walk" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
 		boy.zPosition = 0;
 		[self addChild:boy];
 
 		
 		
-//		elf = [SGG_Spine node];
-//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-//		[elf runAnimation:@"standing" andCount:-1];
-//		elf.queuedAnimation = @"standing";
-//		elf.queueIntro = 0.1;
-//		elf.zPosition = 20;
-//		elf.xScale = 0.6;
-//		elf.yScale = 0.6;
-//		[self addChild:elf];
-////
-////		
-//		goblin = [SGG_Spine node];
-////		goblin.debugMode = YES;
-//		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-//		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-//		[goblin runAnimation:@"walk" andCount:-1];
-//		goblin.zPosition = 10;
-//		[self addChild:goblin];
+		elf = [SGG_Spine node];
+		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[elf runAnimation:@"standing" andCount:-1];
+		elf.queuedAnimation = @"standing";
+		elf.queueIntro = 0.1;
+		elf.zPosition = 20;
+		elf.xScale = 0.6;
+		elf.yScale = 0.6;
+		[self addChild:elf];
+
 		
-//		stepTest = [SGG_Spine node];
-//		stepTest.debugMode = YES;
-//		[stepTest skeletonFromFileNamed:@"simpleAnimation" andAtlasNamed:@"stepTesting" andUseSkinNamed:nil];
-//		stepTest.position = CGPointMake(self.size.width/2, self.size.height/2);
-//		[stepTest runAnimation:@"newScale" andCount:-1];
-//		stepTest.zPosition = 10;
-//		[self addChild:stepTest];
+		goblin = [SGG_Spine node];
+//		goblin.debugMode = YES;
+		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblin"];
+		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+		[goblin runAnimation:@"walk" andCount:-1];
+		goblin.zPosition = 10;
+		[self addChild:goblin];
+		
+
 		
 
 
@@ -96,6 +91,12 @@
 		label3.color = [SKColor whiteColor];
 		label3.position = CGPointMake(self.size.width/2, label2.position.y - 30);
 		[self addChild:label3];
+		
+		SKLabelNode* label4 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+		label4.text = @"\"j\", \"k\", and \"l\" to change playback speed for boy";
+		label4.color = [SKColor whiteColor];
+		label4.position = CGPointMake(self.size.width/2, label3.position.y - 30);
+		[self addChild:label4];
 		
 	}
 	return self;
@@ -151,7 +152,7 @@
 			switch (character) {
 				case ' ':{
 					if (![boy.currentAnimation isEqualToString:@"jump"]) {
-						[boy runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+						[boy runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
 					}
 					
 				}
@@ -162,7 +163,13 @@
 					break;
 				case 's':[boy stopAnimation];
 					break;
-				case 'w':[boy runAnimation:@"walk" andCount:0 withSpeedFactor:1.0 withIntroPeriodOf:0.1 andUseQueue:YES];
+				case 'w':[boy runAnimation:@"walk" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
+					break;
+				case 'l':boy.playbackSpeed += 0.1;
+					break;
+				case 'j':boy.playbackSpeed -= 0.1;
+					break;
+				case 'k':boy.playbackSpeed = 1;
 					break;
 			}
 		}
@@ -179,57 +186,29 @@
 
 	startLocation = location;
 	
-	//[goblin changeSkinTo:@"goblin"];
-	[elf runAnimation:@"trip" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+	[elf runAnimation:@"trip" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
 	
-//	NSDictionary* partReplacement = @{@"torso": @"goblin", @"head": @"goblin", @"eyes": @"goblin"};
-	NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
 
 	
 	NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
 	SKColor* color = [SKColor redColor];
 	
-//	[boy runAnimation:@"jump" andCount:0];
-//	[boy jumpToFrame:50];
-	[boy jumpToNextFrame];
-	
+/*
+//this section is a correct example of partial texture replacement
+	NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
+
 	[goblin changeTexturePartial:partReplacement];
-//	[goblin changeSkinTo:@"goblingirl"];
+*/
+	
+	
+	[goblin changeSkinTo:@"goblingirl"];
 	[boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 
-//	enabled = YES;
-	
-//	for (SGG_SkinSlot* skinSlot in boy.currentSkinSlots) {
-//		NSLog(@"%@", skinSlot);
-//	}
-	
-//	[stepTest runAnimation:@"animation" andCount:-1];
 
 	
-	//NSValue testing
-	/*
-	CGFloat xa = arc4random() % 100;
-	CGFloat xb = arc4random() % 100;
-	CGFloat ya = arc4random() % 100;
-	CGFloat yb = arc4random() % 100;
+
 	
-	xb = xb / 100;
-	yb = yb / 100;
-	
-	CGFloat x = xa + xb;
-	CGFloat y = ya + yb;
-	
-	bool xc = arc4random() % 2;
-	bool yc = arc4random() % 2;
-	
-	if (xc) {
-		x *= -1;
-	}
-	if (yc) {
-		y *= -1;
-	}
-	
-	[[[SGG_SpineBoneAction alloc] init] addTranslationAtTime:0 withPoint:CGPointMake(x, y) andCurveInfo:@[@"1.2, 2.1"]];*/
+
 	
 }
 
@@ -237,7 +216,7 @@
 
 	if (location.y > startLocation.y + 20) {
 		if (![boy.currentAnimationSequence[0] isEqualToString:@"jump"]) {
-			[boy runAnimation:@"jump" andCount:0 withSpeedFactor:1 withIntroPeriodOf:0.1 andUseQueue:YES];
+			[boy runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
 		}
 	}
 	
@@ -252,7 +231,7 @@
 
 -(void)inputEnded:(CGPoint)location {
 
-//	[goblin changeSkinTo:@"goblin"];
+	[goblin changeSkinTo:@"goblin"];
 	
 //	[goblin resetSkinPartial];
 	[goblin resetTexturePartial];
@@ -268,28 +247,41 @@
 
 -(void)update:(CFTimeInterval)currentTime {
 	/* Called before each frame is rendered */
-//	CFTimeInterval before = CFAbsoluteTimeGetCurrent();
-//	if (enabled) {
-		[goblin activateAnimations];
-		[boy activateAnimations];
-		[elf activateAnimations];
-//	}
+	
+	//each spine object must be "activated" here to playback their animation
+	[goblin activateAnimations];
+	[boy activateAnimations];
+	[elf activateAnimations];
 
 	
-
-//	CFTimeInterval after = CFAbsoluteTimeGetCurrent();
-//	CFTimeInterval elapsed = after - before;
-//	NSLog(@"elapsed: %f", elapsed);
-//	SKNode* bone = [stepTest findBoneNamed:@"bone"];
-//	if (CGPointEqualToPoint(bone.position, ballPosition)) {
-//		NSLog(@"1");
-//	} else {
-//		NSLog(@"0");
-//		ballPosition = bone.position;
-//	}
 }
 
 
+
+//NSValue testing
+/*
+ CGFloat xa = arc4random() % 100;
+ CGFloat xb = arc4random() % 100;
+ CGFloat ya = arc4random() % 100;
+ CGFloat yb = arc4random() % 100;
+ 
+ xb = xb / 100;
+ yb = yb / 100;
+ 
+ CGFloat x = xa + xb;
+ CGFloat y = ya + yb;
+ 
+ bool xc = arc4random() % 2;
+ bool yc = arc4random() % 2;
+ 
+ if (xc) {
+ x *= -1;
+ }
+ if (yc) {
+ y *= -1;
+ }
+ 
+ [[[SGG_SpineBoneAction alloc] init] addTranslationAtTime:0 withPoint:CGPointMake(x, y) andCurveInfo:@[@"1.2, 2.1"]];*/
 
 
 
