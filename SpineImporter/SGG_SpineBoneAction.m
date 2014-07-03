@@ -149,15 +149,6 @@
 	
 	_animation = [NSArray arrayWithArray:mutableAnimation];
 
-//	NSLog(@"frameCount: %lu", (unsigned long)mutableAnimation.count);
-//	for (int i = 0; i < mutableAnimation.count; i++) {
-//		NSInteger spineFrame = i % 4;
-//		if (spineFrame == 0) {
-//			NSDictionary* dict = mutableAnimation[i];
-//			NSLog(@"frame: %i point: %f %f rotation: %f", i, [self pointFromValueObject:dict[@"position"]].x, [self pointFromValueObject:dict[@"position"]].y, [dict[@"rotation"] doubleValue] * (180/M_PI));
-//		}
-//
-//	}
 }
 
 -(void)calculateSlotAction {
@@ -198,13 +189,11 @@
 		if (sequenceTime > 0) {
 			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
 			keyFramesInSequence = round(keyFrames);
-//			NSLog(@"float: %f int: %i", keyFrames, (int)keyFramesInSequence);
 		} else {
-//			NSLog(@"end of sequence");
 			keyFramesInSequence = 1;
 		}
 		
-		//		NSLog(@"curve: %@", curveInfo);
+//		NSLog(@"curve: %@", curveInfo);
 		
 		if (curveInfo) {
 			NSString* curveString = (NSString*)curveInfo;
@@ -218,7 +207,6 @@
 			} else {
 				//timing curve
 				NSArray* curveArray = [NSArray arrayWithArray:curveInfo];
-//				NSLog(@"curveArray: %@", curveArray);
 				CGPoint curvePointOne, curvePointTwo, curvePointThree, curvePointFour;
 				curvePointOne = CGPointZero;
 				curvePointTwo = CGPointMake([curveArray[0] doubleValue], [curveArray[1] doubleValue]);
@@ -230,7 +218,6 @@
 				CGFloat totalDeltaX = endingLocation.x - startingLocation.x;
 				CGFloat totalDeltaY = endingLocation.y - startingLocation.y;
 				
-//				NSLog(@"p2: %f %f p3: %f %f tDelX: %f yDelY: %f", curvePointTwo.x, curvePointTwo.y, curvePointThree.x, curvePointThree.y, totalDeltaX, totalDeltaY);
 				
 				for (int f = 0; f < keyFramesInSequence; f++) {
 					NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
@@ -239,8 +226,7 @@
 					
 					
 					CGPoint bezValues = [self calculateBezierPoint:bezierProgress andPoint0:curvePointOne andPoint1:curvePointTwo andPoint2:curvePointThree andPoint3:curvePointFour];
-//					NSLog(@"prog: %f value: %f", bezierProgress, bezValues.y);
-//					NSLog(@"p2: %f p3: %f timeProg: %f bezProg: %f value: %f\n\n\n", curvePointTwo.x, curvePointThree.x, timeProgress, bezierProgress, bezValues.y);
+
 					
 					[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + totalDeltaX * bezValues.y, startingLocation.y + totalDeltaY * bezValues.y)] forKey:@"position"];
 					[mutableAnimation addObject:frameDict];
@@ -250,12 +236,10 @@
 			//linear
 			CGFloat deltaX = (endingLocation.x - startingLocation.x) / (keyFramesInSequence);
 			CGFloat deltaY = (endingLocation.y - startingLocation.y) / (keyFramesInSequence);
-//			NSLog(@"span %f to %f", startingTime, endingTime);
 			for (int f = 0; f < keyFramesInSequence; f++) {
 				NSMutableDictionary* frameDict = [[NSMutableDictionary alloc] init];
 				[frameDict setObject:[self valueObjectFromPoint:CGPointMake(startingLocation.x + f * deltaX, startingLocation.y + f * deltaY)] forKey:@"position"];
 				[mutableAnimation addObject:frameDict];
-//				NSLog(@"rotation added");
 			}
 		}
 	}
@@ -285,13 +269,11 @@
 		if (sequenceTime > 0) {
 			CGFloat keyFrames = sequenceTime / _timeFrameDelta ;
 			keyFramesInSequence = round(keyFrames);
-			//			NSLog(@"float: %f int: %i", keyFrames, (int)keyFramesInSequence);
 		} else {
-			//			NSLog(@"end of sequence");
 			keyFramesInSequence = 1;
 		}
 		
-		//		NSLog(@"curve: %@", curveInfo);
+//		NSLog(@"curve: %@", curveInfo);
 		
 		if (curveInfo) {
 			NSString* curveString = (NSString*)curveInfo;
@@ -416,7 +398,7 @@
 			keyFramesInSequence = 1;
 		}
 		
-		//		NSLog(@"curve: %@", curveInfo);
+//		NSLog(@"curve: %@", curveInfo);
 		
 		if (curveInfo) {
 			NSString* curveString = (NSString*)curveInfo;
@@ -473,7 +455,6 @@
 					
 					
 					CGPoint newScalePoint = CGPointMake((startingSize.x + totalDeltaWidth * bezValues.y), (startingSize.y + totalDeltaHeight * bezValues.y));
-//				NSLog(@"scale: %f %f", newScalePoint.x, newScalePoint.y);
 
 					NSValue* newScale = [self valueObjectFromPoint:newScalePoint];
 
@@ -502,7 +483,6 @@
 				}
 				
 				CGPoint newScalePoint = CGPointMake((startingSize.x + deltaWidth * f), (startingSize.y + deltaHeight * f));
-//				NSLog(@"scale: %f %f", newScalePoint.x, newScalePoint.y);
 				
 				NSValue* newScale = [self valueObjectFromPoint:newScalePoint];
 				
@@ -696,10 +676,8 @@
 	double d = p0x;
 	
 	
-//	NSLog(@"  a: %f b: %f c: %f d: %f", a, b, c, d);
 	NSArray* roots = [self solveCubicEquationWithA:a andB:b andC:c andD:d];
 	
-//	NSLog(@"roots: %@", roots);
 
 	double closest;
 
@@ -707,20 +685,16 @@
 		double root = [roots[i] doubleValue];
 		
 		if (root >= 0 && root <= 1) {
-//			NSLog(@"root exists");
 			return root;
 		} else {
 			if (fabs(root) < 0.5) {
 				closest = 0;
-//			} else if (1 - fabs(root) > closest) {
 			} else {
 				closest = 1;
 			}
 		}
 	}
-//	
-//	NSLog(@"problems: %@", roots);
-//	NSLog(@"closest: %f", closest);
+
 
 	
 	return fabs(closest);

@@ -119,10 +119,6 @@
 		
 		[self setAttachmentTo:attachment];
 		
-//		if ([self.name isEqualToString:@"eyes"]) {
-//			NSLog(@"current attachment: %@", attachment);
-//		}
-		
 	}
 	return NO;
 }

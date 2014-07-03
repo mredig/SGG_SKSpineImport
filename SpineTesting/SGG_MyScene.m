@@ -36,7 +36,7 @@
 		
 		boy = [SGG_Spine node];
 //		boy.debugMode = YES;
-		boy.timeResolution = 1.0 / 1200.0;
+//		boy.timeResolution = 1.0 / 1200.0; // this is typically overkill, 1/120 will normally be MORE than enough, but this demo can go to some VERY slow motion. 1/120 is also the default.
 		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
 		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
 //		[boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:NO]; //uncomment to see how a sequence works (commment the other animation calls)
@@ -165,9 +165,9 @@
 					break;
 				case 'w':[boy runAnimation:@"walk" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
 					break;
-				case 'l':boy.playbackSpeed += 0.1;
+				case 'l':boy.playbackSpeed += 0.05;
 					break;
-				case 'j':boy.playbackSpeed -= 0.1;
+				case 'j':boy.playbackSpeed -= 0.05;
 					break;
 				case 'k':boy.playbackSpeed = 1;
 					break;

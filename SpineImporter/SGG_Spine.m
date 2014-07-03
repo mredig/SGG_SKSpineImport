@@ -413,8 +413,6 @@
 	
 	_currentSkin = skin;
 	
-	//	[self creatSlotsAndAttachToBonesWithSlotsArray:_slotsArray];
-	
 }
 
 -(void)changeSkinPartial:(NSDictionary *)slotsToReplace {
@@ -656,7 +654,6 @@
 		skinSlot.currentAttachment = attachment; // this just sets the names of the attachments to use... nothing is actually attached at this time
 		skinSlot.defaultAttachment = attachment;
 		
-//		NSLog(@"currentAttachment: %@", skinSlot.currentAttachment);
 		
 		skinSlot.zPosition = i * 0.01;
 		
@@ -704,7 +701,6 @@
 					break;
 				}
 			}
-//			NSLog(@"for skin %@ attachment %@ will be attached to skin slot %@", skinName, skinSlotName, skinSlot.name);
 			NSMutableDictionary* slotSkinDict;
 			if (!skinSlot.skins[skinName]) { //if this skin doesn't yet have an entry in the skin slot dict
 				slotSkinDict = [[NSMutableDictionary alloc] init];
@@ -779,9 +775,7 @@
 			SGG_SpineBone* bone = (SGG_SpineBone*)[_bones objectAtIndex:c];
 			NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name];
 			
-			//set up scale actions for bone
-//			SKAction* boneScale = [self createBoneScaleActionsFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-			
+
 			//set up actions for bone
 			NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
 			NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
@@ -818,18 +812,14 @@
 		
 		//		NSDictionary* drawOrderAnimationsDict = [NSDictionary dictionaryWithDictionary:[thisAnimationDict objectForKey:@"draworder"]];
 		
+				
+//		NSString* key;
+//		if (introPeriod == 0) {
+//			key = thisAnimationName;
+//		} else {
+//			key = [NSString stringWithFormat:@"%f-intro-%@", introPeriod, thisAnimationName];
+//		}
 		
-		//add this entire animation (individual animations for each bone and slot) to the animations dictionary
-//		NSArray* immutableArray = [NSArray array]; // used to be where animatinos were stored... holding onto it in case it's needed again
-		
-		NSString* key;
-		if (introPeriod == 0) {
-			key = thisAnimationName;
-		} else {
-			key = [NSString stringWithFormat:@"%f-intro-%@", introPeriod, thisAnimationName];
-		}
-		
-//		[_animations setObject:immutableArray forKey:key];
 		
 	}
 }
@@ -947,10 +937,7 @@
 		
 		
 		NSDictionary* SRTtimelinesForBone = [boneAnimationsDict objectForKey:bone.name];
-		
-		//set up scale actions for bone
-		//			SKAction* boneScale = [self createBoneScaleActionsFromArray:scales forBone:bone andTotalLengthOfAnimation:longestDuration andIntroPeriodOf:introPeriod];
-		
+				
 		//set up actions for bone
 		NSArray* translations = [SRTtimelinesForBone objectForKey:@"translate"];
 		NSArray* rotations = [SRTtimelinesForBone objectForKey:@"rotate"];
@@ -1002,9 +989,7 @@
 																			 ]];
 		
 		CGFloat startRotationModified = (bone.zRotation * SPINE_RADTODEGFACTOR);
-//		NSLog(@"startRot: %f", startRotationModified);
 		startRotationModified -= bone.defaultRotation * SPINE_RADTODEGFACTOR;
-//		NSLog(@"modded: %f", startRotationModified);
 
 		
 		NSDictionary* startRotationDict = [NSDictionary dictionaryWithObjects:@[
@@ -1049,7 +1034,6 @@
 		NSArray* newTrans = [NSArray arrayWithObjects:startTransDict,
 													endTransDict,
 													nil];
-//		NSLog(@"%@ newTrans: %@", bone.name, newTrans);
 		NSArray* newRot = [NSArray arrayWithObjects:startRotationDict, endRotationDict, nil];
 		NSArray* newScale = [NSArray arrayWithObjects:startScaleDict, endScaleDict, nil];
 		
@@ -1076,7 +1060,6 @@
 
 -(SGG_SpineBoneAction*)createBoneTranslationActionsFromArray:(NSArray*)translations andRotationsFromArray:(NSArray*)rotations andScalesFromArray:(NSArray*)scales forBone:(SGG_SpineBone*)bone andTotalLengthOfAnimation:(const CGFloat)longestDuration {
 	
-//	CGFloat totalTimeForThisAnimation = 0;
 	
 	SGG_SpineBoneAction* boneAction = [[SGG_SpineBoneAction alloc] init];
 	[boneAction setTotalLength:longestDuration];
@@ -1178,5 +1161,29 @@
 //	NSLog(@"animation done");
 	
 }
+
+-(void)setPlaybackSpeed:(CGFloat)playbackSpeed {
+	
+
+	
+	if (playbackSpeed < 0) {
+		playbackSpeed = 0;
+	}
+	
+	_playbackSpeed = playbackSpeed;
+
+//	feeble attempt to get the animation to not jump when ramping the speed (doesn't quite work 100%)
+	CFTimeInterval time = CFAbsoluteTimeGetCurrent();
+	
+	double timeElapsed = time - animationStartTime;
+	
+	CFTimeInterval timeFix = timeElapsed * ( 1.0f / _playbackSpeed);
+	
+	animationStartTime = time - timeFix;
+	
+	
+}
+
+
 
 @end
