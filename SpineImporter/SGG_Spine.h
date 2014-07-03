@@ -47,22 +47,30 @@ typedef enum {
 @property (nonatomic, strong) NSDictionary* rawAnimationDictionary; //raw information from JSON
 
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
+
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;
+-(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
+-(void)runAnimationSequence:(NSArray *)animationNames andUseQueue:(BOOL)useQueue;
 -(void)stopAnimation;
 -(void)jumpToFrame:(NSInteger)frame;
 -(void)jumpToNextFrame;
 -(void)jumpToPreviousFrame;
+-(void)activateAnimations;
+
+
 -(void)resetSkeleton;
+
 -(void)changeSkinTo:(NSString*)skin;
+
 -(void)changeSkinPartial:(NSDictionary *)slotsToReplace;
 -(void)resetSkinPartial;
+
 -(void)changeTexturePartial:(NSDictionary *)attachmentsToReplace;
 -(void)resetTexturePartial;
+
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)resetColorizedSlots;
--(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count;
--(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;
--(void)runAnimationSequence:(NSArray *)animationNames andUseQueue:(BOOL)useQueue;
--(void)activateAnimations;
+
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;
 
 

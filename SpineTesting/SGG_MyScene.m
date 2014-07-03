@@ -200,14 +200,18 @@
 	[goblin changeTexturePartial:partReplacement];
 */
 	
+/*
+ //this section is a correct example of partial skin replacement
+
+	NSDictionary* skinReplacement = @{@"torso": @"goblingirl", @"head": @"goblingirl", @"eyes": @"goblingirl"};
+	[goblin changeSkinPartial:skinReplacement];
+	
+*/
+
+	
 	
 	[goblin changeSkinTo:@"goblingirl"];
 	[boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
-
-
-	
-
-	
 
 	
 }
