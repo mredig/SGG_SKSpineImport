@@ -8,6 +8,7 @@ Version 1.1
 	- removed queueCount property as it seemed superfluous with being able to sequence animations now
 	- added frame stepping forward and backward
 	- added playback speed control
+	- probably other stuff I forgot to list here
 
 
 	Bug Fixes
