@@ -201,14 +201,36 @@
 	
 	//this section may need modification
 	SGG_SpineBone* rootBone = [self findBoneNamed:@"root"];
+//	SGG_SpineBoneAction* boneAction = [[SGG_SpineBoneAction alloc] init];
+//	[boneAction setTotalLength:duration];
+//	boneAction.timeFrameDelta = _timeResolution;
+//	
+//	[boneAction addRotationAtTime:0 withAngle:(rootBone.zRotation * SPINE_RADTODEGFACTOR) andCurveInfo:nil];
+//	[boneAction addRotationAtTime:duration withAngle:rootBone.defaultRotation andCurveInfo:nil];
+//	
+//	[boneAction addTranslationAtTime:0 withPoint:rootBone.position andCurveInfo:nil];
+//	[boneAction addTranslationAtTime:duration withPoint:rootBone.defaultPosition andCurveInfo:nil];
+//	
+//	[boneAction addScaleAtTime:0 withScale:CGSizeMake(rootBone.xScale, rootBone.yScale) andCurveInfo:nil];
+//	[boneAction addScaleAtTime:duration withScale:CGSizeMake(rootBone.defaultScaleX, rootBone.defaultScaleY) andCurveInfo:nil];
+//	
+//	[boneAction calculateTotalAction];
+//
+//	[rootBone.animations setObject:boneAction forKey:@"INTRO_ANIMATION"];
+
+	
 	SKAction* setRootBoneRotation = [SKAction rotateToAngle:rootBone.defaultRotation duration:duration];
 	SKAction* setRootBoneTranslate = [SKAction moveTo:rootBone.defaultPosition duration:duration];
 	SKAction* setRootBoneScale = [SKAction scaleXTo:rootBone.xScale y:rootBone.yScale duration:duration];
 	SKAction* rootBoneSRT = [SKAction group:@[setRootBoneRotation, setRootBoneTranslate, setRootBoneScale]];
 	
 //	NSLog(@"rootBone: %@ action: %@", rootBone, rootBoneSRT);
-	if (rootBone && rootBoneSRT) {
-		[rootBone removeAllActions];
+	
+
+	if (rootBone.parent) {
+//		if ([rootBone hasActions] && [rootBone actionForKey:@"rootReset"]) {
+//			[rootBone removeAllActions];
+//		}
 		[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
 	}
 //	NSLog(@"root reset");
