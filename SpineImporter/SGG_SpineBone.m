@@ -88,12 +88,12 @@
 
 }
 
-//-(void)removeAllActions {
-//	[super removeAllActions];
-//	
-//	_currentAnimation = nil;
-//	
-//}
+-(void)removeAllActions {
+	[super removeAllActions];
+	
+	_currentAnimation = nil;
+	
+}
 
 -(void)stopAnimation {
 	
@@ -103,7 +103,7 @@
 
 -(void)updateAnimationAtFrame:(NSInteger)currentFrame {
 	
-	if (_currentAnimation && _currentAnimation.count && self.parent) {
+	if (_currentAnimation && _currentAnimation.count ) {
 
 //		CGFloat prev = self.zRotation;
 		

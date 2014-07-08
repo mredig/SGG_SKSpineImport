@@ -63,12 +63,12 @@
 
 }
 
-//-(void)removeAllActions {
-//	[super removeAllActions];
-//	
-//	_currentAnimation = nil;
-//	
-//}
+-(void)removeAllActions {
+	[super removeAllActions];
+	
+	_currentAnimation = nil;
+	
+}
 
 -(void)stopAnimation {
 	
