@@ -205,7 +205,12 @@
 	SKAction* setRootBoneTranslate = [SKAction moveTo:rootBone.defaultPosition duration:duration];
 	SKAction* setRootBoneScale = [SKAction scaleXTo:rootBone.xScale y:rootBone.yScale duration:duration];
 	SKAction* rootBoneSRT = [SKAction group:@[setRootBoneRotation, setRootBoneTranslate, setRootBoneScale]];
-	[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
+	
+//	NSLog(@"rootBone: %@ action: %@", rootBone, rootBoneSRT);
+	if (rootBone && rootBoneSRT) {
+		[rootBone removeAllActions];
+		[rootBone runAction:rootBoneSRT withKey:@"rootReset"];
+	}
 //	NSLog(@"root reset");
 }
 
