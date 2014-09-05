@@ -25,6 +25,7 @@
 
     self.skView.showsFPS = YES;
     self.skView.showsNodeCount = YES;
+	self.skView.showsDrawCount = YES;
 }
 
 - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)sender {

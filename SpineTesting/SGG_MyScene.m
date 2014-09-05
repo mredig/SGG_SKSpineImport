@@ -43,25 +43,25 @@
 		
 		
 		
-		elf = [SGG_Spine node];
-		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
-		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
-		[elf runAnimation:@"standing" andCount:-1];
-		elf.queueCount = -1;
-		elf.queuedAnimation = @"standing";
-		elf.queueIntro = 0.1;
-		elf.zPosition = 20;
-		elf.xScale = 0.6;
-		elf.yScale = 0.6;
-		[self addChild:elf];
-		
-		
-		goblin = [SGG_Spine node];
-		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
-		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
-		[goblin runAnimation:@"walk" andCount:-1];
-		goblin.zPosition = 10;
-		[self addChild:goblin];
+//		elf = [SGG_Spine node];
+//		[elf skeletonFromFileNamed:@"elf" andAtlasNamed:@"elf" andUseSkinNamed:Nil];
+//		elf.position = CGPointMake(self.size.width/2, self.size.height/4);
+//		[elf runAnimation:@"standing" andCount:-1];
+//		elf.queueCount = -1;
+//		elf.queuedAnimation = @"standing";
+//		elf.queueIntro = 0.1;
+//		elf.zPosition = 20;
+//		elf.xScale = 0.6;
+//		elf.yScale = 0.6;
+//		[self addChild:elf];
+//
+//		
+//		goblin = [SGG_Spine node];
+//		[goblin skeletonFromFileNamed:@"goblins" andAtlasNamed:@"goblin" andUseSkinNamed:@"goblingirl"];
+//		goblin.position = CGPointMake((self.size.width/4)*3, self.size.height/4);
+//		[goblin runAnimation:@"walk" andCount:-1];
+//		goblin.zPosition = 10;
+//		[self addChild:goblin];
 		
 //		stepTest = [SGG_Spine node];
 //		stepTest.debugMode = YES;
@@ -71,29 +71,47 @@
 //		stepTest.zPosition = 10;
 //		[self addChild:stepTest];
 		
-
-
-
-		SKLabelNode* label1 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
-		label1.text = @"space to make boy jump";
-		label1.color = [SKColor whiteColor];
-		label1.position = CGPointMake(self.size.width/2, self.size.height/4 - 20);
-		[self addChild:label1];
 		
-		SKLabelNode* label2 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
-		label2.text = @"\"a\" and \"d\" to change directions for boy";
-		label2.color = [SKColor whiteColor];
-		label2.position = CGPointMake(self.size.width/2, label1.position.y - 30);
-		[self addChild:label2];
-		
-		SKLabelNode* label3 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
-		label3.text = @"click to change goblin skin";
-		label3.color = [SKColor whiteColor];
-		label3.position = CGPointMake(self.size.width/2, label2.position.y - 30);
-		[self addChild:label3];
+//		[self drawImagesIn:@"spineboy"];
+
+
+
+//		SKLabelNode* label1 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+//		label1.text = @"space to make boy jump";
+//		label1.color = [SKColor whiteColor];
+//		label1.position = CGPointMake(self.size.width/2, self.size.height/4 - 20);
+//		[self addChild:label1];
+//		
+//		SKLabelNode* label2 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+//		label2.text = @"\"a\" and \"d\" to change directions for boy";
+//		label2.color = [SKColor whiteColor];
+//		label2.position = CGPointMake(self.size.width/2, label1.position.y - 30);
+//		[self addChild:label2];
+//		
+//		SKLabelNode* label3 = [SKLabelNode labelNodeWithFontNamed:@"Helvetica Neue Light"];
+//		label3.text = @"click to change goblin skin";
+//		label3.color = [SKColor whiteColor];
+//		label3.position = CGPointMake(self.size.width/2, label2.position.y - 30);
+//		[self addChild:label3];
         
     }
     return self;
+}
+
+-(void)drawImagesIn:(NSString*)atlasName {
+	
+	SKTextureAtlas* atlas = [SKTextureAtlas atlasNamed:atlasName];
+	
+	NSArray* textureNames = [atlas textureNames];
+	
+	for (NSString* textureName in textureNames) {
+		SKTexture* texture = [atlas textureNamed:textureName];
+		SKSpriteNode* sprite = [SKSpriteNode spriteNodeWithTexture:texture];
+		sprite.position = CGPointMake(self.size.width/2, self.size.height/4);
+		[self addChild:sprite];
+		
+	}
+	
 }
 
 
