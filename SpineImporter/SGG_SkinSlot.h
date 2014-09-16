@@ -8,7 +8,7 @@
 
 #import <SpriteKit/SpriteKit.h>
 
-@interface SGG_SkinSlot : SKNode
+@interface SGG_SkinSlot : SKSpriteNode
 
 
 @property (nonatomic, assign) NSString* currentAttachment;

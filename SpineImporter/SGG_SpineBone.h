@@ -9,7 +9,7 @@
 #import <SpriteKit/SpriteKit.h>
 #import "SGG_SpineBoneAction.h"
 
-@interface SGG_SpineBone : SKNode
+@interface SGG_SpineBone : SKSpriteNode
 
 @property (nonatomic, assign) CGFloat length;
 @property (nonatomic, assign) CGPoint defaultPosition;
