@@ -485,6 +485,18 @@
 	}
 }
 
+-(void)colorizeAllSlotsWithColor:(SKColor *)color andIntensity:(CGFloat)blendFactor {
+    // colorizes all parts of the skin with the supplied color, to the intensity indicated
+    
+    NSMutableArray *allSlots = [NSMutableArray array];
+    
+    for (NSDictionary *slot in self.slotsArray) {
+        [allSlots addObject:[slot objectForKey:@"attachment"]];
+    }
+    
+    [self colorizeSlots:allSlots withColor:color andIntensity:blendFactor];
+}
+
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor {
     // colorizes the specified parts of the skin with the supplied color, to the intensity indicated - can be used to change hair/skin color dynamically, or 'flashing' a body part when hit...
     
