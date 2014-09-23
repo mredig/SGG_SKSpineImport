@@ -192,7 +192,11 @@
 	
 	NSArray* partsToColorize = @[@"head", @"left shoulder", @"torso"];
 	SKColor* color = [SKColor redColor];
+
+	[goblin changeSkinTo:@"goblingirl"];
+	[boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
 	
+	[goblin colorizeAllSlotsWithColor:[SKColor blueColor] andIntensity:0.8];
 /*
 //this section is a correct example of partial texture replacement
 	NSDictionary* partReplacement = @{@"torso": @"goblin-torso", @"head": @"goblin-head"};
@@ -208,10 +212,7 @@
 	
 */
 
-	
-	
-	[goblin changeSkinTo:@"goblingirl"];
-	[boy colorizeSlots:partsToColorize withColor:color andIntensity:1];
+
 
 	
 }
@@ -242,6 +243,7 @@
 	
 	//reset the colors
 	[boy resetColorizedSlots];
+	[goblin resetColorizedSlots];
 	
 	//[goblin resetSkeleton];
 	

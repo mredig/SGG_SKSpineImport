@@ -491,7 +491,8 @@
     NSMutableArray *allSlots = [NSMutableArray array];
     
     for (NSDictionary *slot in self.slotsArray) {
-        [allSlots addObject:[slot objectForKey:@"attachment"]];
+		if (slot[@"attachment"])
+			[allSlots addObject:[slot objectForKey:@"attachment"]];
     }
     
     [self colorizeSlots:allSlots withColor:color andIntensity:blendFactor];
