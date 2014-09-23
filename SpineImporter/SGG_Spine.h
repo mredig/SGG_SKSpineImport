@@ -68,6 +68,7 @@ typedef enum {
 -(void)changeTexturePartial:(NSDictionary *)attachmentsToReplace;
 -(void)resetTexturePartial;
 
+-(void)colorizeAllSlotsWithColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)colorizeSlots:(NSArray *)slotsToColorize withColor:(SKColor *)color andIntensity:(CGFloat)blendFactor;
 -(void)resetColorizedSlots;
 
