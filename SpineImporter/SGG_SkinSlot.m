@@ -12,115 +12,131 @@
 @implementation SGG_SkinSlot
 
 -(id)init {
-	if (self = [super init]) {
-		_animations = [[NSMutableDictionary alloc] init];
-		_skins = [[NSMutableDictionary alloc] init];
-	}
-	return self;
+    if (self = [super init]) {
+        self.animations = [[NSMutableDictionary alloc] init];
+        self.skins = [[NSMutableDictionary alloc] init];
+    }
+    return self;
 }
 
 -(void)changeSkinTo:(NSString*)skin {
-	
-	[self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
-		[node removeFromParent];
-	}];
-	
-	NSDictionary* currentSkin = _skins[skin];
-	if (!currentSkin) {
-		currentSkin = _skins[@"default"];
-	}
-	NSArray* attachments = [currentSkin allKeys];
-	for (NSString* attachment in attachments) {
-		SGG_SkinSprite* sprite = currentSkin[attachment];
-		[self addChild:sprite];
-		sprite.hidden = HIDDEN;
-	}
-	
-	[self setAttachmentTo:_currentAttachment];
-	
+    
+    [self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
+        [node removeFromParent];
+    }];
+    
+    NSDictionary* currentSkin = self.skins[skin];
+    if (!currentSkin) {
+        currentSkin = self.skins[@"default"];
+    }
+    NSArray* attachments = [currentSkin allKeys];
+    for (NSString* attachment in attachments) {
+        SGG_SkinSprite* sprite = currentSkin[attachment];
+        [self addChild:sprite];
+        sprite.hidden = HIDDEN;
+    }
+    
+    [self setAttachmentTo:self.currentAttachment];
 }
 
 -(void)setAttachmentTo:(NSString*)attachmentName {
-	
-	if (!attachmentName) {
-		attachmentName = _defaultAttachment;
-	}
-	
-	[self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
-		if ([node.name isEqualToString:attachmentName]) {
-			node.hidden = VISIBLE;
-		} else {
-			node.hidden = HIDDEN;
-		}
-	}];
-	_currentAttachment = attachmentName;
-	
+    
+    if (!attachmentName) {
+        attachmentName = self.defaultAttachment;
+    }
+    
+    [self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode *node, BOOL *stop) {
+        if ([node.name isEqualToString:attachmentName]) {
+            node.hidden = VISIBLE;
+        } else {
+            node.hidden = HIDDEN;
+        }
+    }];
+    self.currentAttachment = attachmentName;
+    
+}
+
+-(void)setVisibleState:(CGFloat)alphaValue {
+    [self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode * _Nonnull node, BOOL * _Nonnull stop) {
+        node.alpha = alphaValue;
+    }];
+}
+
+-(void)setDrawOrder:(CGFloat)drawOrder {
+    [self enumerateChildNodesWithName:@"*" usingBlock:^(SKNode * _Nonnull node, BOOL * _Nonnull stop) {
+        node.zPosition = self.defaultDrawOrder + drawOrder;
+    }];
 }
 
 -(void)setToDefaultAttachment {
-	
-	[self setAttachmentTo:_defaultAttachment];
-
+    
+    [self setAttachmentTo:self.defaultAttachment];
+    
 }
 
 -(void)removeAllActions {
-	[super removeAllActions];
-	
-	_currentAnimation = nil;
-	
+    [super removeAllActions];
+    
+    self.currentAnimation = nil;
+    
 }
 
 -(void)stopAnimation {
-	
-	[self playAnimations:nil];
-	
+    
+    [self playAnimations:nil];
+    
 }
 
 -(NSInteger)playAnimations:(NSArray *)animationNames {
-	NSInteger maxFrameCount = 0;
-	
-
-	_currentAnimation = nil;
-	if (!animationNames) {
-		return maxFrameCount;
-	}
-	
-	NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
-	for (int i = 0; i < animationNames.count; i++) {
-		SGG_SpineBoneAction* action = _animations[animationNames[i]];
-		maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
-		
-
-		NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
-		
-		while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
-			[tempAnimationArray removeObjectAtIndex:0];
-		}
-		
-		
-		[sequentialAnimations addObjectsFromArray:tempAnimationArray];
-	}
-	_currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
-	
-	return maxFrameCount;
+    NSInteger maxFrameCount = 0;
+    
+    
+    self.currentAnimation = nil;
+    if (!animationNames) {
+        return maxFrameCount;
+    }
+    
+    NSMutableArray* sequentialAnimations = [[NSMutableArray alloc] init];
+    for (int i = 0; i < animationNames.count; i++) {
+        SGG_SpineBoneAction* action = self.animations[animationNames[i]];
+        
+        maxFrameCount += (NSInteger)(action.totalLength / action.timeFrameDelta);
+        
+        
+        NSMutableArray* tempAnimationArray = [NSMutableArray arrayWithArray:action.animation];
+        
+        while (sequentialAnimations.count + tempAnimationArray.count > maxFrameCount) {
+            [tempAnimationArray removeObjectAtIndex:0];
+        }
+        
+        
+        [sequentialAnimations addObjectsFromArray:tempAnimationArray];
+    }
+    self.currentAnimation = [NSArray arrayWithArray:sequentialAnimations];
+    
+    return maxFrameCount;
 }
 
--(bool)updateAnimationAtFrame:(NSInteger)currentFrame {
-	
-	if (_currentAnimation && _currentAnimation.count ) {
-		
-		
-		if (currentFrame >= _currentAnimation.count) {
-			currentFrame = _currentAnimation.count - 1;
-		}
-		NSDictionary* thisFrameDict = _currentAnimation[currentFrame];
-
-		NSString* attachment = thisFrameDict[@"attachmentName"];
-		
-		[self setAttachmentTo:attachment];
-		
-	}
-	return NO;
+-(BOOL)updateAnimationAtFrame:(NSInteger)currentFrame {
+    if (self.currentAnimation && self.currentAnimation.count ) {
+        
+        if (currentFrame >= self.currentAnimation.count) {
+            currentFrame = self.currentAnimation.count - 1;
+        }
+        NSDictionary* thisFrameDict = self.currentAnimation[currentFrame];
+        
+        NSString *attachment = thisFrameDict[@"attachmentName"];
+        NSNumber *alphaValue = thisFrameDict[@"alpha"];
+        NSNumber *offset = thisFrameDict[@"offset"];
+        [self setAttachmentTo:attachment];
+        [self setVisibleState:[alphaValue floatValue]];
+        if (offset) {
+            [self setDrawOrder:[offset floatValue]];
+        }
+        
+    }
+    
+    return NO;
 }
 
 @end

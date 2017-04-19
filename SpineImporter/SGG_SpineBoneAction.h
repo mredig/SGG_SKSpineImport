@@ -9,9 +9,13 @@
 #import <Foundation/Foundation.h>
 #import <SpriteKit/SpriteKit.h>
 
+#import "SGG_SkinSlot.h"
+
+@class SGG_SpineBone;
+
 @interface SGG_SpineBoneAction : NSObject
 
-@property (nonatomic) CGFloat totalLength; //currently does not account for slot animations
+@property (nonatomic) CGFloat totalLength;
 @property (nonatomic) CGFloat timeFrameDelta;
 
 @property (strong, readonly) NSArray* animation;
@@ -21,8 +25,9 @@
 -(void)addScaleAtTime:(CGFloat)time withScale:(CGSize)scale andCurveInfo:(id)curve;
 
 -(void)addAttachmentAnimationAtTime:(CGFloat)time withAttachmentName:(NSString*)attachmentName;
--(void)addColorAnimationAtTime:(CGFloat)time withColor:(NSString*)colorInString; //not supported atm
+-(void)addColorAnimationAtTime:(CGFloat)time withColor:(NSString*)colorInString;
+-(void)addDrawOrderAnimationAtTime:(NSNumber*)time withOffset:(NSNumber*)offset;
 
--(void)calculateTotalAction;
--(void)calculateSlotAction;
+-(void)calculateBoneAction;
+-(void)calculateSlotActionForSkinSlot:(SGG_SkinSlot*)skinSlot;
 @end
