@@ -1,6 +1,6 @@
 //
 //  ColorValueHelper.h
-//  WorksheetCrafter
+//  SpineTesting
 //
 //  Created by Sebastian Homscheidt on 14.03.17.
 //  Copyright © 2017 RockAByte GmbH. All rights reserved.
