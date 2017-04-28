@@ -12,8 +12,9 @@
 
 
 @property (nonatomic, assign) NSString* currentAttachment;
-
 @property (nonatomic, assign) NSString* defaultAttachment;
+@property (nonatomic, strong) NSString* defaultColor;
+@property (nonatomic, assign) CGFloat defaultDrawOrder;
 
 
 @property (nonatomic, assign) NSString* currentSkin;
@@ -25,7 +26,7 @@
 
 
 -(NSInteger)playAnimations:(NSArray*)animationNames;
--(bool)updateAnimationAtFrame:(NSInteger)currentFrame;
+-(BOOL)updateAnimationAtFrame:(NSInteger)currentFrame;
 -(void)stopAnimation;
 
 -(void)setAttachmentTo:(NSString*)attachmentName;

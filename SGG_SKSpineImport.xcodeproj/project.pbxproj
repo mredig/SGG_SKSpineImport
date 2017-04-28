@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CA061E01EA7446F0044851A /* AlphaValueHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA061DD1EA7446F0044851A /* AlphaValueHelper.m */; };
+		2CA061E11EA7446F0044851A /* AlphaValueHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA061DD1EA7446F0044851A /* AlphaValueHelper.m */; };
+		2CA061E21EA7446F0044851A /* ColorValueHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA061DF1EA7446F0044851A /* ColorValueHelper.m */; };
+		2CA061E31EA7446F0044851A /* ColorValueHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CA061DF1EA7446F0044851A /* ColorValueHelper.m */; };
 		33004C9918A8D33D003F3D0C /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004C9818A8D33D003F3D0C /* Cocoa.framework */; };
 		33004C9B18A8D33D003F3D0C /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33004C9A18A8D33D003F3D0C /* SpriteKit.framework */; };
 		33004CA518A8D33D003F3D0C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 33004CA318A8D33D003F3D0C /* InfoPlist.strings */; };
@@ -61,6 +65,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2CA061DC1EA7446F0044851A /* AlphaValueHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlphaValueHelper.h; path = SpineImporter/AlphaValueHelper.h; sourceTree = SOURCE_ROOT; };
+		2CA061DD1EA7446F0044851A /* AlphaValueHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlphaValueHelper.m; path = SpineImporter/AlphaValueHelper.m; sourceTree = SOURCE_ROOT; };
+		2CA061DE1EA7446F0044851A /* ColorValueHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorValueHelper.h; path = SpineImporter/ColorValueHelper.h; sourceTree = SOURCE_ROOT; };
+		2CA061DF1EA7446F0044851A /* ColorValueHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorValueHelper.m; path = SpineImporter/ColorValueHelper.m; sourceTree = SOURCE_ROOT; };
 		33004C9518A8D33D003F3D0C /* SGG_SKSpineImport.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SGG_SKSpineImport.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33004C9818A8D33D003F3D0C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		33004C9A18A8D33D003F3D0C /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
@@ -278,6 +286,10 @@
 				3300519D18A97342003F3D0C /* SGG_SkinSprite.h */,
 				3300519E18A97342003F3D0C /* SGG_SkinSprite.m */,
 				3300518E18A945D9003F3D0C /* SpineImport.h */,
+				2CA061DC1EA7446F0044851A /* AlphaValueHelper.h */,
+				2CA061DD1EA7446F0044851A /* AlphaValueHelper.m */,
+				2CA061DE1EA7446F0044851A /* ColorValueHelper.h */,
+				2CA061DF1EA7446F0044851A /* ColorValueHelper.m */,
 			);
 			name = SpineImporter;
 			sourceTree = "<group>";
@@ -433,8 +445,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				3300517418A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */,
+				2CA061E21EA7446F0044851A /* ColorValueHelper.m in Sources */,
 				33004CB218A8D33D003F3D0C /* SGG_AppDelegate.m in Sources */,
 				3300519718A95ACA003F3D0C /* SGG_SpineSkin.m in Sources */,
+				2CA061E01EA7446F0044851A /* AlphaValueHelper.m in Sources */,
 				33004CAF18A8D33D003F3D0C /* SGG_MyScene.m in Sources */,
 				3300517C18A9420E003F3D0C /* SGG_Spine.m in Sources */,
 				33004CA718A8D33D003F3D0C /* main.m in Sources */,
@@ -451,8 +465,10 @@
 			files = (
 				33004D1418A8D398003F3D0C /* SGG_MyScene.m in Sources */,
 				3300517518A9354B003F3D0C /* SGG_SpineJSONTools.m in Sources */,
+				2CA061E31EA7446F0044851A /* ColorValueHelper.m in Sources */,
 				330051A018A97342003F3D0C /* SGG_SkinSprite.m in Sources */,
 				33004CE918A8D365003F3D0C /* SGG_AppDelegate.m in Sources */,
+				2CA061E11EA7446F0044851A /* AlphaValueHelper.m in Sources */,
 				3300518418A944EE003F3D0C /* SGG_SpineBone.m in Sources */,
 				33004CE518A8D365003F3D0C /* main.m in Sources */,
 				33F32DBA193CA9BA00A5C503 /* SGG_SpineBoneAction.m in Sources */,
