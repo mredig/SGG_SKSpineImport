@@ -61,7 +61,7 @@ Limitations:
 *	Z order keyframes are NOT implemented
 *	Mixing animation (have your feet walking while your arms swing a weapon, for example) is not implemented.
 *	Requires using the built in atlas management.
-*	Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is. I'm suspecting that the animation file itself is wonky, but I haven't delved into it.
+*	~~Notice how the elf stays down and doesn't reset his animation. I'm not sure why that is. I'm suspecting that the animation file itself is wonky, but I haven't delved into it.~~
 *	Can't have slashes (/) in image names
 *	I'm not sure if the animation sequence vs queuing system order of operations is the most efficient or logical or if another configuration would be superior.
 	*	Currently, the priority is 
