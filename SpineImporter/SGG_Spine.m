@@ -38,9 +38,11 @@
     return self;
 }
 
+-(void)skeletonFromFileNamed:(NSString*)name andUseSkinNamed:(NSString*)skinName {
+    [self skeletonFromFileNamed:name andAtlasNamed:nil andUseSkinNamed:skinName];
+}
+
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName {
-    
-    //	NSTimeInterval timea = CFAbsoluteTimeGetCurrent(); //benchmarking
     
     if (skinName) {
         self.currentSkin = skinName;
@@ -64,10 +66,6 @@
     [self setUpAnimationsWithAnimationDictionary:self.rawAnimationDictionary withIntroPeriodOf:0.0f];
     
     [self changeSkinTo:_currentSkin];
-    
-    //	NSTimeInterval timeb = CFAbsoluteTimeGetCurrent(); //benchmarking
-    //	NSLog(@"time taken: %f", timeb - timea); //benchmarking
-    
 }
 
 #pragma mark PLAYBACK CONTROLS
@@ -691,9 +689,17 @@
     
 }
 
+-(void)createSkinsFromDict:(NSDictionary*)skinsDict {
+    [self createSkinsFromDict:skinsDict andAtlasNamed:nil];
+}
+
 -(void)createSkinsFromDict:(NSDictionary*)skinsDict andAtlasNamed:(NSString*)atlasName{
+    BOOL pullAtlasNamesFromSkinNames = (atlasName.length == 0);
+    
     //pull in texture atlas
-    SKTextureAtlas* atlas = [SKTextureAtlas atlasNamed:atlasName];
+    SKTextureAtlas* atlas;
+    if (!pullAtlasNamesFromSkinNames)
+        atlas = [SKTextureAtlas atlasNamed:atlasName];
     
     //get all skins
     NSArray* skinKeys = [skinsDict allKeys];
@@ -702,6 +708,8 @@
         NSLog(@"skinKeys: %@", skinKeys);
     }
     for (NSString* skinName in skinKeys) { //cycle through all the skin names in the JSON
+        if (pullAtlasNamesFromSkinNames)
+            atlas = [SKTextureAtlas atlasNamed:skinName];
         
         
         //get all skin slots
@@ -733,11 +741,19 @@
                 NSDictionary* attachmentDict = attachmentsDict[attachmentName];
                 
                 NSString* spriteNameString = attachmentDict[@"name"];
-                if (spriteNameString) {
-                    spriteNameString = [spriteNameString stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
-                    //					NSLog(@"spriteNameString after conversion: %@", spriteNameString);
+                if (pullAtlasNamesFromSkinNames) {
+                    NSArray<NSString*> *components = [spriteNameString componentsSeparatedByString:@"/"];
+                    if (components.count) {
+                        if (![components[0] isEqualToString:skinName])
+                            NSLog(@"Warn: I was expecting the skinName to be the folder/atlas name");
+                        spriteNameString = components[components.count-1];
+                    }
                 } else {
-                    spriteNameString = attachmentName;
+                    if (spriteNameString) {
+                        spriteNameString = [spriteNameString stringByReplacingOccurrencesOfString:@"/" withString:@"-"];
+                    } else {
+                        spriteNameString = attachmentName;
+                    }
                 }
                 
                 SGG_SkinSprite* skinSprite = [SGG_SkinSprite spriteNodeWithTexture:[atlas textureNamed:spriteNameString]];
@@ -760,13 +776,9 @@
                 skinSprite.hidden = HIDDEN;
                 
                 [slotSkinDict setObject:skinSprite forKey:attachmentName];
-                
             }
-            
         }
-        
     }
-    
 }
 
 

@@ -46,6 +46,7 @@ typedef enum {
 @property (nonatomic, strong) NSArray* slotsArray; //raw array from json
 @property (nonatomic, strong) NSDictionary* rawAnimationDictionary; //raw information from JSON
 
+-(void)skeletonFromFileNamed:(NSString*)name andUseSkinNamed:(NSString*)skinName;
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;
