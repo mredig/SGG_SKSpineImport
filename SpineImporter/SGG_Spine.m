@@ -744,6 +744,7 @@
                 if (pullAtlasNamesFromSkinNames) {
                     NSArray<NSString*> *components = [spriteNameString componentsSeparatedByString:@"/"];
                     if (components.count) {
+                        // if you have seperate folders for assets of each skin in Spine, you should not see this warning 
                         if (![components[0] isEqualToString:skinName])
                             NSLog(@"Warn: I was expecting the skinName to be the folder/atlas name");
                         spriteNameString = components[components.count-1];
