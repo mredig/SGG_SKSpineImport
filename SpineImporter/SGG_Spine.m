@@ -240,7 +240,7 @@
             SGG_SpineBone* bone = (SGG_SpineBone*)_bones[i];
             if (bone.currentAnimation.count > 1 && !currentFrame) {
                 currentFrame = framesElapsed;
-                if (framesElapsed >= (bone.currentAnimation.count - 1)) {
+                if ((framesElapsed+1) >= bone.currentAnimation.count) {
                     //					currentFrame = framesElapsed % (bone.currentAnimation.count - 1);
                     currentFrame = MIN(bone.currentAnimation.count, framesElapsed);
                     boneAnimationEnded = YES;
@@ -257,7 +257,7 @@
             if (skinSlot.currentAnimation.count > 1 && !currentFrame) {
                 currentFrame = framesElapsed % (skinSlot.currentAnimation.count - 1);
             }
-            if (framesElapsed >= (skinSlot.currentAnimation.count - 1)) {
+            if ((framesElapsed+1) >= skinSlot.currentAnimation.count) {
                 slotAnimationEnded = YES;
             }
             [skinSlot updateAnimationAtFrame:currentFrame];
