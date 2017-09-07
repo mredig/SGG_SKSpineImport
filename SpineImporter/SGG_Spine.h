@@ -46,6 +46,10 @@ typedef enum {
 @property (nonatomic, strong) NSArray* slotsArray; //raw array from json
 @property (nonatomic, strong) NSDictionary* rawAnimationDictionary; //raw information from JSON
 
+// this method assumes the image assets are in an atlas with the same name as the skin. This allows you to have seperate asset folders for each skin in Spine.
+// if you want to provide atlasName, use skeletonFromFileNamed:andAtlasNamed:andUseSkinNamed:
+-(void)skeletonFromFileNamed:(NSString*)name andUseSkinNamed:(NSString*)skinName;
+
 -(void)skeletonFromFileNamed:(NSString*)name andAtlasNamed:(NSString*)atlasName andUseSkinNamed:(NSString*)skinName;
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count withIntroPeriodOf:(const CGFloat)introPeriod andUseQueue:(BOOL)useQueue;
