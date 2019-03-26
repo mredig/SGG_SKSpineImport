@@ -33,7 +33,7 @@
     NSScanner *scanner = [NSScanner scannerWithString:alphaValueString];
     [scanner scanHexInt:&alphaValue];
     
-    return alphaValue / 255;
+    return ((CGFloat)alphaValue) / 255.0f;
 }
 
 
