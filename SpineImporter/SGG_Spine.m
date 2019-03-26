@@ -20,12 +20,22 @@
     NSInteger repeatAnimationCount;
     
     NSString* previousAnimation;
-    
 }
+
+@property (strong, nonatomic) NSMutableArray<NSDictionary*> *animationQueue;
 
 @end
 
 @implementation SGG_Spine
+
+-(NSArray<NSDictionary*> *)animationQueue
+{
+    if (!_animationQueue) {
+        _animationQueue = [NSMutableArray<NSDictionary*> array];
+    }
+    
+    return _animationQueue;
+}
 
 -(id)init {
     
@@ -69,6 +79,10 @@
 }
 
 #pragma mark PLAYBACK CONTROLS
+
+-(void)runAnimation:(NSString*)animationName {
+    [self runAnimation:animationName andCount:1];
+}
 
 -(void)runAnimation:(NSString*)animationName andCount:(NSInteger)count {
     
@@ -332,6 +346,14 @@
 }
 
 -(void)endOfAnimation {
+    NSString *topOfAnimationQueue = [self dequeueNextAnimation];
+    if (topOfAnimationQueue) {
+        // If we have ant animation enqueued, run them and return without running legacy code
+        [self runAnimation:topOfAnimationQueue];
+        return;
+    }
+    
+    
     if ([_currentAnimation isEqualToString:@"INTRO_ANIMATION"]) { //clear out intro animation after it's been used
         if  (self.debugMode) {
             NSLog(@"finished intro");
@@ -1223,6 +1245,123 @@
     
     
 }
+
+#pragma mark - Animation enqueing
+-(void)pushAnimationDictionaryToQueue:(NSDictionary*)dict
+{
+    @synchronized (self) {
+        NSString *name = dict[@"name"];
+        NSInteger indefiniteAnimation = [dict[@"indefinitely"] boolValue];
+        
+        // if the one and only waiting animation is indefinite animation, it can be there because of its rescheduling.
+        // lets not wait another turn of its
+        for (int i=0; i<self.animationQueue.count; i++) {
+            NSDictionary *d = self.animationQueue[0];
+            if ([d[@"indefinitely"] boolValue]) {
+                // insert it in front of the indefinite animation
+                [self.animationQueue insertObject:dict atIndex:i];
+                
+                // it is pointless to have another indefinite animation waiting in the queue
+                // just log a warning
+                if (indefiniteAnimation)
+                    NSLog(@"WARN: have two animations ('%@' and '%@') in the queue for indefinite run", name, d[@"name"]);
+                
+                return;
+            }
+        }
+        
+        [self.animationQueue addObject:dict];
+    }
+}
+
+-(NSDictionary*)popAnimationDictionaryFromQueue
+{
+    NSDictionary *dict = nil;
+    
+    @synchronized (self) {
+        if (self.animationQueue.count) {
+            dict = self.animationQueue[0];
+            [self.animationQueue removeObjectAtIndex:0];
+            
+            NSString *name = dict[@"name"];
+            NSInteger indefiniteAnimation = [dict[@"indefinitely"] boolValue];
+
+            // if this animation was scheduled to run indefinetely, add back to the queue.
+            if (indefiniteAnimation) {
+                // but if there is another animation is scheduled to run indefinetely, let it run instead of us.
+                BOOL hasAnotherIndefiniteScheduleAnimation = NO;
+                for (NSDictionary *dict in self.animationQueue) {
+                    if ([dict[@"indefinitely"] boolValue]) {
+                        hasAnotherIndefiniteScheduleAnimation = YES;
+                        break;
+                    }
+                }
+                
+                if (!hasAnotherIndefiniteScheduleAnimation) {
+                    // we are adding to the end, so that other animations can be inserted between our indefinite run
+                    [self.animationQueue addObject:dict];
+                } else {
+                    NSLog(@"WARN: We already have another indefinite animation. Ignoring '%@'", name);
+                }
+            }
+        }
+    }
+    
+    return dict;
+}
+
+
+-(void)enqueueAnimation:(NSString*)animationName
+{
+    [self enqueueAnimation:animationName forNumberOfRuns:1];
+}
+
+-(void)enqueueAnimations:(NSArray<NSString*>*)animationNames
+{
+    for (NSString *animationName in animationNames)
+        [self enqueueAnimation:animationName];
+}
+
+-(void)enqueueIndefiniteAnimation:(NSString*)animationName
+{
+    [self enqueueAnimation:animationName forNumberOfRuns:-1];
+}
+
+
+-(void)enqueueAnimation:(NSString*)animationName forNumberOfRuns:(NSInteger)numberOfRuns
+{
+    BOOL indefiniteAnimation = (numberOfRuns < 0);
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:animationName, @"name", (indefiniteAnimation ? @YES : @NO), @"indefinitely", nil];
+    
+    for (int i=0; i<(indefiniteAnimation ? 1 : numberOfRuns); i++)
+        [self pushAnimationDictionaryToQueue:dict];
+    
+    // TODO: there is a risk of race case here, as the check for runningAnimation & starting one is not synchronized for parallel threads
+    if (![self isRunningAnimation])
+        [self runAnimation:[self dequeueNextAnimation]];
+}
+
+-(NSString *)dequeueNextAnimation
+{
+    return [self popAnimationDictionaryFromQueue][@"name"];
+}
+
+-(void)cancelAllInstancesOfEnqueuedAnimationNamed:(NSString*)animationName
+{
+    @synchronized (self) {
+        NSMutableIndexSet *discardedItems = [NSMutableIndexSet indexSet];
+        NSUInteger index = 0;
+        
+        for (NSDictionary *dict in self.animationQueue) {
+            if ([dict[@"name"] isEqualToString:animationName])
+                [discardedItems addIndex:index];
+            index++;
+        }
+        
+        [self.animationQueue removeObjectsAtIndexes:discardedItems];
+    }
+}
+
 
 
 

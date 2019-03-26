@@ -29,21 +29,34 @@
 
 }
 
--(id)initWithSize:(CGSize)size {	
+static const BOOL tryAlternativeQueuingMethods = YES;
+
+-(id)initWithSize:(CGSize)size {
 	if (self = [super initWithSize:size]) {
 		/* Setup your scene here */
-		
-		
-		boy = [SGG_Spine node];
-//		boy.debugMode = YES;
-//		boy.timeResolution = 1.0 / 1200.0; // this is typically overkill, 1/120 will normally be MORE than enough, but this demo can go to some VERY slow motion. 1/120 is also the default.
-		[boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
-		boy.position = CGPointMake(self.size.width/4, self.size.height/4);
-//		[boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:NO]; //uncomment to see how a sequence works (commment the other animation calls)
-		boy.queuedAnimation = @"walk";
-		boy.name = @"boy";
-		boy.queueIntro = 0.1;
-		[boy runAnimation:@"walk" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
+
+        boy = [SGG_Spine node];
+        [boy skeletonFromFileNamed:@"spineboy" andAtlasNamed:@"spineboy" andUseSkinNamed:Nil];
+        boy.position = CGPointMake(self.size.width/4, self.size.height/4);
+        if (tryAlternativeQueuingMethods) {
+            [boy enqueueIndefiniteAnimation:@"walk"];   // walk indefinitely
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [boy enqueueAnimation:@"jump"];         // jump once, and then continue walking
+            });
+            
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [boy enqueueAnimations:@[@"jump", @"walk", @"jump", @"jump"]];         // try a sequence of animations, and then continue walking
+            });
+        } else {
+//            boy.debugMode = YES;
+//            boy.timeResolution = 1.0 / 1200.0; // this is typically overkill, 1/120 will normally be MORE than enough, but this demo can go to some VERY slow motion. 1/120 is also the default.
+//            [boy runAnimationSequence:@[@"walk", @"jump", @"walk", @"walk", @"jump"] andUseQueue:NO]; //uncomment to see how a sequence works (commment the other animation calls)
+            boy.queuedAnimation = @"walk";
+            boy.name = @"boy";
+            boy.queueIntro = 0.1;
+            [boy runAnimation:@"walk" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
+        }
 		boy.zPosition = 0;
 		[self addChild:boy];
 
@@ -151,9 +164,13 @@
 			unichar character = [characters characterAtIndex:s];
 			switch (character) {
 				case ' ':{
-					if (![boy.currentAnimation isEqualToString:@"jump"]) {
-						[boy runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
-					}
+                    if (tryAlternativeQueuingMethods) {
+                        [boy enqueueAnimation:@"jump"];         // jump once, and then continue walking
+                    } else {
+                        if (![boy.currentAnimation isEqualToString:@"jump"]) {
+                            [boy runAnimation:@"jump" andCount:0 withIntroPeriodOf:0.1 andUseQueue:YES];
+                        }
+                    }
 					
 				}
 					break;
@@ -261,34 +278,6 @@
 
 	
 }
-
-
-
-//NSValue testing
-/*
- CGFloat xa = arc4random() % 100;
- CGFloat xb = arc4random() % 100;
- CGFloat ya = arc4random() % 100;
- CGFloat yb = arc4random() % 100;
- 
- xb = xb / 100;
- yb = yb / 100;
- 
- CGFloat x = xa + xb;
- CGFloat y = ya + yb;
- 
- bool xc = arc4random() % 2;
- bool yc = arc4random() % 2;
- 
- if (xc) {
- x *= -1;
- }
- if (yc) {
- y *= -1;
- }
- 
- [[[SGG_SpineBoneAction alloc] init] addTranslationAtTime:0 withPoint:CGPointMake(x, y) andCurveInfo:@[@"1.2, 2.1"]];*/
-
 
 
 @end

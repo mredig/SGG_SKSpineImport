@@ -79,6 +79,13 @@ typedef enum {
 -(SGG_SpineBone*)findBoneNamed:(NSString*)boneName;
 
 
+// these methods enqueue given animation(s) to be run after the current animation (if any) completes its run. any call to enqueue does not stop the existing animation
+// if an animation is scheduled to run indefinitely, and another animation is enqueued; the indefinite animation continues to run after the new animation
+-(void)enqueueAnimation:(NSString*)animationName;
+-(void)enqueueAnimations:(NSArray<NSString*>*)animationNames;
+-(void)enqueueIndefiniteAnimation:(NSString*)animationName;
+-(void)enqueueAnimation:(NSString*)animationName forNumberOfRuns:(NSInteger)numberOfRuns;
+-(void)cancelAllInstancesOfEnqueuedAnimationNamed:(NSString*)animationName;
 
 
 @end
